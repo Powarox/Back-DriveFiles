@@ -52,7 +52,55 @@ class ControllerApp {
     
     public function uploadPage(){
         $title = "Page d'upload";
-        $content = "ajouter un fichier : ";
+        $content = '<form action="index.php?obj=pdf&action=upload" method="POST" enctype="multipart/form-data">';
+        $content .= '<input type="file" name="photo" id="fileUpload">';
+        $content .= '<input type="text" name="titre" placeholder="titre">';
+        $content .= '<button type="submit">Envoyer</button>';
+        $content .= '</form>';
+        
+        $this->view->setPart('title', $title);
+        $this->view->setPart('content', $content);
+    }
+    
+    public function upload(){
+        // Vérifier si le formulaire a été soumis
+        if($_SERVER["REQUEST_METHOD"] == "POST"){
+            $filename = $_FILES["photo"]["name"];
+
+            // Vérifie si le fichier a été uploadé sans erreur.
+            if(isset($_FILES["photo"]) && $_FILES["photo"]["error"] == 0){
+                move_uploaded_file($_FILES["photo"]["tmp_name"], "DevoirApp/Model/upload/" . $_FILES["photo"]["name"]);
+                echo "Votre fichier a été téléchargé avec succès.";
+
+                // Code Json pour le fichier meta.txt
+                $data2 = array("SourceFile" => "upload/".$filename,
+                    "XMP-dc:Title" => $_POST['titre']);
+                $data2Json = json_encode($data2, JSON_UNESCAPED_SLASHES);
+
+                //echo $data2Json;
+                //var_dump($data2);
+
+                // Créer un fichier text vide;
+                $metaTxt = fopen('DevoirApp/Model/upload/meta.txt', 'w');
+                // Ecris dans un fichier
+                fputs($metaTxt, $data2Json);        
+                // Ferme le fichier
+                fclose($metaTxt);
+
+                // Métadonnée
+                $data = shell_exec("exiftool -json upload/".$filename); // =meta.txt
+                $metaData = json_decode($data, true); 
+
+                //var_dump($metaData);
+            } 
+            else{
+                echo "Error: " . $_FILES["photo"]["error"];
+            }
+        }
+        
+        $title = "Upload Success";
+        $content = "Votre fichier à bien été enregistré";
+
         $this->view->setPart('title', $title);
         $this->view->setPart('content', $content);
     }

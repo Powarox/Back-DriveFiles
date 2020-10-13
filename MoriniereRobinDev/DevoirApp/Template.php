@@ -3,7 +3,7 @@
 <head>
 	<title><?php echo $title ?></title>
 	<meta charset="UTF-8" />
-	<!--<link rel="stylesheet" href="DevoirApp/Model/skin/.css" />-->
+	<link rel="stylesheet" href="DevoirApp/Model/skin/template.css" />
 </head>
 <body>
     <nav class="menu">
