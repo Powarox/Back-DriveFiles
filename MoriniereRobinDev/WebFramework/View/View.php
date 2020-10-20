@@ -2,18 +2,20 @@
 
 namespace MoriniereRobinDev\WebFramework\View;
 
-class View {
+abstract class View {
     protected $parts;
     protected $template;
     
-    public function __construct($template, $parts = array()){
+    public function __construct($template, $feedback, $parts = array()){
         $this->template = $template;
+        $this->feedback = $feedback;
         $this->parts = $parts;
     }
     
     // Méthode qui affiche le squelette html
     public function render(){
         $title = $this->getPart('title');
+        //$this->feedback = $this->getPart('feedback');
         $content = $this->getPart('content');
         $menu = $this->getPart('menu');
 

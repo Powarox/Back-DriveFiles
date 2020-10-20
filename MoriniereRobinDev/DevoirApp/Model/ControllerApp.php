@@ -2,34 +2,33 @@
 
 namespace MoriniereRobinDev\DevoirApp\Model;
 
-//use MoriniereRobinDev\DevoirApp\Model\images;
-
 class ControllerApp {
     protected $request;
     protected $response;
     protected $view;
-    
-    // post --> index.php?obj=pdf&action=show
 
-    public function __construct($request, $response, $view, $authManager){
+    public function __construct($request, $response, $view, $authManager, $control){
         $this->request = $request;
         $this->response = $response;
         $this->view = $view;
         $this->authManager = $authManager;
+        $this->control = $control;
         
-        // create menu 
         $menu = array(
 			"Accueil" => 'index.php',
-			"Upload"         => '?obj=pdf&amp;action=uploadPage',
-			"Liste fichier"  => '?obj=pdf&amp;action=listPage',
-			"Information"    => '?obj=pdf&amp;action=informationPage',
+			"Upload"         => '?obj=pdf&amp;action=makeUploadPage',
+			"Liste fichier"  => '?obj=pdf&amp;action=makeListPage',
+			"Information"    => '?obj=pdf&amp;action=makeInformationPage',
 		);
         $this->view->setPart('menu', $menu);
     }
     
     public function execute($action){
-        if(method_exists($this, $action)){
+        if(method_exists($this, $action)){             
             return $this->$action();
+        }
+        else if(method_exists($this->view, $action)){
+            return $this->view->$action();
         }
         else {
             throw new Exception("Action : {$action} non trouvée");
@@ -38,30 +37,13 @@ class ControllerApp {
     
     public function defaultAction(){
         if($this->authManager->isUserConnected()){
-            return $this->makeUserConnectedHomePage();
+            return $this->view->makeUserConnectedHomePage();
         }
-        return  $this->makeHomePage();
+        return  $this->view->makeHomePage();
     }
 
-    public function show(){
-        $title = "Page details fichier";
-        $content = "detail du fichier : id";
-        $this->view->setPart('title', $title);
-        $this->view->setPart('content', $content);
-    }
     
-    public function uploadPage(){
-        $title = "Page d'upload";
-        $content = '<form action="index.php?obj=pdf&action=upload" method="POST" enctype="multipart/form-data">';
-        $content .= '<input type="file" name="photo" id="fileUpload">';
-        $content .= '<input type="text" name="titre" placeholder="titre">';
-        $content .= '<button type="submit">Envoyer</button>';
-        $content .= '</form>';
-        
-        $this->view->setPart('title', $title);
-        $this->view->setPart('content', $content);
-    }
-    
+// ################ Upload ################ //    
     public function upload(){
         // Vérifier si le formulaire a été soumis
         if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -103,80 +85,10 @@ class ControllerApp {
 
         $this->view->setPart('title', $title);
         $this->view->setPart('content', $content);
-    }
-    
-    public function listPage(){
-        $title = "Page liste fichier";
-        $content = "Voici la liste des fichier";
-        $content .= "Modifier : ";
-        $content .= "Supprimer : ";
-        $this->view->setPart('title', $title);
-        $this->view->setPart('content', $content);
-    }
-    
-    public function informationPage(){
-        $title = "Page d'information devoir";
-        $content = "Detail tech";
-        $content .= "Login / Password : ";
-        $this->view->setPart('title', $title);
-        $this->view->setPart('content', $content);
-    }
+    }    
 
-    public function unknownPoem() {
-        $title = "Poème inconnu ou non trouvé";
-        $content = "Choisir un poème dans la liste.";
-        $this->view->setPart('title', $title);
-        $this->view->setPart('content', $content);
-    }
 
-    public function makeHomePage() {
-        $title = "Bienvenue !";
-        
-        $content = '<form action="index.php" method="POST">';
-            $content .= '<input type="text" name="login" placeholder="Login" value="">';
-            $content .= '<input type="text" name="password" placeholder="Password" value="">';
-            $content .= '<button type="submit">Se connecter</button>';
-        $content .= '</form>';
-        
-        $content .= "Un site sur des poèmes.";
-        
-        $this->view->setPart('title', $title);
-        $this->view->setPart('content', $content);
-    }
-    
-    public function makeUserConnectedHomePage() {        
-        $title = "Bienvenue !";
-        
-        $content = '<p>'.$_SESSION['user']['nom'].'</p>';
-        $content .= '<p>'.$_SESSION['user']['prenom'].'</p>';
-        $content .= '<p>'.$_SESSION['user']['statut'].'</p>';
-        
-       /* $content. = '<form action="'.$this->authManager->disconnectUser().'">';
-            $content .= '<button type="submit">Deconnexion</button>';
-        $content .= '</form>';*/
-        
-        $content .= "Un site sur des poèmes.";
-        
-        $this->view->setPart('title', $title);
-        $this->view->setPart('content', $content);  
-    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

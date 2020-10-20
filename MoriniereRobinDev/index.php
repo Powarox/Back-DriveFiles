@@ -2,10 +2,10 @@
 
 namespace MoriniereRobinDev;
 
-// session_name("..."); --> rename cookie PHPSESSID
-session_start();
-
 require_once('Tools/Loader/Autoload.php');
+
+session_name("monSiteID"); //--> rename cookie PHPSESSID
+session_start();
 
 function monAutoload($class){
     $arrayCheminClass = explode("\\", $class);

@@ -18,21 +18,18 @@ class FrontController {
     }
     
     public function execute(){
-        $view = new \MoriniereRobinDev\WebFramework\View\View($this->template);
-    
-        $authManager = new \MoriniereRobinDev\WebFramework\Service\Authentification\AuthManager();
+        $control = new FrontController($this->request, $this->response, $this->template);
+
+        $feedback = key_exists('feedback', $_SESSION) ? $_SESSION['feedback'] : '';
+        $_SESSION['feedback'] = '';
         
-        /*try{
-            ...
-        }
-        catch(Exception e){
-            echo 'exception'
-        }*/
+        $view = new \MoriniereRobinDev\DevoirApp\Model\ViewApp($this->template, $feedback);
+        $authManager = new \MoriniereRobinDev\WebFramework\Service\Authentification\AuthManager();
         
 
         if($authManager->isUserConnected()){
-            echo 'user connected';
-            //AuhtentificationHtml->affiche(information);
+            // echo 'user connected';
+            // AuhtentificationHtml->affiche(information);
         }
         else {
             $postData = $this->request->getAllPostParams();
@@ -43,29 +40,29 @@ class FrontController {
                     $password = $postData['password'];
                     $check = $authManager->checkAuth($login, $password);
                     if($check === 'login'){
-                        echo 'Login erroné';
+                        // echo 'Login erroné';
                         // Accueil + Feedback
                     }
                     else if($check === 'password'){
-                        echo  'Password erroné';
+                        // echo  'Password erroné';
                         // Accueil + Feedback
                     }
                     else{
-                        echo 'Connexion succes';
+                        // echo 'Connexion succes';
                         // AuhtentificationHtml->affiche(connexion);
                     }
                 }
             }
         }    
 
-        //$authManager->disconnectUser();
+        $authManager->disconnectUser();
         
         
         $router = new \MoriniereRobinDev\DevoirApp\Router\RouterApp($this->request);
         $className = $router->getControllerClassName();
         $action = $router->getControllerAction();
 
-        $controller = new $className($this->request, $this->response, $view, $authManager);
+        $controller = new $className($this->request, $this->response, $view, $authManager, $control);
         $controller->execute($action);
         
         if($this->request->isAjaxRequest()){
@@ -76,6 +73,12 @@ class FrontController {
         }
         
         $this->response->send($content);
+    }
+    
+    public function POSTredirect($url, $feedback){
+        $_SESSION['feedback'] = $feedback;
+        header("Location: ".htmlspecialchars_decode($url), true, 303);
+        die;
     }
 
 }
