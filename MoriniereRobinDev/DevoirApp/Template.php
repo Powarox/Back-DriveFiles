@@ -18,7 +18,7 @@
 	<main>
 		<h1><?php echo $title; ?></h1>
         
-        <?php echo $this->feedback; ?>
+        <?php echo $feedback; ?>
             
 		<?php echo $content; ?>
 	</main>

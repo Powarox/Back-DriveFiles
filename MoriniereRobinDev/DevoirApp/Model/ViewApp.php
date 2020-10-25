@@ -7,13 +7,27 @@ use MoriniereRobinDev\WebFramework;
 class ViewApp extends WebFramework\View\View {
 
 // ################ Home Page ################ //
-    public function makeHomePage() {
+    public function makeHomePage($builder) {
         $title = "Bienvenue !";
         
-        $content = '<form action="index.php?obj=pdf&action=displayConnexionSucces" method="POST">';
-            $content .= '<input type="text" name="login" placeholder="Login" value="">';
-            $content .= '<input type="text" name="password" placeholder="Password" value="">';
-            $content .= '<button type="submit">Se connecter</button>';
+        $data = $builder->getData();
+            
+        $loginRef = $builder->getLoginRef();
+        $passwordRef = $builder->getPasswordRef();
+            
+        $errLogin = $builder->getErrors($loginRef);
+        $errPassword = $builder->getErrors($passwordRef);
+        
+        $content = '<form action="index.php?obj=pdf&action=connexion" method="POST">';
+        $content .= '<input type="text" name="'.$loginRef.'" placeholder="Login" value="'.self::htmlesc($data[$loginRef]).'">';
+        if($errLogin !== null){
+            $content .= '<span class="errors">'.$errLogin.'</span>';
+        }
+        $content .= '<input type="text" name="'.$passwordRef.'" placeholder="Password" value="'.self::htmlesc($data[$passwordRef]).'">';
+        if($errPassword !== null){
+            $content .= '<span class="errors">'.$errPassword.'</span>';
+        }
+        $content .= '<button type="submit">Se connecter</button>';
         $content .= '</form>';
         
         $content .= "Un site sur des poèmes.";
@@ -25,13 +39,13 @@ class ViewApp extends WebFramework\View\View {
     public function makeUserConnectedHomePage() {        
         $title = "Bienvenue !";
         
-        $content = '<p>'.$_SESSION['user']['nom'].'</p>';
-        $content .= '<p>'.$_SESSION['user']['prenom'].'</p>';
-        $content .= '<p>'.$_SESSION['user']['statut'].'</p>';
+        $content = '<p>'.self::htmlesc($_SESSION['user']['nom']).'</p>';
+        $content .= '<p>'.self::htmlesc($_SESSION['user']['prenom']).'</p>';
+        $content .= '<p>'.self::htmlesc($_SESSION['user']['statut']).'</p>';
         
-       /* $content. = '<form action="'.$this->authManager->disconnectUser().'">';
+        $content .= '<form action="index.php?obj=pdf&action=deconnexion" method="POST">';
             $content .= '<button type="submit">Deconnexion</button>';
-        $content .= '</form>';*/
+        $content .= '</form>';
         
         $content .= "Un site sur des poèmes.";
         
@@ -41,6 +55,7 @@ class ViewApp extends WebFramework\View\View {
     
     
 // ################ List Page ################ //
+    
     public function makeListPage(){
         $title = "Page liste fichier";
         $content = "Voici la liste des fichier";
@@ -59,6 +74,7 @@ class ViewApp extends WebFramework\View\View {
     
     
 // ################ Detail Page ################ //
+    
     public function makeInformationPage(){
         $title = "Page d'information devoir";
         $content = "Detail tech";
@@ -68,7 +84,8 @@ class ViewApp extends WebFramework\View\View {
     }
     
     
-// ################ Unknown Page ################ //    
+// ################ Unknown Page ################ //   
+    
     public function unknownPdfPage() {
         $title = "Poème inconnu ou non trouvé";
         $content = "Choisir un poème dans la liste.";
@@ -77,7 +94,8 @@ class ViewApp extends WebFramework\View\View {
     }
     
     
-// ################ Unknown User Page ################ //    
+// ################ Unknown User Page ################ // 
+    
     public function unknownUserPage() {
         $title = "Accès privé";
         $content = "Vous devez vous connecté pour accéder à cette page.";
@@ -86,7 +104,8 @@ class ViewApp extends WebFramework\View\View {
     }
     
     
-// ################ Upload ################ //    
+// ################ Upload ################ // 
+    
     public function makeUploadPage(){
         $title = "Page d'upload";
         $content = '<form action="index.php?obj=pdf&action=upload" method="POST" enctype="multipart/form-data">';
@@ -103,19 +122,21 @@ class ViewApp extends WebFramework\View\View {
 // ################ Display Connexion ################ //
     
     public function displayConnexionSucces(){
-        $this->control->POSTredirect("index.php", "<p class='feedback'>Vous êtes bien connecté en tant que ".$_SESSION['user']['statut']."</p>");  
-    }
-        
-    public function displayConnexionFailure(){
-        $this->control->POSTredirect("index.php", "<p class='feedback'>Erreurs dans le formulaire</p>");
+        $this->router->POSTredirect("index.php", "<p class='feedback'>Vous êtes bien connecté en tant que ".$_SESSION['user']['statut']."</p>");  
     }
         
     public function displayRequireConnexion(){
-        $this->control->POSTredirect("index.php", "<p class='feedback'>Connexion requise pour accèder à cette page</p>");
+        $this->router->POSTredirect("index.php", "<p class='feedback'>Connexion requise pour accèder à cette page</p>");
     }
         
     public function displayDeconnexionSucces(){
-        $this->control->POSTredirect("index.php", "<p class='feedback'>Déconnexion réussi</p>");
+        $this->router->POSTredirect("index.php", "<p class='feedback'>Déconnexion réussi</p>");
     }
     
+    
+// ################ Utilitaire ################ //
+        
+    public static function htmlesc($str){
+        return htmlspecialchars($str, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML5, 'UTF-8');
+    }    
 }

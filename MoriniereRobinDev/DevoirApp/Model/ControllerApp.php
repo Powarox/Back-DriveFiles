@@ -6,21 +6,31 @@ class ControllerApp {
     protected $request;
     protected $response;
     protected $view;
+    protected $currentConnexionBuilder;
 
-    public function __construct($request, $response, $view, $authManager, $control){
+    public function __construct($request, $response, $view, $authManager){
         $this->request = $request;
         $this->response = $response;
         $this->view = $view;
         $this->authManager = $authManager;
-        $this->control = $control;
+        $this->currentConnexionBuilder = key_exists('currentConnexionBuilder', $_SESSION) ? $_SESSION['currentConnexionBuilder'] : null; 
+        
+        $feedback = key_exists('feedback', $_SESSION) ? $_SESSION['feedback'] : '';
+        $_SESSION['feedback'] = '';
         
         $menu = array(
-			"Accueil" => 'index.php',
+			"Accueil"        => 'index.php',
 			"Upload"         => '?obj=pdf&amp;action=makeUploadPage',
 			"Liste fichier"  => '?obj=pdf&amp;action=makeListPage',
-			"Information"    => '?obj=pdf&amp;action=makeInformationPage',
+			"Information"    => '?obj=pdf&amp;action=makeInformationPage'
 		);
+        
         $this->view->setPart('menu', $menu);
+        $this->view->setPart('feedback', $feedback);  
+    }
+    
+    public function __destruct(){
+        $_SESSION['currentConnexionBuilder'] = $this->currentConnexionBuilder;
     }
     
     public function execute($action){
@@ -37,11 +47,61 @@ class ControllerApp {
     
     public function defaultAction(){
         if($this->authManager->isUserConnected()){
-            return $this->view->makeUserConnectedHomePage();
+            $this->view->makeUserConnectedHomePage();
         }
-        return  $this->view->makeHomePage();
+        else{
+            $this->currentConnexionBuilder = new AccountBuilder();
+            $this->view->makeHomePage($this->currentConnexionBuilder);
+        }
     }
 
+    
+// ################ Connexion ################ //
+    public function connexion(){
+        $data = $this->request->getAllPostParams();
+        $this->currentConnexionBuilder = new AccountBuilder($data);
+            
+        $loginRef = $this->currentConnexionBuilder->getLoginRef();
+        $passwordRef = $this->currentConnexionBuilder->getPasswordRef();
+        
+        if($data[$loginRef] ==! null){
+            $login = $data[$loginRef];
+            if($data[$passwordRef] ==! null){
+                $password = $data[$passwordRef];
+                $check = $this->authManager->checkAuth($login, $password);
+                if($check === 'login'){
+                    $this->currentConnexionBuilder->setError($loginRef, 'Login erroné');
+                    $this->view->makeHomePage($this->currentConnexionBuilder);
+                }
+                else if($check === 'password'){
+                    $this->currentConnexionBuilder->setError($passwordRef, 'Password erroné');
+                    $this->view->makeHomePage($this->currentConnexionBuilder);
+                }
+                else{
+                    $this->currentConnexionBuilder = null;
+                    $this->view->displayConnexionSucces();
+                }
+            }
+            else{
+                $this->currentConnexionBuilder->setError($passwordRef, 'Password vide');
+                $this->view->makeHomePage($this->currentConnexionBuilder);
+            }
+        }
+        else{
+            $this->currentConnexionBuilder->setError($loginRef, 'Login vide');
+            $this->view->makeHomePage($this->currentConnexionBuilder);
+        }
+    }
+    
+    public function deconnexion(){
+        $this->authManager->disconnectUser();
+        $this->view->displayDeconnexionSucces();
+    }
+    
+    public function gestionAccess(){
+        
+    }
+    
     
 // ################ Upload ################ //    
     public function upload(){
