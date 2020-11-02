@@ -20,9 +20,10 @@ class ControllerApp {
         
         $menu = array(
 			"Accueil"        => 'index.php',
-			"Upload"         => '?obj=pdf&amp;action=makeUploadPage',
-			"Liste fichier"  => '?obj=pdf&amp;action=makeListPage',
-			"Information"    => '?obj=pdf&amp;action=makeInformationPage'
+			"Upload"         => 'index.php?obj=pdf&amp;action=askUpload',
+			"Liste fichier"  => 'index.php?obj=pdf&amp;action=showListFile',
+			"Information"    => 'index.php?obj=pdf&amp;action=makeInformationPage',
+            "Sign In"        => 'index.php?obj=pdf&amp;action=askConnexion'   
 		);
         
         $this->view->setPart('menu', $menu);
@@ -40,70 +41,22 @@ class ControllerApp {
         else if(method_exists($this->view, $action)){
             return $this->view->$action();
         }
-        else {
-            throw new Exception("Action : {$action} non trouvée");
+        else{
+            $this->defaultAction();
         }
     }
     
     public function defaultAction(){
-        if($this->authManager->isUserConnected()){
-            $this->view->makeUserConnectedHomePage();
-        }
-        else{
-            $this->currentConnexionBuilder = new AccountBuilder();
-            $this->view->makeHomePage($this->currentConnexionBuilder);
-        }
+        $this->view->makeHomePage();
     }
+ 
 
     
-// ################ Connexion ################ //
-    public function connexion(){
-        $data = $this->request->getAllPostParams();
-        $this->currentConnexionBuilder = new AccountBuilder($data);
-            
-        $loginRef = $this->currentConnexionBuilder->getLoginRef();
-        $passwordRef = $this->currentConnexionBuilder->getPasswordRef();
-        
-        if($data[$loginRef] ==! null){
-            $login = $data[$loginRef];
-            if($data[$passwordRef] ==! null){
-                $password = $data[$passwordRef];
-                $check = $this->authManager->checkAuth($login, $password);
-                if($check === 'login'){
-                    $this->currentConnexionBuilder->setError($loginRef, 'Login erroné');
-                    $this->view->makeHomePage($this->currentConnexionBuilder);
-                }
-                else if($check === 'password'){
-                    $this->currentConnexionBuilder->setError($passwordRef, 'Password erroné');
-                    $this->view->makeHomePage($this->currentConnexionBuilder);
-                }
-                else{
-                    $this->currentConnexionBuilder = null;
-                    $this->view->displayConnexionSucces();
-                }
-            }
-            else{
-                $this->currentConnexionBuilder->setError($passwordRef, 'Password vide');
-                $this->view->makeHomePage($this->currentConnexionBuilder);
-            }
-        }
-        else{
-            $this->currentConnexionBuilder->setError($loginRef, 'Login vide');
-            $this->view->makeHomePage($this->currentConnexionBuilder);
-        }
+// ################ Upload ################ // 
+    public function askUpload(){
+        $this->view->makeUploadPage();
     }
     
-    public function deconnexion(){
-        $this->authManager->disconnectUser();
-        $this->view->displayDeconnexionSucces();
-    }
-    
-    public function gestionAccess(){
-        
-    }
-    
-    
-// ################ Upload ################ //    
     public function upload(){
         // Vérifier si le formulaire a été soumis
         if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -112,11 +65,11 @@ class ControllerApp {
             // Vérifie si le fichier a été uploadé sans erreur.
             if(isset($_FILES["photo"]) && $_FILES["photo"]["error"] == 0){
                 move_uploaded_file($_FILES["photo"]["tmp_name"], "DevoirApp/Model/upload/" . $_FILES["photo"]["name"]);
-                echo "Votre fichier a été téléchargé avec succès.";
+                //echo "Votre fichier a été téléchargé avec succès.";
 
                 // Code Json pour le fichier meta.txt
                 $data2 = array("SourceFile" => "upload/".$filename,
-                    "XMP-dc:Title" => $_POST['titre']);
+                             "XMP-dc:Title" => $_POST['titre']);
                 $data2Json = json_encode($data2, JSON_UNESCAPED_SLASHES);
 
                 //echo $data2Json;
@@ -138,14 +91,93 @@ class ControllerApp {
             else{
                 echo "Error: " . $_FILES["photo"]["error"];
             }
+            $this->view->displayUploadSucces();
         }
+    }  
+    
+    
+// ################ List File ################ //   
+    
+    public function showListFile(){
+        $this->view->makeListPage();
+    }
+    
+    
+    
+// ################ Details File ################ //   
+    
+    public function showDetailsFile(){
+        $this->view->makeDetailsPage();
+    }
+    
+    
+    
+// ################ Modification File ################ //  
+    
+    public function modificationDetailsFile(){
+        $this->view->makeModificationDetailsPage();
+    }
+    
+    
+    
+// ################ Connexion ################ //
+    public function askConnexion(){
+        if($this->authManager->isUserConnected()){
+            $this->view->makeUserConnectedPage();
+        }
+        else{
+            $this->currentConnexionBuilder = new AccountBuilder();
+            $this->view->makeConnexionPage($this->currentConnexionBuilder);
+        }
+    }
+    
+    public function connexion(){
+        $data = $this->request->getAllPostParams();
+        $this->currentConnexionBuilder = new AccountBuilder($data);
+            
+        $loginRef = $this->currentConnexionBuilder->getLoginRef();
+        $passwordRef = $this->currentConnexionBuilder->getPasswordRef();
         
-        $title = "Upload Success";
-        $content = "Votre fichier à bien été enregistré";
-
-        $this->view->setPart('title', $title);
-        $this->view->setPart('content', $content);
-    }    
+        if($data[$loginRef] ==! null){
+            $login = $data[$loginRef];
+            if($data[$passwordRef] ==! null){
+                $password = $data[$passwordRef];
+                $check = $this->authManager->checkAuth($login, $password);
+                if($check === 'login'){
+                    $this->currentConnexionBuilder->setError($loginRef, 'Login erroné');
+                    $this->view->makeConnexionPage($this->currentConnexionBuilder);
+                }
+                else if($check === 'password'){
+                    $this->currentConnexionBuilder->setError($passwordRef, 'Password erroné');
+                    $this->view->makeConnexionPage($this->currentConnexionBuilder);
+                }
+                else{
+                    $this->currentConnexionBuilder = null;
+                    $this->view->displayConnexionSucces();
+                }
+            }
+            else{
+                $this->currentConnexionBuilder->setError($passwordRef, 'Password vide');
+                $this->view->makeConnexionPage($this->currentConnexionBuilder);
+            }
+        }
+        else{
+            $this->currentConnexionBuilder->setError($loginRef, 'Login vide');
+            $this->view->makeConnexionPage($this->currentConnexionBuilder);
+        }
+    }
+    
+    public function deconnexion(){
+        $this->authManager->disconnectUser();
+        $this->view->displayDeconnexionSucces();
+    }
+    
+    public function gestionAccess(){
+        
+    }
+    
+    
+  
 
 
 }

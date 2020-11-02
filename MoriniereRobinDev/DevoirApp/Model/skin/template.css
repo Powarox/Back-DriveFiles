@@ -1,19 +1,139 @@
+/* ############ Commun ############ */
 html {
 	overflow-y: scroll;
 }
+
 body {
-	max-width: 60em;
+	max-width: 80em;
 	margin: auto;
 }
 
-figure {
-	float: right;
-	text-align: center;
+ul {
+    list-style: none;
 }
 
+li {
+    
+}
+
+a {
+	text-decoration: none;
+	font-weight: bold;
+	color: #2196F3;
+}
+
+
+/* ############ Header ############ */
 .menu ul {
 	list-style: none;
 	padding: 0;
 	display: flex;
-	justify-content: space-around;
+	justify-content: flex-start;
 }
+
+.menu ul li a {
+	padding: 15px 50px;
+}
+
+.menu ul li a:hover {
+	background : #ffdcda;
+}
+
+.menu ul li #signIn {
+    justify-self: flex-end;
+}
+
+
+
+
+/* ############ Main ############ */
+main {
+	padding: 10px;
+	min-height: 500px;
+	background: #0DA376;
+}
+
+main h1 {
+	text-align: center;
+}
+
+
+
+
+
+/* --- Formulaire --- */
+.box {
+    text-align: center;
+}
+
+.box input[type = "text"], .box input[type = "password"]{
+    border: 0;
+    background: none;
+    display: inline-block;
+    margin: 10px;
+    text-align: center;
+    border: 3px solid #3498db;
+    padding: 14px 10px;
+    width: 200px;
+    outline: none;
+    color: white;
+    border-radius: 24px;
+    transition: 0.25s;
+}
+
+.box input[type = "text"]:focus, .box input[type = "password"]:focus {
+    width: 280px;
+    border-color: #499F68;
+}
+
+.box button[type = "submit"]{
+    border: 0;
+    background: none;
+    display: inline-block;
+    margin: 20px auto;
+    text-align: center;
+    border: 3px solid #F44336;
+    padding: 14px 40px;
+    outline: none;
+    color: #571845;
+    border-radius: 24px;
+    transition: 0.25s;
+    cursor: pointer;
+}
+
+.box button[type = "submit"]:hover{
+    background: #ffffff;
+}
+
+::placeholder {
+  color: #571845;
+  font-size: 1em;
+}
+
+
+
+/* --- FeedBack --- */
+.feedback {
+    color: white;
+    width: 600px;
+    font-weight: bold;
+    font-size: 20px;
+    text-align: center;
+    border: solid 2px green;
+    border-radius: 10px;
+    background: green;
+    margin-left: auto;
+    margin-right: auto;
+    
+}
+ 
+    
+/* --- Erreur --- */
+.errors {
+    color: red;
+    font-weight: bold; 
+    font-size: 18px;
+}
+
+
+
