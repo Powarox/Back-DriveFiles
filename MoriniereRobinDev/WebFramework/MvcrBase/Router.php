@@ -6,6 +6,7 @@ abstract class Router {
     protected $request;
     protected $controllerClassName;
     protected $controllerAction;
+    protected $controllerId;
 
     public function __construct($request){
         $this->request = $request;
@@ -18,6 +19,10 @@ abstract class Router {
 
     public function getControllerAction(){
         return $this->controllerAction;
+    }
+    
+    public function getControllerId(){
+        return $this->controllerId;
     }
     
     

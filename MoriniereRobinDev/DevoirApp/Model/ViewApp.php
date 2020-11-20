@@ -8,9 +8,18 @@ class ViewApp extends WebFramework\View\View {
 
 // ################ Home Page ################ //
     
-    public function makeHomePage() {
+    public function makeHomePage($files) {
         $title = "Bienvenue !";
-        $content = "Un site sur des poèmes.";
+        $content = '<section class="homeSection">';
+        
+        foreach($files as $key => $value){
+            $content .= '<a href="index.php?obj=pdf&action=showDetailsFile&id='.$value.'">';
+            $content .= '<p>'.$value.'</p>';
+            $content .= '<img src="" alt="Image doc pdf">';
+            $content .= '</a>';
+        }
+        
+        $content .= '</section>';
         
         $this->setPart('title', $title);
         $this->setPart('content', $content);
@@ -50,9 +59,9 @@ class ViewApp extends WebFramework\View\View {
     
 // ################ Details Page ################ //
     
-    public function makeDetailsPage(){
+    public function makeDetailsPage($id){
         $title = "Page details fichier";
-        $content = "detail du fichier : id";
+        $content = "detail du fichier : ".$id;
         
         $this->setPart('title', $title);
         $this->setPart('content', $content);

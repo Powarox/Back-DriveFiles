@@ -13,7 +13,7 @@ class Request {
     }
     
     public function getGetParam($key, $default = null){
-        if (!isset($this->get[$key])){
+        if(!isset($this->get[$key])){
             return $default;
         }
         return $this->get[$key];

@@ -24,5 +24,6 @@ class RouterApp extends WebFramework\MvcrBase\Router{
 
         // si le paramètre 'a' n'existe pas alors l'action sera 'defaultAction'
         $this->controllerAction = $this->request->getGetParam('action', 'defaultAction');
+        $this->controllerId = $this->request->getGetParam('id', 'defaultId');
     }
 }

@@ -10,7 +10,6 @@ abstract class View {
     public function __construct($template, $router, $parts = array()){   //, $feedback
         $this->template = $template;
         $this->router = $router;
-        //$this->feedback = $feedback;
         $this->parts = $parts;
     }
     

@@ -24,9 +24,10 @@ class FrontController {
         $router = new \MoriniereRobinDev\DevoirApp\Router\RouterApp($this->request);
         $className = $router->getControllerClassName();
         $action = $router->getControllerAction();
+        $id = $router->getControllerId();
 
         $controller = new $className($this->request, $this->response, $view, $authManager); //, $control
-        $controller->execute($action);
+        $controller->execute($action, $id);
         
         if($this->request->isAjaxRequest()){
         	$content = $view->getPart('content');
