@@ -158,14 +158,10 @@ class ControllerApp {
 // ################ Details File ################ //
 
     public function showDetailsFile($id){
-        // Enleve l'extension fichier .pdf
         $name = explode('.', $id);
 
         $jsonData = file_get_contents('DevoirApp/Model/Upload/Metadata/'.$name[0].'.txt');
         $data = json_decode($jsonData);
-
-
-        // Récuparation file with id
 
         $this->view->makeDetailsPage($id, $data, $jsonData);
     }
