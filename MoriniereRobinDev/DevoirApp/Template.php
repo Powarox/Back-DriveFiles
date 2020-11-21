@@ -3,7 +3,8 @@
 <head>
 	<title><?php echo $title ?></title>
 	<meta charset="UTF-8" />
-	<link rel="stylesheet" href="DevoirApp/Model/skin/template.css" />
+	<link rel="stylesheet" href="DevoirApp/Model/skin/Template.css"/>
+	<link rel="stylesheet" href="DevoirApp/Model/skin/Responsive.css"/>
 </head>
 <body>
     <header>
@@ -18,14 +19,14 @@
             </ul>
         </nav>
     </header>
-    
+
 	<main>
 		<h1><?php echo $title; ?></h1>
-        
+
         <?php echo $feedback; ?>
-            
+
 		<?php echo $content; ?>
-		
+
 	</main>
 </body>
 </html>

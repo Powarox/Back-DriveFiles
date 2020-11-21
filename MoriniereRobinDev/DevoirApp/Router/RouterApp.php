@@ -7,10 +7,10 @@ use MoriniereRobinDev\DevoirApp\Model;
 use MoriniereRobinDev\WebFramework;
 
 class RouterApp extends WebFramework\MvcrBase\Router{
-    public function parseRequest(){ 
+    public function parseRequest(){
         // un nom de package est-il spécifié dans l'URL ?
         $package = $this->request->getGetParam('obj');
-        
+
         // Regarder quel contrôleur instancier
         switch ($package) {
             case '':
@@ -22,7 +22,7 @@ class RouterApp extends WebFramework\MvcrBase\Router{
                 $this->controllerClassName = 'MoriniereRobinDev\DevoirApp\Model\ControllerApp';
         }
 
-        // si le paramètre 'a' n'existe pas alors l'action sera 'defaultAction'
+        // si le paramètre 'action' n'existe pas alors l'action sera 'defaultAction'
         $this->controllerAction = $this->request->getGetParam('action', 'defaultAction');
         $this->controllerId = $this->request->getGetParam('id', 'defaultId');
     }
