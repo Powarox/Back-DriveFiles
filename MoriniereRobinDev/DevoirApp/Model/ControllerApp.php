@@ -122,10 +122,10 @@ class ControllerApp {
                 $metaData = json_decode($data, true);
 
                 // Enleve l'extension fichier .pdf
-                $name = explode('.', $filename);
+                $filename = $this->getFileWithoutExtention($filename);
 
                 // Créer un fichier text vide;
-                $metaTxt = fopen('DevoirApp/Model/Upload/Metadata/'.$name[0].'.txt', 'w');
+                $metaTxt = fopen('DevoirApp/Model/Upload/Metadata/'.$filename.'.txt', 'w');
                 // Ecris dans un fichier
                 fputs($metaTxt, $data);
                 // Ferme le fichier
@@ -143,12 +143,12 @@ class ControllerApp {
 
 // ################ Details File ################ //
     public function showDetailsFile($id){
-        $name = explode('.', $id);
+        $filename = $this->getFileWithoutExtention($id);
 
-        $jsonData = file_get_contents('DevoirApp/Model/Upload/Metadata/'.$name[0].'.txt');
+        $jsonData = file_get_contents('DevoirApp/Model/Upload/Metadata/'.$filename.'.txt');
         $data = json_decode($jsonData);
 
-        $this->view->makeDetailsPage($id, $data, $jsonData);
+        $this->view->makeDetailsPage($filename, $data, $jsonData);
     }
 
 
@@ -159,11 +159,19 @@ class ControllerApp {
     }
 
 
+// ################ Suppression File ################ //
+    public function askSuppressionFile($id){
+        $this->view->makeSuppresionPage($id);
+    }
+
+    public function suppresionFile($id){
+        $this->view->displaySuppresionFile($id);
+    }
+
+
 // ################ Modification File ################ //
     public function modificationDetailsFile($id){
-
-
-        $this->view->makeModificationDetailsPage();
+        $this->view->makeModificationDetailsPage($id);
     }
 
 
@@ -232,7 +240,20 @@ class ControllerApp {
             $elemAutre = array_shift($files);
             $elemAutre = array_shift($files);
         }
+        for($i = 0; $i < count($files); $i++){
+            $files[$i] = $this->getFileWithoutExtention($files[$i]);
+        }
         return $files;
+    }
+
+    public function getFileWithoutExtention($id){
+        $filename = explode('.', $id);
+        return $filename[0];
+    }
+
+    public function setFileExtention($name){
+        $filename = $name + '.pdf';
+        return $filename;
     }
 
 

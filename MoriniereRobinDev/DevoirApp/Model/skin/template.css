@@ -142,6 +142,17 @@ main h1 {
 }
 
 
+/* --- Bouton Option --- */
+.option {
+    color: white;
+    border: 1px solid #571845;
+    border-radius: 5px;
+    background: #571845;
+    padding: 10px;
+    margin-right: 20px;
+}
+
+
 /* --- FeedBack --- */
 .feedback {
     color: white;

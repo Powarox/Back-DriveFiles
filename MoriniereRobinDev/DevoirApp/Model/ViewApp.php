@@ -15,7 +15,6 @@ class ViewApp extends WebFramework\View\View {
             $title = "Bienvenue !";
         }
 
-
         $content = '<section class="homeSection">';
 
         foreach($files as $key => $value){
@@ -85,10 +84,13 @@ class ViewApp extends WebFramework\View\View {
         $content .= '<section class="listPageSection">';
 
         foreach($files as $key => $value){
-            $content .= '<a href="index.php?obj=pdf&action=modificationDetailsFile&id='.$value.'">';
-            $content .= '<p>'.$value.'</p>';
-            $content .= '<img src="DevoirApp/Model/Upload/Images/'.$value.'" alt="Image doc pdf : '.$value.'">';
-            $content .= '</a>';
+            $content .= '<div>';
+            $content .= '<a href="index.php?obj=pdf&action=showDetailsFile&id='.$value.'">'.$value.'</a>';
+
+            $content .= '<a class="option" href="index.php?obj=pdf&action=modificationDetailsFile&id='.$value.'">Modification</a>';
+            $content .= '<a class="option" href="index.php?obj=pdf&action=askSuppressionFile&id='.$value.'">Supprimer</a>';
+
+            $content .= '</div>';
         }
 
         $content .= '</section>';
@@ -99,10 +101,25 @@ class ViewApp extends WebFramework\View\View {
 
 
 // ################ Modification Page ################ //
-    public function makeModificationDetailsPage(){
-        $title = "Page details fichier";
-        $content = "detail du fichier : id";
+    public function makeSuppresionPage($id){
+        $title = "Suppression du fichier : ".$id;
+        $content = '<p>Voulez vous vraiment supprimer ce fichier ?</p>';
+        $content .= '<a class="option" href="index.php?obj=pdf&action=showListFiles">Retour</a>';
+        $content .= '<a class="option" href="index.php?obj=pdf&action=suppresionFile&id='.$id.'">Supprimer</a>';
 
+        $this->setPart('title', $title);
+        $this->setPart('content', $content);
+    }
+
+    public function displaySuppresionFile($id){
+        $this->router->POSTredirect("index.php?obj=pdf&action=showListFiles", '<p class="feedback">Suppression du fichier '.$id.' réussi.</p>');
+    }
+
+
+// ################ Modification Page ################ //
+    public function makeModificationDetailsPage($id){
+        $title = "Modification du fichier : ".$id;
+        $content = "detail du fichier : ".$id;
 
         $content .= '<section class="modifictionPageSection">';
 
