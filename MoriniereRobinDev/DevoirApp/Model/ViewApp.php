@@ -7,7 +7,6 @@ use MoriniereRobinDev\WebFramework;
 class ViewApp extends WebFramework\View\View {
 
 // ################ Home Page ################ //
-
     public function makeHomePage($files) {
         if(key_exists('user', $_SESSION)){
             $title = "Bienvenue " . self::htmlesc($_SESSION['user']['prenom']);
@@ -33,9 +32,7 @@ class ViewApp extends WebFramework\View\View {
     }
 
 
-
 // ################ Upload ################ //
-
     public function makeUploadPage(){
         $title = "Page d'upload";
         $content = '<form action="index.php?obj=pdf&action=upload" method="POST" enctype="multipart/form-data">';
@@ -49,9 +46,7 @@ class ViewApp extends WebFramework\View\View {
     }
 
 
-
 // ################ Display Upload ################ //
-
     public function displayUploadSucces($filename){
         $this->router->POSTredirect("index.php?obj=pdf&action=showDetailsFile&id=".$filename, "<p class='feedback'>Votre fichier à bien été enregistré</p>");
     }
@@ -61,28 +56,12 @@ class ViewApp extends WebFramework\View\View {
     }
 
 
-
-// ################ List Page ################ //
-
-    public function makeListPage(){
-        $title = "Page liste fichier";
-        $content = "Voici la liste des fichier";
-        $content .= "Modifier : ";
-        $content .= "Supprimer : ";
-
-        $this->setPart('title', $title);
-        $this->setPart('content', $content);
-    }
-
-
-
 // ################ Details Page ################ //
-
     public function makeDetailsPage($id, $data, $jsonData){
         $title = "Page details fichier";
         $content = "detail du fichier : ".$id;
 
-        $content .= '<section class="detailsSection">';
+        $content .= '<section class="detailsPageSection">';
         $content .= '<p>'.$jsonData.'</p>';
 
         // $content .= '<ul>';
@@ -98,22 +77,45 @@ class ViewApp extends WebFramework\View\View {
 
 
 
-// ################ Modification Page ################ //
+// ################ List Page ################ //
+    public function makeListPage($files){
+        $title = "Page liste fichier";
+        $content = "Voici la liste des fichier";
 
-    public function makeModificationDetailsPage(){
-        $title = "Page details fichier";
-        $content = "detail du fichier : id";
+        $content .= '<section class="listPageSection">';
 
-        // Affiche Métadonnée sous forme d'input
+        foreach($files as $key => $value){
+            $content .= '<a href="index.php?obj=pdf&action=modificationDetailsFile&id='.$value.'">';
+            $content .= '<p>'.$value.'</p>';
+            $content .= '<img src="DevoirApp/Model/Upload/Images/'.$value.'" alt="Image doc pdf : '.$value.'">';
+            $content .= '</a>';
+        }
+
+        $content .= '</section>';
 
         $this->setPart('title', $title);
         $this->setPart('content', $content);
     }
 
 
+// ################ Modification Page ################ //
+    public function makeModificationDetailsPage(){
+        $title = "Page details fichier";
+        $content = "detail du fichier : id";
+
+
+        $content .= '<section class="modifictionPageSection">';
+
+        // Affiche Métadonnée sous forme d'input
+
+        $content .= '</section>';
+
+        $this->setPart('title', $title);
+        $this->setPart('content', $content);
+    }
+
 
 // ################ Information Page ################ //
-
     public function makeInformationPage(){
         $title = "Page d'information devoir";
         $content = "Detail tech";
@@ -124,9 +126,7 @@ class ViewApp extends WebFramework\View\View {
     }
 
 
-
 // ################ Connexion Page ################ //
-
     public function makeConnexionPage($builder){
         $title = "Page de connexion";
 
@@ -138,7 +138,9 @@ class ViewApp extends WebFramework\View\View {
         $errLogin = $builder->getErrors($loginRef);
         $errPassword = $builder->getErrors($passwordRef);
 
-        $content = '<form class="box" action="index.php?obj=pdf&action=connexion" method="POST">';
+        $content = '<section class="connexionPageSection">';
+
+        $content .= '<form class="box" action="index.php?obj=pdf&action=connexion" method="POST">';
         $content .= '<input type="text" name="'.$loginRef.'" placeholder="Login" value="'.self::htmlesc($data[$loginRef]).'">';
         if($errLogin !== null){
             $content .= '<span class="errors">'.$errLogin.'</span>';
@@ -150,7 +152,7 @@ class ViewApp extends WebFramework\View\View {
         $content .= '<button type="submit">Se connecter</button>';
         $content .= '</form>';
 
-        $content .= "Un site sur des poèmes.";
+        $content .= '</section>';
 
         $this->setPart('title', $title);
         $this->setPart('content', $content);
@@ -174,7 +176,6 @@ class ViewApp extends WebFramework\View\View {
 
 
 // ################ Display Connexion ################ //
-
     public function displayConnexionSucces(){
         $this->router->POSTredirect("index.php?obj=pdf&action=makeUserConnectedPage", "<p class='feedback'>Vous êtes bien connecté en tant que ".$_SESSION['user']['statut']."</p>");
     }
@@ -188,9 +189,7 @@ class ViewApp extends WebFramework\View\View {
     }
 
 
-
 // ################ Unknown Page ################ //
-
     public function unknownPdfPage() {
         $title = "Poème inconnu ou non trouvé";
         $content = "Choisir un poème dans la liste.";
@@ -200,9 +199,7 @@ class ViewApp extends WebFramework\View\View {
     }
 
 
-
 // ################ Utilitaire ################ //
-
     public static function htmlesc($str){
         return htmlspecialchars($str, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML5, 'UTF-8');
     }

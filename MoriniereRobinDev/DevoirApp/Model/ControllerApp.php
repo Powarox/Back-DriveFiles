@@ -13,6 +13,7 @@ class ControllerApp {
         $this->response = $response;
         $this->view = $view;
         $this->authManager = $authManager;
+
         $this->currentConnexionBuilder = key_exists('currentConnexionBuilder', $_SESSION) ? $_SESSION['currentConnexionBuilder'] : null;
 
         $feedback = key_exists('feedback', $_SESSION) ? $_SESSION['feedback'] : '';
@@ -21,7 +22,7 @@ class ControllerApp {
         $menu = array(
 			"Accueil"        => 'index.php?obj=pdf&amp;action=showFiles',
 			"Upload"         => 'index.php?obj=pdf&amp;action=askUpload',
-			"Liste fichier"  => 'index.php?obj=pdf&amp;action=showListFile',
+			"Liste fichier"  => 'index.php?obj=pdf&amp;action=showListFiles',
 			"Information"    => 'index.php?obj=pdf&amp;action=makeInformationPage',
             "Sign In"        => 'index.php?obj=pdf&amp;action=askConnexion'
 		);
@@ -58,14 +59,8 @@ class ControllerApp {
 
 
 // ################ Accueil ################ //
-
     public function showFiles(){
-        $files = scandir(__DIR__ .'/Upload/Documents');
-
-        if(!empty($files)){
-            $elemAutre = array_shift($files);
-            $elemAutre = array_shift($files);
-        }
+        $files = $this->getUploadDocuments();
 
         // echo $files[0];
         //
@@ -107,7 +102,6 @@ class ControllerApp {
 
 
 // ################ Upload ################ //
-
     public function askUpload(){
         $this->view->makeUploadPage();
     }
@@ -147,16 +141,7 @@ class ControllerApp {
     }
 
 
-// ################ List File ################ //
-
-    public function showListFile(){
-        $this->view->makeListPage();
-    }
-
-
-
 // ################ Details File ################ //
-
     public function showDetailsFile($id){
         $name = explode('.', $id);
 
@@ -167,17 +152,22 @@ class ControllerApp {
     }
 
 
+// ################ List Files ################ //
+    public function showListFiles(){
+        $files = $this->getUploadDocuments();
+        $this->view->makeListPage($files);
+    }
+
 
 // ################ Modification File ################ //
+    public function modificationDetailsFile($id){
 
-    public function modificationDetailsFile(){
+
         $this->view->makeModificationDetailsPage();
     }
 
 
-
 // ################ Connexion ################ //
-
     public function askConnexion(){
         if($this->authManager->isUserConnected()){
             $this->view->makeUserConnectedPage();
@@ -234,6 +224,16 @@ class ControllerApp {
     }
 
 
+
+// ################ Utilitaire ################ //
+    public function getUploadDocuments(){
+        $files = scandir(__DIR__ .'/Upload/Documents');
+        if(!empty($files)){
+            $elemAutre = array_shift($files);
+            $elemAutre = array_shift($files);
+        }
+        return $files;
+    }
 
 
 

@@ -40,8 +40,6 @@ a {
 }
 
 
-
-
 /* ############ Main ############ */
 main {
 	padding: 10px;
@@ -66,6 +64,30 @@ main h1 {
 }
 
 
+/* ############ Page de details file ############ */
+.detailsPageSection {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    text-align: center;
+}
+
+
+/* ############ Page de list ############ */
+.listPageSection {
+
+}
+
+
+/* ############ Page de modification ############ */
+.modifictionPageSection {
+
+}
+
+
+/* ############ Page de Connexion ############ */
+.connexionPageSection {
+
+}
 
 
 
@@ -118,7 +140,6 @@ main h1 {
   color: #571845;
   font-size: 1em;
 }
-
 
 
 /* --- FeedBack --- */
