@@ -36,6 +36,11 @@ class ControllerApp {
     }
 
     public function execute($action, $id){
+        if(empty($_SESSION['user'])){
+            if($action == 'askUpload' || $action == 'showListFiles'){
+                $this->view->displayRequireConnexion($action);
+            }
+        }
         if(method_exists($this, $action)){
             if($id != 'defaultId'){
                 return $this->$action($id);
@@ -165,6 +170,18 @@ class ControllerApp {
     }
 
     public function suppresionFile($id){
+        $filePdf = $this->setFileExtention($id, ".pdf");
+        $fileTxt = $this->setFileExtention($id, ".txt");
+
+        // $img = $this->setFileExtention($id, ".png");
+        // $imgFirstPage = $this->setFileExtention($id, ".png");
+
+        unlink ("DevoirApp/Model/Upload/Documents/".$filePdf);
+        unlink ("DevoirApp/Model/Upload/Metadata/".$fileTxt);
+
+        // unlink ("DevoirApp/Model/Upload/Images/".$img);
+        // unlink ("DevoirApp/Model/Upload/FirstPages/".$imgFirstPage);
+
         $this->view->displaySuppresionFile($id);
     }
 
@@ -176,17 +193,17 @@ class ControllerApp {
 
 
 // ################ Connexion ################ //
-    public function askConnexion(){
+    public function askConnexion($currentPage = null){
         if($this->authManager->isUserConnected()){
             $this->view->makeUserConnectedPage();
         }
         else{
             $this->currentConnexionBuilder = new AccountBuilder();
-            $this->view->makeConnexionPage($this->currentConnexionBuilder);
+            $this->view->makeConnexionPage($this->currentConnexionBuilder, $currentPage);
         }
     }
 
-    public function connexion(){
+    public function connexion($currentPage = null){
         $data = $this->request->getAllPostParams();
         $this->currentConnexionBuilder = new AccountBuilder($data);
 
@@ -200,25 +217,28 @@ class ControllerApp {
                 $check = $this->authManager->checkAuth($login, $password);
                 if($check === 'login'){
                     $this->currentConnexionBuilder->setError($loginRef, 'Login erroné');
-                    $this->view->makeConnexionPage($this->currentConnexionBuilder);
+                    $this->view->makeConnexionPage($this->currentConnexionBuilder, $currentPage);
                 }
                 else if($check === 'password'){
                     $this->currentConnexionBuilder->setError($passwordRef, 'Password erroné');
-                    $this->view->makeConnexionPage($this->currentConnexionBuilder);
+                    $this->view->makeConnexionPage($this->currentConnexionBuilder, $currentPage);
                 }
                 else{
                     $this->currentConnexionBuilder = null;
+                    if(!empty($currentPage)){
+                        $this->view->displayConnexionSuccesToCurrentPage($currentPage);
+                    }
                     $this->view->displayConnexionSucces();
                 }
             }
             else{
                 $this->currentConnexionBuilder->setError($passwordRef, 'Password vide');
-                $this->view->makeConnexionPage($this->currentConnexionBuilder);
+                $this->view->makeConnexionPage($this->currentConnexionBuilder, $currentPage);
             }
         }
         else{
             $this->currentConnexionBuilder->setError($loginRef, 'Login vide');
-            $this->view->makeConnexionPage($this->currentConnexionBuilder);
+            $this->view->makeConnexionPage($this->currentConnexionBuilder, $currentPage);
         }
     }
 
@@ -226,11 +246,6 @@ class ControllerApp {
         $this->authManager->disconnectUser();
         $this->view->displayDeconnexionSucces();
     }
-
-    public function gestionAccess(){
-
-    }
-
 
 
 // ################ Utilitaire ################ //
@@ -251,8 +266,8 @@ class ControllerApp {
         return $filename[0];
     }
 
-    public function setFileExtention($name){
-        $filename = $name + '.pdf';
+    public function setFileExtention($name, $extention){
+        $filename = $name . $extention;
         return $filename;
     }
 

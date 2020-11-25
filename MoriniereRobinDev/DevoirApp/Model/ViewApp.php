@@ -144,7 +144,7 @@ class ViewApp extends WebFramework\View\View {
 
 
 // ################ Connexion Page ################ //
-    public function makeConnexionPage($builder){
+    public function makeConnexionPage($builder, $currentPage){
         $title = "Page de connexion";
 
         $data = $builder->getData();
@@ -157,7 +157,7 @@ class ViewApp extends WebFramework\View\View {
 
         $content = '<section class="connexionPageSection">';
 
-        $content .= '<form class="box" action="index.php?obj=pdf&action=connexion" method="POST">';
+        $content .= '<form class="box" action="index.php?obj=pdf&action=connexion&id='.$currentPage.'" method="POST">';
         $content .= '<input type="text" name="'.$loginRef.'" placeholder="Login" value="'.self::htmlesc($data[$loginRef]).'">';
         if($errLogin !== null){
             $content .= '<span class="errors">'.$errLogin.'</span>';
@@ -197,8 +197,12 @@ class ViewApp extends WebFramework\View\View {
         $this->router->POSTredirect("index.php?obj=pdf&action=makeUserConnectedPage", "<p class='feedback'>Vous êtes bien connecté en tant que ".$_SESSION['user']['statut']."</p>");
     }
 
-    public function displayRequireConnexion(){
-        $this->router->POSTredirect("index.php?obj=pdf&action=askConnexion", "<p class='feedback'>Connexion requise pour accèder à cette page</p>");
+    public function displayConnexionSuccesToCurrentPage($currentPage){
+        $this->router->POSTredirect("index.php?obj=pdf&action=".$currentPage, "<p class='feedback'>Vous êtes bien connecté en tant que ".$_SESSION['user']['statut']."</p>");
+    }
+
+    public function displayRequireConnexion($action){
+        $this->router->POSTredirect("index.php?obj=pdf&action=askConnexion&id=".$action, "<p class='feedback'>Connexion requise pour accèder à cette page</p>");
     }
 
     public function displayDeconnexionSucces(){
