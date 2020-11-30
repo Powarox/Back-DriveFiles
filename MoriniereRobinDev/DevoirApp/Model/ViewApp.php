@@ -50,24 +50,24 @@ class ViewApp extends WebFramework\View\View {
         $this->router->POSTredirect("index.php?obj=pdf&action=showDetailsFile&id=".$filename, "<p class='feedback'>Votre fichier à bien été enregistré</p>");
     }
 
-    public function displayUploadFailure(){
-        $this->router->POSTredirect("index.php?obj=pdf&action=makeUploadPage", "<p class='feedback'>Erreur lors de l'upload</p>");
+    public function displayUploadFailure($errors){
+        $this->router->POSTredirect("index.php?obj=pdf&action=makeUploadPage", "<p class='feedback'>Erreur lors de l'upload : ".$errors."</p>");
     }
 
 
 // ################ Details Page ################ //
-    public function makeDetailsPage($id, $data, $jsonData){
+    public function makeDetailsPage($id, $data){
         $title = "Page details fichier";
         $content = "detail du fichier : ".$id;
 
         $content .= '<section class="detailsPageSection">';
-        $content .= '<p>'.$jsonData.'</p>';
-
-        // $content .= '<ul>';
-        // foreach($data as $key => $value){
-        //     $content .= '<li>'.$key.' : '.$value.'</li>';
-        // }
-        // $content .= '</ul>';
+        $content .= '<ul>';
+        foreach($data as $key => $value){
+            if($key != 'Contributor'){
+                $content .= '<li>'.$key.' : '.$value.'</li>';
+            }
+        }
+        $content .= '</ul>';
         $content .= '</section>';
 
         $this->setPart('title', $title);
@@ -100,7 +100,7 @@ class ViewApp extends WebFramework\View\View {
     }
 
 
-// ################ Modification Page ################ //
+// ################ Suppression Page ################ //
     public function makeSuppresionPage($id){
         $title = "Suppression du fichier : ".$id;
         $content = '<p>Voulez vous vraiment supprimer ce fichier ?</p>';
@@ -117,18 +117,31 @@ class ViewApp extends WebFramework\View\View {
 
 
 // ################ Modification Page ################ //
-    public function makeModificationDetailsPage($id){
+    public function makeModificationDetailsPage($id, $data){
         $title = "Modification du fichier : ".$id;
         $content = "detail du fichier : ".$id;
 
         $content .= '<section class="modifictionPageSection">';
+        $content .= '<form action="index.php?obj=pdf&action=modification&id='.$id.'" method="POST">';
 
+        $content .= '<label>Title : </label>';
+        $content .= '<input type="text" name="Title" placeholder="'.$data['Title'].'" value="">';
         // Affiche Métadonnée sous forme d'input
 
+        $content .= '<button type="submit">Modifier</button>';
+        $content .= '</form>';
         $content .= '</section>';
 
         $this->setPart('title', $title);
         $this->setPart('content', $content);
+    }
+
+    public function displayModificationSucces($id){
+        $this->router->POSTredirect("index.php?obj=pdf&action=showDetailsFile&id=".$id, "<p class='feedback'>Votre modification est enregistré.</p>");
+    }
+
+    public function displayModificationFailure($id){
+        $this->router->POSTredirect("index.php?obj=pdf&action=modificationDetailsFile&id=".$id, "<p class='feedback'>Echec de la modification.</p>");
     }
 
 

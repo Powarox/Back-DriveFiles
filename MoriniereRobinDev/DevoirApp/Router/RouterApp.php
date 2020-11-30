@@ -17,7 +17,6 @@ class RouterApp extends WebFramework\MvcrBase\Router{
                 $this->controllerClassName = 'MoriniereRobinDev\DevoirApp\Model\ControllerApp';
                 break;
 
-
             default:
                 $this->controllerClassName = 'MoriniereRobinDev\DevoirApp\Model\ControllerApp';
         }

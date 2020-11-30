@@ -67,6 +67,12 @@ class ControllerApp {
     public function showFiles(){
         $files = $this->getUploadDocuments();
 
+        foreach($files as $f){
+            $f = $this->getFileWithoutExtention($f);
+        }
+
+        $this->view->makeHomePage($files);
+
         // echo $files[0];
         //
         // $pdf = $files[0];
@@ -101,8 +107,6 @@ class ControllerApp {
 
         /*$cmd = 'export PATH="/usr/local/bin/"; convert -scale 25%x25% file1.pdf[0] file2.png 2>&1';
         echo "<pre>".shell_exec($cmd)."</pre>";*/
-
-        $this->view->makeHomePage($files);
     }
 
 
@@ -130,7 +134,7 @@ class ControllerApp {
                 $filename = $this->getFileWithoutExtention($filename);
 
                 // Créer un fichier text vide;
-                $metaTxt = fopen('DevoirApp/Model/Upload/Metadata/'.$filename.'.txt', 'w');
+                $metaTxt = fopen('DevoirApp/Model/Upload/Metadata/'.$filename.'.json', 'w');
                 // Ecris dans un fichier
                 fputs($metaTxt, $data);
                 // Ferme le fichier
@@ -139,7 +143,7 @@ class ControllerApp {
                 // var_dump($metaData);
             }
             else{
-                echo "Error: " . $_FILES["pdf"]["error"];
+                $this->view->displayUploadFailure($_FILES["pdf"]["error"]);
             }
         }
         $this->view->displayUploadSucces($filename);
@@ -147,13 +151,13 @@ class ControllerApp {
 
 
 // ################ Details File ################ //
-    public function showDetailsFile($id){
-        $filename = $this->getFileWithoutExtention($id);
+    public function showDetailsFile($filename){
+        $jsonData = file_get_contents('DevoirApp/Model/Upload/Metadata/'.$filename.'.json');
+        $data = json_decode($jsonData, true);
 
-        $jsonData = file_get_contents('DevoirApp/Model/Upload/Metadata/'.$filename.'.txt');
-        $data = json_decode($jsonData);
+        //var_dump($data[0]);
 
-        $this->view->makeDetailsPage($filename, $data, $jsonData);
+        $this->view->makeDetailsPage($filename, $data[0]);
     }
 
 
@@ -169,26 +173,39 @@ class ControllerApp {
         $this->view->makeSuppresionPage($id);
     }
 
-    public function suppresionFile($id){
-        $filePdf = $this->setFileExtention($id, ".pdf");
-        $fileTxt = $this->setFileExtention($id, ".txt");
+    public function suppresionFile($filename){
+        $filePdf = $this->setFileExtention($filename, ".pdf");
+        $fileJson = $this->setFileExtention($filename, ".json");
 
-        // $img = $this->setFileExtention($id, ".png");
-        // $imgFirstPage = $this->setFileExtention($id, ".png");
+        // $img = $this->setFileExtention($filename, ".png");
+        // $imgFirstPage = $this->setFileExtention($filename, ".png");
 
         unlink ("DevoirApp/Model/Upload/Documents/".$filePdf);
-        unlink ("DevoirApp/Model/Upload/Metadata/".$fileTxt);
+        unlink ("DevoirApp/Model/Upload/Metadata/".$fileJson);
 
         // unlink ("DevoirApp/Model/Upload/Images/".$img);
         // unlink ("DevoirApp/Model/Upload/FirstPages/".$imgFirstPage);
 
-        $this->view->displaySuppresionFile($id);
+        $this->view->displaySuppresionFile($filename);
     }
 
 
 // ################ Modification File ################ //
-    public function modificationDetailsFile($id){
-        $this->view->makeModificationDetailsPage($id);
+    public function modificationDetailsFile($filename){
+        $jsonData = file_get_contents('DevoirApp/Model/Upload/Metadata/'.$filename.'.json');
+        $data = json_decode($jsonData, true);
+
+        $this->view->makeModificationDetailsPage($filename, $data[0]);
+    }
+
+    public function modification($id){
+        // var_dump($this->response);
+        // if(true){
+        $this->view->displayModificationSucces($id);
+        // }
+        // else{
+        //     $this->view->displayModificationFailure($id);
+        // }
     }
 
 
