@@ -3,8 +3,9 @@
 <head>
 	<title><?php echo $title ?></title>
 	<meta charset="UTF-8" />
-	<link rel="stylesheet" href="DevoirApp/Model/skin/Template.css"/>
-	<link rel="stylesheet" href="DevoirApp/Model/skin/Responsive.css"/>
+	<link rel="stylesheet" href="DevoirApp/Model/Skin/Template.css"/>
+	<link rel="stylesheet" href="DevoirApp/Model/Skin/Responsive.css"/>
+	<script defer src="DevoirApp/Model/Js/Upload.js"></script>
 </head>
 <body>
     <header>

@@ -36,8 +36,9 @@ class ViewApp extends WebFramework\View\View {
         $title = "Page d'upload";
         $content = '<form action="index.php?obj=pdf&action=upload" method="POST" enctype="multipart/form-data">';
         $content .= '<input type="file" name="pdf" id="fileUpload">';
+        $content .= '<progress id="progressBar"></progress>';
         $content .= '<input type="text" name="titre" placeholder="titre">';
-        $content .= '<button type="submit">Envoyer</button>';
+        $content .= '<button type="submit" id="subFileUpload">Envoyer</button>';
         $content .= '</form>';
 
         $this->setPart('title', $title);
@@ -47,7 +48,7 @@ class ViewApp extends WebFramework\View\View {
 
 // ################ Display Upload ################ //
     public function displayUploadSucces($filename){
-        $this->router->POSTredirect("index.php?obj=pdf&action=showDetailsFile&id=".$filename, "<p class='feedback'>Votre fichier à bien été enregistré</p>");
+        $this->router->POSTredirect('index.php?obj=pdf&action=showDetailsFile&id='.$filename, '<p class="feedback">Votre fichier '.$filename.' à bien été enregistré</p>');
     }
 
     public function displayUploadFailure($errors){

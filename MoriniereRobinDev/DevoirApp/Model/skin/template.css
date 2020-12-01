@@ -66,9 +66,7 @@ main h1 {
 
 /* ############ Page de details file ############ */
 .detailsPageSection {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    text-align: center;
+
 }
 
 
@@ -143,14 +141,14 @@ main h1 {
 
 
 /* --- Bouton Option --- */
-.option {
+/* .option {
     color: white;
     border: 1px solid #571845;
     border-radius: 5px;
     background: #571845;
     padding: 10px;
     margin-right: 20px;
-}
+} */
 
 
 /* --- FeedBack --- */
