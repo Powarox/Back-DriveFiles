@@ -12,7 +12,11 @@
     <header>
         <nav class="menu">
             <ul>
-                <li><a href="index.php?obj=pdf&amp;action=showFiles">Accueil</a></li><li><a href="index.php?obj=pdf&amp;action=askUpload">Upload</a></li><li><a href="index.php?obj=pdf&amp;action=showListFiles">Liste fichier</a></li><li><a href="index.php?obj=pdf&amp;action=makeInformationPage">Information</a></li><li><a href="index.php?obj=pdf&amp;action=askConnexion">Sign In</a></li>                <!--<li><a id="signIn" href="index.php?obj=pdf">Sign In</a></li>-->
+				<li><a href="index.php?obj=pdf&amp;action=showFiles">Accueil</a></li>
+				<li><a href="index.php?obj=pdf&amp;action=askUpload">Upload</a></li>
+				<li><a href="index.php?obj=pdf&amp;action=showListFiles">Liste fichier</a></li>
+				<li><a href="index.php?obj=pdf&amp;action=makeInformationPage">Information</a></li>
+				<li><a href="index.php?obj=pdf&amp;action=askConnexion">Sign In</a></li>
             </ul>
         </nav>
     </header>
@@ -21,7 +25,12 @@
 		<h1>Page d'upload</h1>
 
 
-		<form action="index.php?obj=pdf&action=upload" method="POST" enctype="multipart/form-data"><input type="file" name="pdf" id="fileUpload"><progress id="progressBar"></progress><input type="text" name="titre" placeholder="titre"><button type="submit" id="subFileUpload">Envoyer</button></form>
+		<form action="index.php?obj=pdf&action=upload" method="POST" enctype="multipart/form-data">
+			<input type="file" name="pdf" id="fileUpload">
+			<progress id="progressBar"></progress>
+			<input type="text" name="titre" placeholder="titre">
+			<button type="submit" id="subFileUpload">Envoyer</button>
+		</form>
 	</main>
 </body>
 </html>
