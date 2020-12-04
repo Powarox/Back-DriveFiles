@@ -3,7 +3,7 @@
 let fileUpload = document.getElementById('fileUpload');
 if(fileUpload != null){
     console.log(fileUpload);
-    fileUpload.addEventListener('change', function (e) {
+    fileUpload.addEventListener('change', function (e) {    // 'drop'
         let fichier = fileUpload.files[0];
      	let reader = new FileReader();
         console.log("coucou");
