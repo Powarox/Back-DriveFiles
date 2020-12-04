@@ -9,7 +9,7 @@ class ViewApp extends WebFramework\View\View {
 // ################ Home Page ################ //
     public function makeHomePage($files) {
         if(key_exists('user', $_SESSION)){
-            $title = "Bienvenue " . self::htmlesc($_SESSION['user']['prenom']);
+            $title = "Bienvenue <br> " . self::htmlesc($_SESSION['user']['prenom']);
         }
         else{
             $title = "Bienvenue !";

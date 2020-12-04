@@ -4,8 +4,10 @@ html {
 }
 
 body {
-	max-width: 80em;
+	max-width: 90em;
 	margin: auto;
+	background: #26547C;
+	font-family: sans-serif;
 }
 
 ul {
@@ -21,18 +23,23 @@ a {
 /* ############ Header ############ */
 .menu ul {
 	list-style: none;
+	margin: 2em 10em;
 	padding: 0;
 	display: flex;
-	justify-content: flex-start;
+	justify-content: space-around;
 }
 
 .menu ul li a {
 	padding: 15px 50px;
-    color: #2196F3;
+    color: #ffcf60;
+	transition: 0.5s;
+	border-radius: 10px;
+	text-transform: uppercase;
 }
 
 .menu ul li a:hover {
-	background : #ffdcda;
+	color: #26547C;
+	background : #ffcf60;
 }
 
 /* .menu ul li #signIn {
@@ -42,20 +49,26 @@ a {
 
 /* ############ Main ############ */
 main {
+	max-width: 90em;
 	padding: 10px;
-	min-height: 500px;
-	background: #0DA376;
+	border-radius: 10px;
 }
 
 main h1 {
+	width: 10em;
+	margin: 30px auto;
+	padding: 10px;
+	color: #333;
 	text-align: center;
+	background: #ffcf60;
+	border-radius: 10px;
 }
 
 
 /* ############ Page d'acceuil ############ */
 .homeSection {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     text-align: center;
 }
 
@@ -63,17 +76,20 @@ main h1 {
     width: 250px;
     margin: 20px;
     padding: 10px;
-    border: 2px solid black;
+	background: #ffcf60;
+    border: 2px solid #ffcf60;
     border-radius: 10%;
     transition: 0.5s;
     justify-self: center;
 }
 
 .homeSection a:hover {
-	background: #348af4;
+	background: #fe4a49;
+	border: 2px solid #fe4a49;
 }
 
 .homeSection h3 {
+	color: #26547C;
 	margin: 0;
 	margin-bottom: 5px;
 }
