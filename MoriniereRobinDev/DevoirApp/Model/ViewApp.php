@@ -19,8 +19,13 @@ class ViewApp extends WebFramework\View\View {
 
         foreach($files as $key => $value){
             $content .= '<a href="index.php?obj=pdf&action=showDetailsFile&id='.$value.'">';
-            $content .= '<p>'.$value.'</p>';
-            $content .= '<img src="DevoirApp/Model/Upload/Images/'.$value.'" alt="Image doc pdf : '.$value.'">';
+            $content .= '<h3>'.$value.'</h3>';
+            if(file_exists('DevoirApp/Model/Upload/Images/'.$value.'.png')){
+                $content .= '<img src="DevoirApp/Model/Upload/Images/'.$value.'.png" alt="Image doc pdf : '.$value.'">';
+            }
+            else{
+                $content .= '<img src="DevoirApp/Model/Upload/Images/default_pdf_image.jpg" alt="Image">';
+            }
             $content .= '</a>';
         }
 

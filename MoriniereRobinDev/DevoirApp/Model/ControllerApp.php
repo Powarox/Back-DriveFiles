@@ -71,12 +71,11 @@ class ControllerApp {
             $f = $this->getFileWithoutExtention($f);
         }
 
-        $this->view->makeHomePage($files);
-
-        // echo $files[0];
+        // exec('convert  DevoirApp/Model/Upload/Documents/all-document1.pdf[0]  output.jpeg');
         //
         // $pdf = $files[0];
         // $pdf_first_page = $pdf[0];
+        // var_dump($pdf_first_page);
         // $jpg = str_replace("pdf", "jpg", $pdf);
         //
         // $pdf_escaped = escapeshellarg($pdf_first_page);
@@ -87,26 +86,40 @@ class ControllerApp {
         //
         // file_put_contents($jpg_escaped, "DevoirApp/Model/Upload/Images/" . $jpg_escaped);
         // file_put_contents($jpg_escaped, file_get_contents($jpg_escaped));
+        //
+        // exec("convert $pdf_first_page $jpg");
+        //
+        // $pdf_file   = '/Upload/Documents/all_document1.pdf';
+        // $save_to    = '/Upload/images/';     //make sure that apache has permissions to write in this folder! (common problem)
+        //
+        // //execute ImageMagick command 'convert' and convert PDF to JPG with applied settings
+        // exec('convert "'.$pdf_file.'" -colorspace RGB -resize 800 "'.$save_to.'"', $output, $return_var);
+        //
+        // if($return_var == 0) {              //if exec successfuly converted pdf to jpg
+        //     echo "Conversion OK";
+        // }
+        // else {
+        //     var_dump($return_var);
+        //     var_dump($output);
+        // }
+        //
+        // $pdf_file   = './pdf/demo.pdf';
+        // $save_to    = './jpg/demo.jpg';     //make sure that apache has permissions to write in this folder! (common problem)
+        //
+        // //execute ImageMagick command 'convert' and convert PDF to JPG with applied settings
+        // exec('convert "'.$pdf_file.'" -colorspace RGB -resize 800 "'.$save_to.'"', $output, $return_var);
+        //
+        //
+        // if($return_var == 0) {              //if exec successfuly converted pdf to jpg
+        //     print "Conversion OK";
+        // }
+        // else print "Conversion failed.<br />".$output;
+        //
+        // $cmd = 'export PATH="/usr/local/bin/";
+        // convert -scale 25%x25% file1.pdf[0] file2.png 2>&1';
+        // echo "<pre>".shell_exec($cmd)."</pre>";
 
-        //exec ("convert $pdf_first_page $jpg");
-
-        /*$pdf_file   = '/Upload/Documents/all_document1.pdf';
-        $save_to    = '/Upload/images/';     //make sure that apache has permissions to write in this folder! (common problem)
-
-        //execute ImageMagick command 'convert' and convert PDF to JPG with applied settings
-        exec('convert "'.$pdf_file.'" -colorspace RGB -resize 800 "'.$save_to.'"', $output, $return_var);
-
-
-        if($return_var == 0) {              //if exec successfuly converted pdf to jpg
-            echo "Conversion OK";
-        }
-        else {
-            var_dump($return_var);
-            var_dump($output);
-        }*/
-
-        /*$cmd = 'export PATH="/usr/local/bin/"; convert -scale 25%x25% file1.pdf[0] file2.png 2>&1';
-        echo "<pre>".shell_exec($cmd)."</pre>";*/
+        $this->view->makeHomePage($files);
     }
 
 

@@ -60,7 +60,28 @@ main h1 {
 }
 
 .homeSection a {
+    width: 250px;
     margin: 20px;
+    padding: 10px;
+    border: 2px solid black;
+    border-radius: 10%;
+    transition: 0.5s;
+    justify-self: center;
+}
+
+.homeSection a:hover {
+	background: #348af4;
+}
+
+.homeSection h3 {
+	margin: 0;
+	margin-bottom: 5px;
+}
+
+.homeSection img {
+	max-width: 200px;
+	max-height: 300px;
+	border-radius: 10%;
 }
 
 
