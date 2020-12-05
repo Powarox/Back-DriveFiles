@@ -24,13 +24,17 @@
 	<main>
 		<h1>Page d'upload</h1>
 
+		<section class="uploadPageSection">
+			<form action="index.php?obj=pdf&action=upload" method="POST" enctype="multipart/form-data">
+				<input type="file" name="pdf" id="fileUpload">
 
-		<form action="index.php?obj=pdf&action=upload" method="POST" enctype="multipart/form-data">
-			<input type="file" name="pdf" id="fileUpload">
-			<progress id="progressBar"></progress>
-			<input type="text" name="titre" placeholder="titre">
-			<button type="submit" id="subFileUpload">Envoyer</button>
-		</form>
+				<progress id="progressBar"></progress>
+
+				<input type="text" name="titre" placeholder="titre">
+
+				<button type="submit" id="subFileUpload">Envoyer</button>
+			</form>
+		</section>
 	</main>
 
 	<footer>

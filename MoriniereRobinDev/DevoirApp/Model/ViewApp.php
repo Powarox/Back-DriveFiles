@@ -39,12 +39,17 @@ class ViewApp extends WebFramework\View\View {
 // ################ Upload ################ //
     public function makeUploadPage(){
         $title = "Page d'upload";
-        $content = '<form action="index.php?obj=pdf&action=upload" method="POST" enctype="multipart/form-data">';
+
+        $content = '<section class="uploadPageSection">';
+        $content .= '<form action="index.php?obj=pdf&action=upload" method="POST" enctype="multipart/form-data">';
+        
         $content .= '<input type="file" name="pdf" id="fileUpload">';
         $content .= '<progress id="progressBar"></progress>';
         $content .= '<input type="text" name="titre" placeholder="titre">';
         $content .= '<button type="submit" id="subFileUpload">Envoyer</button>';
+
         $content .= '</form>';
+        $content .= '</section>';
 
         $this->setPart('title', $title);
         $this->setPart('content', $content);
