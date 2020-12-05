@@ -50,6 +50,8 @@ a {
 /* ############ Main ############ */
 main {
 	max-width: 90em;
+    min-height: 520px;
+	margin-bottom: 40px;
 	padding: 10px;
 	border-radius: 10px;
 }
@@ -125,25 +127,23 @@ main h1 {
 
 }
 
-
-
-
-/* --- Formulaire --- */
 .box {
+	margin-top: 70px;
     text-align: center;
 }
 
 .box input[type = "text"], .box input[type = "password"]{
     border: 0;
     background: none;
-    display: inline-block;
-    margin: 10px;
+    display: block;
     text-align: center;
-    border: 3px solid #3498db;
+	font-weight: bold;
+	margin: 15px auto;
     padding: 14px 10px;
     width: 200px;
     outline: none;
     color: white;
+	border: 3px solid #fe4a49;
     border-radius: 24px;
     transition: 0.25s;
 }
@@ -156,26 +156,43 @@ main h1 {
 .box button[type = "submit"]{
     border: 0;
     background: none;
-    display: inline-block;
-    margin: 20px auto;
+    display: block;
     text-align: center;
-    border: 3px solid #F44336;
+	font-weight: bold;
+	margin: 20px auto;
     padding: 14px 40px;
     outline: none;
-    color: #571845;
+    color: #ffcf60;
+	border: 3px solid #499F68;
     border-radius: 24px;
     transition: 0.25s;
     cursor: pointer;
 }
 
 .box button[type = "submit"]:hover{
-    background: #ffffff;
+	color: #fe4a49;
+    background: #499F68;
 }
 
 ::placeholder {
-  color: #571845;
+  color: #ffcf60;
   font-size: 1em;
 }
+
+
+
+/* ############ Footer ############ */
+footer {
+	margin-bottom: 0;
+	width: 100%;
+	color: white;
+    background: #555;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 20px;
+}
+
+
 
 
 /* --- Bouton Option --- */
@@ -201,7 +218,6 @@ main h1 {
     background: green;
     margin-left: auto;
     margin-right: auto;
-
 }
 
 

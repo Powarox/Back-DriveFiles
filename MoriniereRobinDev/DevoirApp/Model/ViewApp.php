@@ -181,7 +181,7 @@ class ViewApp extends WebFramework\View\View {
         if($errLogin !== null){
             $content .= '<span class="errors">'.$errLogin.'</span>';
         }
-        $content .= '<input type="text" name="'.$passwordRef.'" placeholder="Password" value="'.self::htmlesc($data[$passwordRef]).'">';
+        $content .= '<input type="password" name="'.$passwordRef.'" placeholder="Password" value="'.self::htmlesc($data[$passwordRef]).'">';
         if($errPassword !== null){
             $content .= '<span class="errors">'.$errPassword.'</span>';
         }

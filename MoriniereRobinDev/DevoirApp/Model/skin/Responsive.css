@@ -53,3 +53,25 @@
         text-align: center;
     }
 }
+
+
+
+@media (max-width: 500px) {
+    /* #### Common #### */
+    .menu ul li a {
+    	font-size: 13px;
+    }
+}
+
+
+@media (max-width: 430px) {
+    /* #### Common #### */
+    .menu ul {
+    	display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .menu ul li {
+        margin-bottom: 25px;
+    }
+}
