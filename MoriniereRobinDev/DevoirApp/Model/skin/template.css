@@ -119,7 +119,31 @@ main h1 {
 
 /* ############ Page de list ############ */
 .listPageSection {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+}
 
+.listPageSection .elem {
+	margin: 10px;
+	padding: 10px;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	text-align: center;
+	border: 2px solid #1A3651;
+	border-radius: 10px;
+}
+
+.listPageSection .elem a {
+	color: white;
+	align-self: center;
+}
+
+.listPageSection .elem #modifier {
+	color: #ffcf60;
+}
+
+.listPageSection .elem #supprimer {
+	color: #fe4a49;
 }
 
 

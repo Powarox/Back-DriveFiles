@@ -26,12 +26,14 @@
 
 		<section class="uploadPageSection">
 			<form action="index.php?obj=pdf&action=upload" method="POST" enctype="multipart/form-data">
-				<input type="file" name="pdf" id="fileUpload">
+				<div class="">
+					<input type="file" name="pdf" id="fileUpload">
 
-				<progress id="progressBar"></progress>
+					<progress id="progressBar"></progress>
 
-				<input type="text" name="titre" placeholder="titre">
-
+					<input type="text" name="titre" placeholder="titre">
+				</div>
+				
 				<button type="submit" id="subFileUpload">Envoyer</button>
 			</form>
 		</section>

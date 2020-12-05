@@ -19,6 +19,14 @@
 }
 
 
+@media (max-width: 1080px) {
+    /* #### List Page #### */
+    .listPageSection {
+    	grid-template-columns: 1fr 1fr;
+    }
+}
+
+
 @media (max-width: 965px) {
     /* #### Home Page #### */
     .homeSection {
@@ -36,6 +44,13 @@
     }
 }
 
+
+@media (max-width: 740px) {
+    /* #### List Page #### */
+    .listPageSection {
+    	grid-template-columns: 1fr;
+    }
+}
 
 @media (max-width: 690px) {
     /* #### Common #### */

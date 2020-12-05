@@ -42,7 +42,7 @@ class ViewApp extends WebFramework\View\View {
 
         $content = '<section class="uploadPageSection">';
         $content .= '<form action="index.php?obj=pdf&action=upload" method="POST" enctype="multipart/form-data">';
-        
+
         $content .= '<input type="file" name="pdf" id="fileUpload">';
         $content .= '<progress id="progressBar"></progress>';
         $content .= '<input type="text" name="titre" placeholder="titre">';
@@ -95,11 +95,12 @@ class ViewApp extends WebFramework\View\View {
         $content .= '<section class="listPageSection">';
 
         foreach($files as $key => $value){
-            $content .= '<div>';
+            $content .= '<div class="elem">';
             $content .= '<a href="index.php?obj=pdf&action=showDetailsFile&id='.$value.'">'.$value.'</a>';
 
-            $content .= '<a class="option" href="index.php?obj=pdf&action=modificationDetailsFile&id='.$value.'">Modification</a>';
-            $content .= '<a class="option" href="index.php?obj=pdf&action=askSuppressionFile&id='.$value.'">Supprimer</a>';
+            $content .= '<a id="modifier" href="index.php?obj=pdf&action=modificationDetailsFile&id='.$value.'">Modification</a>';
+            
+            $content .= '<a id="supprimer" href="index.php?obj=pdf&action=askSuppressionFile&id='.$value.'">Supprimer</a>';
 
             $content .= '</div>';
         }
