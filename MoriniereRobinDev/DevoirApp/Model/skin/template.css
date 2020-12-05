@@ -135,7 +135,9 @@ main h1 {
 
 .listPageSection .elem a {
 	color: white;
+	padding: 10px 0;
 	align-self: center;
+	transition: 0.5s;
 }
 
 .listPageSection .elem #modifier {
@@ -144,6 +146,20 @@ main h1 {
 
 .listPageSection .elem #supprimer {
 	color: #fe4a49;
+}
+
+.listPageSection .elem #modifier:hover {
+	color: white;
+	background: #ffcf60;
+	border-radius: 10px;
+	padding: 10px 0;
+}
+
+.listPageSection .elem #supprimer:hover {
+	color: white;
+	background: #fe4a49;
+	border-radius: 10px;
+	padding: 10px 0;
 }
 
 
