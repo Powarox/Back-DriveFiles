@@ -27,6 +27,13 @@ class ControllerApp {
             "Sign In"        => 'index.php?obj=pdf&amp;action=askConnexion'
 		);
 
+        if(!empty($_SESSION['user'])){
+            array_pop($menu);
+            $menu["Sign Out"] = 'index.php?obj=pdf&action=deconnexion';
+            // array_push($menu, array("Sign Out"   => 'index.php?obj=pdf&action=deconnexion'));
+        }
+        // if user co remove last elem and add ("Sign Out   => 'index.php?obj=pdf&action=deconnexion'")
+
         $this->view->setPart('menu', $menu);
         $this->view->setPart('feedback', $feedback);
     }

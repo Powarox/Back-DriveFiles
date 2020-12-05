@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<title>Suppression fichier : <br>all-document1</title>
+	<meta charset="UTF-8" />
+	<link rel="stylesheet" href="Template.css"/>
+	<link rel="stylesheet" href="Responsive.css"/>
+	<script defer src="DevoirApp/Model/Js/Upload.js"></script>
+</head>
+<body>
+    <header>
+        <nav class="menu">
+            <ul>
+				<li><a href="index.php?obj=pdf&amp;action=showFiles">Accueil</a></li>
+				<li><a href="index.php?obj=pdf&amp;action=askUpload">Upload</a></li>
+				<li><a href="index.php?obj=pdf&amp;action=showListFiles">Liste fichier</a></li>
+				<li><a href="index.php?obj=pdf&amp;action=makeInformationPage">Information</a></li>
+				<li><a href="index.php?obj=pdf&amp;action=askConnexion">Sign In</a></li>
+            </ul>
+        </nav>
+    </header>
+
+	<main>
+		<h1>Suppression fichier : <br>all-document1</h1>
+
+		<section class="suppressionPageSection">
+			<p>Voulez vous vraiment supprimer ce fichier ?</p>
+			<a id="option" href="index.php?obj=pdf&action=showListFiles">Retour</a>
+			<a id="supprimer" href="index.php?obj=pdf&action=suppresionFile&id=all-document1">Supprimer</a>
+		</section>
+	</main>
+</body>
+</html>

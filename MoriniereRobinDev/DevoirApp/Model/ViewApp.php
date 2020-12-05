@@ -68,10 +68,9 @@ class ViewApp extends WebFramework\View\View {
 
 // ################ Details Page ################ //
     public function makeDetailsPage($id, $data){
-        $title = "Page details fichier";
-        $content = "detail du fichier : ".$id;
+        $title = "Details fichier : <br> ".$id;
 
-        $content .= '<section class="detailsPageSection">';
+        $content = '<section class="detailsPageSection">';
         $content .= '<ul>';
         foreach($data as $key => $value){
             if($key != 'Contributor'){
@@ -90,16 +89,15 @@ class ViewApp extends WebFramework\View\View {
 // ################ List Page ################ //
     public function makeListPage($files){
         $title = "Page liste fichier";
-        $content = "Voici la liste des fichier";
 
-        $content .= '<section class="listPageSection">';
+        $content = '<section class="listPageSection">';
 
         foreach($files as $key => $value){
             $content .= '<div class="elem">';
             $content .= '<a href="index.php?obj=pdf&action=showDetailsFile&id='.$value.'">'.$value.'</a>';
 
-            $content .= '<a id="modifier" href="index.php?obj=pdf&action=modificationDetailsFile&id='.$value.'">Modification</a>';
-            
+            $content .= '<a id="option" href="index.php?obj=pdf&action=modificationDetailsFile&id='.$value.'">Modification</a>';
+
             $content .= '<a id="supprimer" href="index.php?obj=pdf&action=askSuppressionFile&id='.$value.'">Supprimer</a>';
 
             $content .= '</div>';
@@ -114,10 +112,14 @@ class ViewApp extends WebFramework\View\View {
 
 // ################ Suppression Page ################ //
     public function makeSuppresionPage($id){
-        $title = "Suppression du fichier : ".$id;
-        $content = '<p>Voulez vous vraiment supprimer ce fichier ?</p>';
+        $title = "Suppression fichier : <br>".$id;
+
+        $content = '<section class="suppressionPageSection">';
+
+        $content .= '<p>Voulez vous vraiment supprimer ce fichier ?</p>';
         $content .= '<a class="option" href="index.php?obj=pdf&action=showListFiles">Retour</a>';
-        $content .= '<a class="option" href="index.php?obj=pdf&action=suppresionFile&id='.$id.'">Supprimer</a>';
+        $content .= '<a class="supprimer" href="index.php?obj=pdf&action=suppresionFile&id='.$id.'">Supprimer</a>';
+        $content .= '</section>';
 
         $this->setPart('title', $title);
         $this->setPart('content', $content);
@@ -130,10 +132,9 @@ class ViewApp extends WebFramework\View\View {
 
 // ################ Modification Page ################ //
     public function makeModificationDetailsPage($id, $data){
-        $title = "Modification du fichier : ".$id;
-        $content = "detail du fichier : ".$id;
+        $title = "Modification fichier : <br>".$id;
 
-        $content .= '<section class="modifictionPageSection">';
+        $content = '<section class="modificationPageSection">';
         $content .= '<form action="index.php?obj=pdf&action=modification&id='.$id.'" method="POST">';
 
         $content .= '<label>Title : </label>';
@@ -219,7 +220,7 @@ class ViewApp extends WebFramework\View\View {
 
 // ################ Display Connexion ################ //
     public function displayConnexionSucces(){
-        $this->router->POSTredirect("index.php?obj=pdf&action=makeUserConnectedPage", "<p class='feedback'>Vous êtes bien connecté en tant que ".$_SESSION['user']['statut']."</p>");
+        $this->router->POSTredirect("index.php", "<p class='feedback'>Vous êtes bien connecté en tant que ".$_SESSION['user']['statut']."</p>");
     }
 
     public function displayConnexionSuccesToCurrentPage($currentPage){

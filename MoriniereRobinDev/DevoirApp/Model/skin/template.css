@@ -20,6 +20,49 @@ a {
 }
 
 
+#option {
+	color: #ffcf60;
+}
+
+#supprimer {
+	color: #fe4a49;
+}
+
+#option:hover {
+	color: white;
+	background: #ffcf60;
+	border-radius: 10px;
+	padding: 10px 0;
+}
+
+#supprimer:hover {
+	color: white;
+	background: #fe4a49;
+	border-radius: 10px;
+	padding: 10px 0;
+}
+
+.feedback {
+    color: white;
+    width: 600px;
+    font-weight: bold;
+    font-size: 20px;
+    text-align: center;
+	background: #499F68;
+    border: solid 2px #499F68;
+    border-radius: 10px;
+	padding: 10px 0;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.errors {
+    color: red;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+
 /* ############ Header ############ */
 .menu ul {
 	list-style: none;
@@ -140,32 +183,24 @@ main h1 {
 	transition: 0.5s;
 }
 
-.listPageSection .elem #modifier {
-	color: #ffcf60;
-}
-
-.listPageSection .elem #supprimer {
-	color: #fe4a49;
-}
-
-.listPageSection .elem #modifier:hover {
-	color: white;
-	background: #ffcf60;
-	border-radius: 10px;
-	padding: 10px 0;
-}
-
-.listPageSection .elem #supprimer:hover {
-	color: white;
-	background: #fe4a49;
-	border-radius: 10px;
-	padding: 10px 0;
-}
-
 
 /* ############ Page de modification ############ */
-.modifictionPageSection {
+.modificationPageSection {
 
+}
+
+/* ############ Page de modification ############ */
+.suppressionPageSection {
+
+}
+
+.suppressionPageSection p {
+
+}
+
+.suppressionPageSection a {
+	margin: 100px;
+	padding: 10px 10px;
 }
 
 
@@ -237,40 +272,4 @@ footer {
     text-align: center;
     padding-top: 10px;
     padding-bottom: 20px;
-}
-
-
-
-
-/* --- Bouton Option --- */
-/* .option {
-    color: white;
-    border: 1px solid #571845;
-    border-radius: 5px;
-    background: #571845;
-    padding: 10px;
-    margin-right: 20px;
-} */
-
-
-/* --- FeedBack --- */
-.feedback {
-    color: white;
-    width: 600px;
-    font-weight: bold;
-    font-size: 20px;
-    text-align: center;
-    border: solid 2px green;
-    border-radius: 10px;
-    background: green;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-
-/* --- Erreur --- */
-.errors {
-    color: red;
-    font-weight: bold;
-    font-size: 18px;
 }
