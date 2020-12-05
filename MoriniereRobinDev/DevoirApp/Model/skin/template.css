@@ -1,4 +1,4 @@
-/* ############ Commun ############ */
+/* ############ Common ############ */
 html {
 	overflow-y: scroll;
 }
@@ -110,7 +110,7 @@ main h1 {
 }
 
 
-/* ############ Page d'acceuil ############ */
+/* ############ Home Page ############ */
 .homeSection {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -154,13 +154,13 @@ main h1 {
 
 
 
-/* ############ Page de details file ############ */
+/* ############ Details Page ############ */
 .detailsPageSection {
 
 }
 
 
-/* ############ Page de list ############ */
+/* ############ List Page ############ */
 .listPageSection {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
@@ -184,12 +184,12 @@ main h1 {
 }
 
 
-/* ############ Page de modification ############ */
+/* ############ Modification Page ############ */
 .modificationPageSection {
 
 }
 
-/* ############ Page de modification ############ */
+/* ############ Suppression Page ############ */
 .suppressionPageSection {
 
 }
@@ -204,11 +204,7 @@ main h1 {
 }
 
 
-/* ############ Page de Connexion ############ */
-.connexionPageSection {
-
-}
-
+/* ############ Connexion ############ */
 .box {
 	margin-top: 70px;
     text-align: center;
