@@ -23,6 +23,22 @@
 	<main>
 		<h1>Page de connexion</h1>
 
+		<p class='feedback'>Erreur lors de l'upload : ".$errors."</p>
+
+		<p class="feedback">Votre fichier '.$filename.' à bien été enregistré</p>
+
+		<p class="feedback">Suppression du fichier '.$id.' réussi.</p>
+
+		<p class='feedback'>Votre modification est enregistré.</p>
+
+		<p class='feedback'>Echec de la modification.</p>
+
+		<p class='feedback'>Vous êtes bien connecté en tant que ".$_SESSION['user']['statut']."</p>
+
+		<p class='feedback'>Vous êtes bien connecté en tant que ".$_SESSION['user']['statut']."</p>
+
+		<p class='feedback'>Connexion requise pour accèder à cette page</p>
+
 		<section class="connexionPageSection">
 			<form class="box" action="index.php?obj=pdf&action=connexion&id=" method="POST">
 				<input type="text" name="login" placeholder="Login" value="">
