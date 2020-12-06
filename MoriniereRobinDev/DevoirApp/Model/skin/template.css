@@ -194,13 +194,30 @@ main h1 {
 
 }
 
-.suppressionPageSection p {
+.suppressionPageSection h3 {
+	font-size: 20px;
+	margin-top: 50px;
+}
 
+.suppressionPageSection div {
+	height: 60px;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
 }
 
 .suppressionPageSection a {
-	margin: 100px;
-	padding: 10px 10px;
+	width: 200px;
+	font-size: 20px;
+	text-align: center;
+	transition: 0.3s;
+}
+
+.suppressionPageSection div #option {
+	margin: auto;
+}
+
+.suppressionPageSection div #supprimer {
+	margin: auto;
 }
 
 

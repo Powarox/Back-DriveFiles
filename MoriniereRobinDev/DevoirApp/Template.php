@@ -16,7 +16,6 @@
                         echo "<li><a href=\"$link\">$text</a></li>";
                     }
                 ?>
-                <!--<li><a id="signIn" href="index.php?obj=pdf">Sign In</a></li>-->
             </ul>
         </nav>
     </header>
@@ -27,7 +26,6 @@
         <?php echo $feedback; ?>
 
 		<?php echo $content; ?>
-
 	</main>
 
 	<footer>

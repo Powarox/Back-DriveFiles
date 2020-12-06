@@ -115,10 +115,13 @@ class ViewApp extends WebFramework\View\View {
         $title = "Suppression fichier : <br>".$id;
 
         $content = '<section class="suppressionPageSection">';
+        $content .= '<h3>Voulez vous vraiment supprimer ce fichier ?</h3>';
+        $content .= '<div>';
 
-        $content .= '<p>Voulez vous vraiment supprimer ce fichier ?</p>';
         $content .= '<a class="option" href="index.php?obj=pdf&action=showListFiles">Retour</a>';
         $content .= '<a class="supprimer" href="index.php?obj=pdf&action=suppresionFile&id='.$id.'">Supprimer</a>';
+
+        $content .= '</div>';
         $content .= '</section>';
 
         $this->setPart('title', $title);
