@@ -78,54 +78,6 @@ class ControllerApp {
             $f = $this->getFileWithoutExtention($f);
         }
 
-        // exec('convert  DevoirApp/Model/Upload/Documents/all-document1.pdf[0]  output.jpeg');
-        //
-        // $pdf = $files[0];
-        // $pdf_first_page = $pdf[0];
-        // var_dump($pdf_first_page);
-        // $jpg = str_replace("pdf", "jpg", $pdf);
-        //
-        // $pdf_escaped = escapeshellarg($pdf_first_page);
-        // $jpg_escaped = escapeshellarg($jpg);
-        // exec("convert $pdf_escaped $jpg_escaped");
-        //
-        // var_dump($jpg_escaped);
-        //
-        // file_put_contents($jpg_escaped, "DevoirApp/Model/Upload/Images/" . $jpg_escaped);
-        // file_put_contents($jpg_escaped, file_get_contents($jpg_escaped));
-        //
-        // exec("convert $pdf_first_page $jpg");
-        //
-        // $pdf_file   = '/Upload/Documents/all_document1.pdf';
-        // $save_to    = '/Upload/images/';     //make sure that apache has permissions to write in this folder! (common problem)
-        //
-        // //execute ImageMagick command 'convert' and convert PDF to JPG with applied settings
-        // exec('convert "'.$pdf_file.'" -colorspace RGB -resize 800 "'.$save_to.'"', $output, $return_var);
-        //
-        // if($return_var == 0) {              //if exec successfuly converted pdf to jpg
-        //     echo "Conversion OK";
-        // }
-        // else {
-        //     var_dump($return_var);
-        //     var_dump($output);
-        // }
-        //
-        // $pdf_file   = './pdf/demo.pdf';
-        // $save_to    = './jpg/demo.jpg';     //make sure that apache has permissions to write in this folder! (common problem)
-        //
-        // //execute ImageMagick command 'convert' and convert PDF to JPG with applied settings
-        // exec('convert "'.$pdf_file.'" -colorspace RGB -resize 800 "'.$save_to.'"', $output, $return_var);
-        //
-        //
-        // if($return_var == 0) {              //if exec successfuly converted pdf to jpg
-        //     print "Conversion OK";
-        // }
-        // else print "Conversion failed.<br />".$output;
-        //
-        // $cmd = 'export PATH="/usr/local/bin/";
-        // convert -scale 25%x25% file1.pdf[0] file2.png 2>&1';
-        // echo "<pre>".shell_exec($cmd)."</pre>";
-
         $this->view->makeHomePage($files);
     }
 
@@ -141,23 +93,25 @@ class ControllerApp {
             $filename = $_FILES["pdf"]["name"];
             // Vérifie si le fichier a été uploadé sans erreur.
             if(isset($_FILES["pdf"]) && $_FILES["pdf"]["error"] == 0){
+                // Enregistre le pdf dans Upload/Documents
                 move_uploaded_file($_FILES["pdf"]["tmp_name"], "DevoirApp/Model/Upload/Documents/".$filename);
+
+                // Enleve l'extension fichier .pdf
+                $name = $this->getFileWithoutExtention($filename);
+
+                // Créer une image du pdf et save dans Upload/Images
+                exec('convert  DevoirApp/Model/Upload/Documents/'.$filename.'[0]  DevoirApp/Model/Upload/Images/'.$name.'.jpg');
 
                 // $output = shell_exec('/usr/local/bin/exiftool -G1 '.$file.'.pdf > metadata.txt 2>&1');
                 // =meta.txt   ." > metadata.txt"
 
-                // Métadonnée
+                // Extraction Métadonnée
                 $data = shell_exec("exiftool -json DevoirApp/Model/Upload/Documents/".$filename);
                 $metaData = json_decode($data, true);
 
-                // Enleve l'extension fichier .pdf
-                $filename = $this->getFileWithoutExtention($filename);
-
-                // Créer un fichier text vide;
-                $metaTxt = fopen('DevoirApp/Model/Upload/Metadata/'.$filename.'.json', 'w');
-                // Ecris dans un fichier
+                // Créer un fichier contenant les métadata
+                $metaTxt = fopen('DevoirApp/Model/Upload/Metadata/'.$name.'.json', 'w');
                 fputs($metaTxt, $data);
-                // Ferme le fichier
                 fclose($metaTxt);
 
                 // var_dump($metaData);
@@ -166,7 +120,7 @@ class ControllerApp {
                 $this->view->displayUploadFailure($_FILES["pdf"]["error"]);
             }
         }
-        $this->view->displayUploadSucces($filename);
+        $this->view->displayUploadSucces($name);
     }
 
 
