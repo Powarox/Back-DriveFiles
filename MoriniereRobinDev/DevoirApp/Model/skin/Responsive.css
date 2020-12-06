@@ -70,6 +70,14 @@
 }
 
 
+@media (max-width: 630px) {
+    /* #### Feedback #### */
+    .feedback {
+        width: 500px;
+    }
+}
+
+
 
 @media (max-width: 500px) {
     /* #### Common #### */
