@@ -67,16 +67,25 @@ class ViewApp extends WebFramework\View\View {
 
 
 // ################ Details Page ################ //
-    public function makeDetailsPage($id, $data){
+    public function makeDetailsPage($id, $data, $filePrec = null, $fileSuiv = null){
         $title = "Details fichier : <br> ".$id;
 
         $content = '<section class="detailsPageSection">';
+
+        if($filePrec != null){
+            $content .= '<a href="index.php?obj=pdf&action=showDetailsFile&id='.$filePrec.'">Fichier précédent</a>';
+        }
+        if($fileSuiv != null){
+            $content .= '<a href="index.php?obj=pdf&action=showDetailsFile&id='.$fileSuiv.'">Fichier suivant</a>';
+        }
+
         $content .= '<ul>';
         foreach($data as $key => $value){
             if($key != 'Contributor'){
                 $content .= '<li>'.$key.' : '.$value.'</li>';
             }
         }
+        
         $content .= '</ul>';
         $content .= '</section>';
 

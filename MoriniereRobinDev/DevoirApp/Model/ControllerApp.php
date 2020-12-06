@@ -129,9 +129,22 @@ class ControllerApp {
         $jsonData = file_get_contents('DevoirApp/Model/Upload/Metadata/'.$filename.'.json');
         $data = json_decode($jsonData, true);
 
-        //var_dump($data[0]);
+        // Get File Suivant
+        $fileSuiv = "";
+        $filePrec = "";
+        $files = $this->getUploadDocuments();
+        foreach($files as $key => $value){
+            if($value == $filename){
+                if(key_exists($key - 1, $files)){
+                    $filePrec = $files[$key - 1];
+                }
+                if(key_exists($key + 1, $files)){
+                    $fileSuiv = $files[$key + 1];
+                }
+            }
+        }
 
-        $this->view->makeDetailsPage($filename, $data[0]);
+        $this->view->makeDetailsPage($filename, $data[0], $filePrec, $fileSuiv);
     }
 
 
