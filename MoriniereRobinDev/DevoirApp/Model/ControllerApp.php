@@ -100,7 +100,7 @@ class ControllerApp {
                 $name = $this->getFileWithoutExtention($filename);
 
                 // Créer une image du pdf et save dans Upload/Images
-                exec('convert  DevoirApp/Model/Upload/Documents/'.$filename.'[0]  DevoirApp/Model/Upload/Images/'.$name.'.jpg');
+                exec('convert  DevoirApp/Model/Upload/Documents/'.$filename.'[0]  DevoirApp/Model/Upload/FirstPages/'.$name.'.jpg');
 
                 // $output = shell_exec('/usr/local/bin/exiftool -G1 '.$file.'.pdf > metadata.txt 2>&1');
                 // =meta.txt   ." > metadata.txt"
@@ -150,15 +150,14 @@ class ControllerApp {
     public function suppresionFile($filename){
         $filePdf = $this->setFileExtention($filename, ".pdf");
         $fileJson = $this->setFileExtention($filename, ".json");
-
-        // $img = $this->setFileExtention($filename, ".png");
-        // $imgFirstPage = $this->setFileExtention($filename, ".png");
+        $imgFirstPage = $this->setFileExtention($filename, ".jpg");
 
         unlink ("DevoirApp/Model/Upload/Documents/".$filePdf);
         unlink ("DevoirApp/Model/Upload/Metadata/".$fileJson);
+        unlink ("DevoirApp/Model/Upload/FirstPages/".$imgFirstPage);
 
+        // $img = $this->setFileExtention($filename, ".png");
         // unlink ("DevoirApp/Model/Upload/Images/".$img);
-        // unlink ("DevoirApp/Model/Upload/FirstPages/".$imgFirstPage);
 
         $this->view->displaySuppresionFile($filename);
     }
