@@ -30,9 +30,7 @@ class ControllerApp {
         if(!empty($_SESSION['user'])){
             array_pop($menu);
             $menu["Sign Out"] = 'index.php?obj=pdf&action=deconnexion';
-            // array_push($menu, array("Sign Out"   => 'index.php?obj=pdf&action=deconnexion'));
         }
-        // if user co remove last elem and add ("Sign Out   => 'index.php?obj=pdf&action=deconnexion'")
 
         $this->view->setPart('menu', $menu);
         $this->view->setPart('feedback', $feedback);
@@ -88,6 +86,8 @@ class ControllerApp {
     }
 
     public function upload(){
+        // echo '<script>console.log("Upload php")</script>';
+
         // Vérifier si le formulaire a été soumis
         if($_SERVER["REQUEST_METHOD"] == "POST"){
             $filename = $_FILES["pdf"]["name"];
