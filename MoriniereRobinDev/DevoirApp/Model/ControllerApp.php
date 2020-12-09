@@ -129,6 +129,10 @@ class ControllerApp {
         $jsonData = file_get_contents('DevoirApp/Model/Upload/Metadata/'.$filename.'.json');
         $data = json_decode($jsonData, true);
 
+        // {'Author', 'Title', 'Language', 'Format', 'Date', 'Creator', 'Producer',  'Contributor' : [], 'Description'}
+        //
+        // {'FileName', 'FileSize', 'FileModifyDate', 'FileAccessDate', 'FileInodeChangeDate', 'FilePermissions', 'FileType', 'FileTypeExtension'}
+
         // Get File Suivant
         $fileSuiv = "";
         $filePrec = "";

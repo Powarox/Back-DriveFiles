@@ -159,6 +159,22 @@ main h1 {
 
 }
 
+.detailsPageSection #option {
+	font-size: 25px;
+	border: 2px solid #fe4a49;
+	border-radius: 10px;
+	background: #fe4a49;
+}
+
+.detailsPageSection img {
+	
+}
+
+.detailsPageSection ul {
+
+}
+
+
 
 /* ############ List Page ############ */
 .listPageSection {
@@ -190,10 +206,6 @@ main h1 {
 }
 
 /* ############ Suppression Page ############ */
-.suppressionPageSection {
-
-}
-
 .suppressionPageSection h3 {
 	font-size: 20px;
 	margin-top: 50px;

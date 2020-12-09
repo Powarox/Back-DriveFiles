@@ -71,22 +71,71 @@ class ViewApp extends WebFramework\View\View {
         $title = "Details fichier : <br> ".$id;
 
         $content = '<section class="detailsPageSection">';
-
+        // Bouton suivant - précédent
+        $content .= '<div>';
         if($filePrec != null){
-            $content .= '<a href="index.php?obj=pdf&action=showDetailsFile&id='.$filePrec.'">Fichier précédent</a>';
+            $content .= '<a id="option" href="index.php?obj=pdf&action=showDetailsFile&id='.$filePrec.'">Fichier précédent</a>';
         }
         if($fileSuiv != null){
-            $content .= '<a href="index.php?obj=pdf&action=showDetailsFile&id='.$fileSuiv.'">Fichier suivant</a>';
+            $content .= '<a id="option" href="index.php?obj=pdf&action=showDetailsFile&id='.$fileSuiv.'">Fichier suivant</a>';
+        }
+        $content .= '</div>';
+
+        // Image 1er page pdf
+        if(file_exists('DevoirApp/Model/Upload/FirstPages/'.$id.'.jpg')){
+            $content .= '<img src="DevoirApp/Model/Upload/FirstPages/'.$id.'.jpg" alt="Image doc pdf : '.$id.'">';
+        }
+        else{
+            $content .= '<img src="DevoirApp/Model/Upload/Images/default_pdf_image.jpg" alt="Image">';
         }
 
+        // Metadata IPTC
+        $metaIPTC = array('Author', 'Title', 'Language', 'Format', 'Date', 'Creator', 'Producer',  'Contributor', 'Description');
+
+        $content .= '<h3>Metadata de type IPTC</h3>';
         $content .= '<ul>';
         foreach($data as $key => $value){
-            if($key != 'Contributor'){
-                $content .= '<li>'.$key.' : '.$value.'</li>';
+            if(in_array($key, $metaIPTC) && $value != null){
+                if(!is_array($data[$key])){
+                    $content .= '<li><strong>'.$key.'</strong> : '.$value.'</li>';
+                }
+                else{
+                    $content .= '<li><strong>'.$key.'</strong> : /';
+                    foreach($data[$key] as $k => $v){
+                        $content .= '/ '.$v.' /';
+                    }
+                    $content .= '/</li>';
+                }
             }
         }
-        
         $content .= '</ul>';
+
+
+        // Metadata de type File
+        $metaFile = array('FileName', 'FileSize', 'FileModifyDate', 'FileAccessDate', 'FileInodeChangeDate', 'FilePermissions', 'FileType', 'FileTypeExtension');
+
+        $content .= '<h3>Metadata de type File</h3>';
+        $content .= '<ul>';
+        foreach($data as $key => $value){
+            if(in_array($key, $metaFile) && $value != null){
+                $content .= '<li><strong>'.$key.'</strong> : '.$value.'</li>';
+            }
+        }
+        $content .= '</ul>';
+
+
+        // // All Metadata
+        // $content .= '<ul>';
+        // foreach($data as $key => $value){
+        //     if($key != 'Contributor'){
+        //         $content .= '<li>'.$key.' : '.$value.'</li>';
+        //     }
+        // }
+        // $content .= '</ul>';
+
+        // Bouton Paiment
+        $content .= '<a id="paiement" href="index.php?obj=pdf&action=paiement&id='.$id.'">Acheter ce Document</a>';
+
         $content .= '</section>';
 
         $this->setPart('title', $title);
