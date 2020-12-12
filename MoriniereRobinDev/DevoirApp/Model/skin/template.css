@@ -194,6 +194,11 @@ main h1 {
     border: 2px solid #499F68;
 }
 
+.uploadPageSection #progressBar {
+	width: 500px;
+	transition: 0.5s;
+}
+
 
 
 

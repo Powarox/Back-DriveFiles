@@ -46,6 +46,10 @@
         width: 550px;
         height: 250px;
     }
+
+    .uploadPageSection #progressBar {
+    	width: 350px;
+    }
 }
 
 @media (max-width: 740px) {
@@ -83,6 +87,10 @@
     .uploadPageSection #dropFileDiv {
         width: 450px;
         height: 210px;
+    }
+
+    .uploadPageSection #progressBar {
+    	width: 250px;
     }
 }
 

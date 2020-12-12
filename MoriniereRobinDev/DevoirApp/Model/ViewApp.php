@@ -58,15 +58,10 @@ class ViewApp extends WebFramework\View\View {
         $content .= '<input type="file" name="files[]" id="fileInput" multiple onchange="addFiles(event)">';
 
         $content .= '</div>';
+        $content .= '<progress id="progressBar"></progress>';
         $content .= '<input type="submit" value="Upload" id="uploadButton">';
+        
         $content .= '</form>';
-
-        // $content .= '<input type="file" name="pdf" id="fileUpload">';
-        // $content .= '<progress id="progressBar"></progress>';
-        // $content .= '<input type="text" name="titre" placeholder="titre">';
-        // $content .= '<button type="submit" id="subFileUpload">Envoyer</button>';
-        //
-        // $content .= '</form>';
         $content .= '</section>';
 
         $this->setPart('title', $title);
