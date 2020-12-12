@@ -70,6 +70,7 @@ class ControllerApp {
 
 // ################ Accueil ################ //
     public function showFiles(){
+        // var_dump($_SESSION);
         $files = $this->getUploadDocuments();
 
         foreach($files as $f){
@@ -88,15 +89,15 @@ class ControllerApp {
     public function upload(){
         // echo '<script>console.log("Upload php")</script>';
 
-        var_dump($_FILES);
-
         // Vérifier si le formulaire a été soumis
         if($_SERVER["REQUEST_METHOD"] == "POST"){
-            $filename = $_FILES["pdf"]["name"];
-            // Vérifie si le fichier a été uploadé sans erreur.
-            if(isset($_FILES["pdf"]) && $_FILES["pdf"]["error"] == 0){
+
+            foreach($_FILES as $file){
+                $filename = $file['name'];
+                $_SESSION[$filename] = $file;
+
                 // Enregistre le pdf dans Upload/Documents
-                move_uploaded_file($_FILES["pdf"]["tmp_name"], "DevoirApp/Model/Upload/Documents/".$filename);
+                move_uploaded_file($file["tmp_name"], "DevoirApp/Model/Upload/Documents/".$filename);
 
                 // Enleve l'extension fichier .pdf
                 $name = $this->getFileWithoutExtention($filename);
@@ -118,9 +119,13 @@ class ControllerApp {
 
                 // var_dump($metaData);
             }
-            else{
-                $this->view->displayUploadFailure($_FILES["pdf"]["error"]);
-            }
+            // // Vérifie si le fichier a été uploadé sans erreur.
+            // if(isset($_FILES["pdf"]) && $_FILES["pdf"]["error"] == 0){
+            //
+            // }
+            // else{
+            //     $this->view->displayUploadFailure($_FILES["pdf"]["error"]);
+            // }
         }
         $this->view->displayUploadSucces($name);
     }

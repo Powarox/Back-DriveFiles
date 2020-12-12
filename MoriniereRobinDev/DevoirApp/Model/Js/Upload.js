@@ -48,19 +48,29 @@ function uploadFiles(event){
 
     console.log("SubmitXHR");
     let xhr = new XMLHttpRequest();
-    xhr.open('POST', 'index.php?obj=pdf&action=upload');
+    xhr.open('POST', 'https://dev-21606393.users.info.unicaen.fr/M1/Tw4/Projet/MoriniereRobinDev/index.php?obj=pdf&action=upload');
     xhr.responseType = 'json';
 
+    console.log(droppedFiles);
+
     let formData = new FormData();
-    for(let i = 0, file; (file = droppedFiles[i]); i++){
-        formData.append(fileInput.name, file, file.name);
-        console.log('fileInput.name : ', fileInput.name);
-        console.log('file.name : ', file.name);
-        console.log('file : ', file);
+    for(let i = 0; i < droppedFiles.length; i++) {
+        formData.append(i, droppedFiles[i])
     }
 
-    console.log('Form Data : ', formData);
-    console.log('xhr response : ', xhr.response);
+    // let fichier = fileUpload.files[0];
+    // let data = new FormData();
+    // data.append('mon-fichier', fichier);
+
+    // for(let i = 0, file; (file = droppedFiles[i]); i++){
+    //     formData.append(fileInput.name, file, file.name);
+    //     console.log('fileInput.name : ', fileInput.name);
+    //     console.log('file.name : ', file.name);
+    //     console.log('file : ', file);
+    // }
+
+    // console.log('Form Data : ', formData);
+    // console.log('xhr response : ', xhr.response);
 
     xhr.addEventListener('load', function(e) {
         console.log('xhr response load : ', xhr.response);
@@ -134,29 +144,4 @@ function uploadFiles(event){
 //
 //         xhr.send(data);
 //     });
-// }
-
-
-
-
-
-// let submit = document.getElementById("subFileUpload");
-// submit.addEventListener('click', async function (e) {
-//     let formData = new FormData();
-//     formData.append("file", fileUpload.files[0]);
-//     await fetch('/index.php?obj=pdf&action=upload', {
-//         method: "POST",
-//         body: formData
-//     });
-//     alert('The file has been uploaded successfully.');
-// });
-
-// async function uploadFile() {
-//     let formData = new FormData();
-//     formData.append("file", fileUpload.files[0]);
-//     await fetch('/index.php?obj=pdf&action=upload', {
-//         method: "POST",
-//         body: formData
-//     });
-//     alert('The file has been uploaded successfully.');
 // }
