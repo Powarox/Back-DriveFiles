@@ -6,6 +6,7 @@
 	<link rel="stylesheet" href="DevoirApp/Model/Skin/Template.css"/>
 	<link rel="stylesheet" href="DevoirApp/Model/Skin/Responsive.css"/>
 	<script defer src="DevoirApp/Model/Js/Upload.js"></script>
+	<script src="https://kit.fontawesome.com/646143606b.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <header>
@@ -28,8 +29,8 @@
 		<?php echo $content; ?>
 	</main>
 
-	<footer>
+	<!-- <footer>
 		<p>Copyrite Moriniere Robin 21606393 - Mohamed Lamine Seck 21711412</p>
-	</footer>
+	</footer> -->
 </body>
 </html>

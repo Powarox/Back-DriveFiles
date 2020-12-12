@@ -10,7 +10,6 @@
     /* ####  Page #### */
 }
 
-
 @media (max-width: 1285px) {
     /* #### Common #### */
     .menu ul {
@@ -18,14 +17,12 @@
     }
 }
 
-
 @media (max-width: 1080px) {
     /* #### List Page #### */
     .listPageSection {
     	grid-template-columns: 1fr 1fr;
     }
 }
-
 
 @media (max-width: 965px) {
     /* #### Home Page #### */
@@ -36,7 +33,6 @@
     }
 }
 
-
 @media (max-width: 940px) {
     /* #### Common #### */
     .menu ul li a {
@@ -44,6 +40,13 @@
     }
 }
 
+@media (max-width: 800px) {
+    /* #### Upload #### */
+    .uploadPageSection #dropFileDiv {
+        width: 550px;
+        height: 250px;
+    }
+}
 
 @media (max-width: 740px) {
     /* #### List Page #### */
@@ -59,7 +62,6 @@
     }
 }
 
-
 @media (max-width: 680px) {
     /* #### Home Page #### */
     .homeSection {
@@ -69,7 +71,6 @@
     }
 }
 
-
 @media (max-width: 640px) {
     /* #### Feedback #### */
     .feedback {
@@ -77,11 +78,26 @@
     }
 }
 
+@media (max-width: 600px) {
+    /* #### Upload #### */
+    .uploadPageSection #dropFileDiv {
+        width: 450px;
+        height: 210px;
+    }
+}
 
 @media (max-width: 540px) {
     /* #### Feedback #### */
     .feedback {
         width: 400px;
+    }
+}
+
+@media (max-width: 500px) {
+    /* #### Upload #### */
+    .uploadPageSection #dropFileDiv {
+        width: 350px;
+        height: 150px;
     }
 }
 

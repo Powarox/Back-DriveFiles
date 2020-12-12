@@ -52,7 +52,66 @@ if(fileUpload != null){
 }
 
 
+let dropFileForm = document.getElementById("dropFileForm");
+let dropFileDiv = document.getElementById("dropFileDiv");
+let fileLabelText = document.getElementById("fileLabelText");
+let uploadStatus = document.getElementById("uploadStatus");
+let fileInput = document.getElementById("fileInput");
+let droppedFiles;
 
+function overrideDefault(event){
+    event.preventDefault();
+    event.stopPropagation();
+}
+
+console.log(dropFileDiv);
+
+function fileHover(){
+    dropFileDiv.classList.add("fileHover");
+}
+
+function fileHoverEnd(){
+    dropFileDiv.classList.remove("fileHover");
+}
+
+function addFiles(event){
+    droppedFiles = event.target.files || event.dataTransfer.files;
+    showFiles(droppedFiles);
+}
+
+function showFiles(files){
+    if(files.length > 1){
+        fileLabelText.innerText = files.length + " files selected";
+    }
+    else{
+        fileLabelText.innerText = files[0].name;
+    }
+}
+
+function uploadFiles(event){
+    event.preventDefault();
+    changeStatus("Uploading...");
+
+    let formData = new FormData();
+
+    for (let i = 0, file; (file = droppedFiles[i]); i++){
+        formData.append(fileInput.name, file, file.name);
+    }
+
+    let xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function(data){
+        //handle server response and change status of
+        //upload process via changeStatus(text)
+        console.log(xhr.response);
+    };
+    xhr.open(dropFileForm.method, dropFileForm.action, true);
+    console.log(formData);
+    xhr.send(formData);
+}
+
+function changeStatus(text){
+    uploadStatus.innerText = text;
+}
 
 
 // let submit = document.getElementById("subFileUpload");

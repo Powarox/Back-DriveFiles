@@ -41,19 +41,38 @@ class ViewApp extends WebFramework\View\View {
         $title = "Page d'upload";
 
         $content = '<section class="uploadPageSection">';
-        $content .= '<form action="index.php?obj=pdf&action=upload" method="POST" enctype="multipart/form-data">';
+        $content .= '<form id="dropFileForm"
+            action="index.php?obj=pdf&action=upload" method="POST"
+            onsubmit="uploadFiles(event)" enctype="multipart/form-data">';
 
-        $content .= '<input type="file" name="pdf" id="fileUpload">';
-        $content .= '<progress id="progressBar"></progress>';
-        $content .= '<input type="text" name="titre" placeholder="titre">';
-        $content .= '<button type="submit" id="subFileUpload">Envoyer</button>';
+        $content .= '<div id="dropFileDiv"
+            ondragover="overrideDefault(event);fileHover();" ondragenter="overrideDefault(event);fileHover();" ondragleave="overrideDefault(event);fileHoverEnd();" ondrop="overrideDefault(event);fileHoverEnd();addFiles(event);">';
 
+        $content .= '<label for="fileInput" id="fileLabel">';
+        $content .= '<i class="fas fa-upload"></i> ';
+        $content .= '<span id="fileLabelText">Choose a file </span> ';
+        $content .= '<span id="uploadStatus"></span> ';
+        $content .= '<i class="fas fa-upload"></i>';
+        $content .= '</label>';
+
+        $content .= '<input type="file" name="files[]" id="fileInput" multiple onchange="addFiles(event)">';
+
+        $content .= '</div>';
+        $content .= '<input type="submit" value="Upload" id="uploadButton">';
         $content .= '</form>';
+
+        // $content .= '<input type="file" name="pdf" id="fileUpload">';
+        // $content .= '<progress id="progressBar"></progress>';
+        // $content .= '<input type="text" name="titre" placeholder="titre">';
+        // $content .= '<button type="submit" id="subFileUpload">Envoyer</button>';
+        //
+        // $content .= '</form>';
         $content .= '</section>';
 
         $this->setPart('title', $title);
         $this->setPart('content', $content);
     }
+
 
 
 // ################ Display Upload ################ //

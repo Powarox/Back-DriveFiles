@@ -7,6 +7,7 @@
 	<link rel="stylesheet" href="Template.css"/>
 	<link rel="stylesheet" href="Responsive.css"/>
 	<script defer src="DevoirApp/Model/Js/Upload.js"></script>
+	<script src="https://kit.fontawesome.com/646143606b.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <header>
@@ -25,22 +26,28 @@
 		<h1>Page d'upload</h1>
 
 		<section class="uploadPageSection">
-			<form action="index.php?obj=pdf&action=upload" method="POST" enctype="multipart/form-data">
-				<div class="">
-					<input type="file" name="pdf" id="fileUpload">
+			<form id="dropFileForm" action="http://localhost/upload.php" method="post" onsubmit="uploadFiles(event)">
+	            <div id="dropFileDiv"
+	            ondragover="overrideDefault(event);fileHover();" ondragenter="overrideDefault(event);fileHover();" ondragleave="overrideDefault(event);fileHoverEnd();" ondrop="overrideDefault(event);fileHoverEnd();
+	                  addFiles(event);">
+	                <label for="fileInput" id="fileLabel">
+	                    <i class="fas fa-upload"></i>
+	                    <span id="fileLabelText">
+	                      Choose a file
+	                    </span>
+	                    <span id="uploadStatus"></span>
+	                    <i class="fas fa-upload"></i>
+	                </label>
+	                <input type="file" name="files[]" id="fileInput" multiple onchange="addFiles(event)">
+	            </div>
 
-					<progress id="progressBar"></progress>
-
-					<input type="text" name="titre" placeholder="titre">
-				</div>
-
-				<button type="submit" id="subFileUpload">Envoyer</button>
-			</form>
+	            <input type="submit" value="Upload" id="uploadButton">
+	        </form>
 		</section>
 	</main>
 
-	<footer>
+	<!-- <footer>
 		<p>Copyrite Moriniere Robin 21606393 - Mohamed Lamine Seck 21711412</p>
-	</footer>
+	</footer> -->
 </body>
 </html>
