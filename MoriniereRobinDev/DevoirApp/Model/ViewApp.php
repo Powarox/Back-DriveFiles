@@ -41,9 +41,10 @@ class ViewApp extends WebFramework\View\View {
         $title = "Page d'upload";
 
         $content = '<section class="uploadPageSection">';
+
         $content .= '<form id="dropFileForm"
             action="index.php?obj=pdf&action=upload" method="POST"
-            onsubmit="uploadFiles(event)" enctype="multipart/form-data">';
+            enctype="multipart/form-data" onsubmit="uploadFiles(event)">'; //onsubmit="uploadFiles(event)"
 
         $content .= '<div id="dropFileDiv"
             ondragover="overrideDefault(event);fileHover();" ondragenter="overrideDefault(event);fileHover();" ondragleave="overrideDefault(event);fileHoverEnd();" ondrop="overrideDefault(event);fileHoverEnd();addFiles(event);">';
@@ -55,13 +56,26 @@ class ViewApp extends WebFramework\View\View {
         $content .= '<i class="fas fa-upload"></i>';
         $content .= '</label>';
 
-        $content .= '<input type="file" name="files[]" id="fileInput" multiple onchange="addFiles(event)">';
+        $content .= '<input id="fileInput" type="file" name="pdf" multiple onchange="addFiles(event)">';
 
         $content .= '</div>';
         $content .= '<progress id="progressBar"></progress>';
-        $content .= '<input type="submit" value="Upload" id="uploadButton">';
-        
+
+        $content .= '<button type="submit" id="uploadButton">Envoyer</button>';
+
+        // $content .= '<input id="uploadButton" type="submit" value="Upload">';
+
         $content .= '</form>';
+//-----------------------------------------------------------------------
+        // $content .= '<form action="index.php?obj=pdf&action=upload" method="POST" enctype="multipart/form-data">';
+        // $content .= '<input type="file" name="pdf" id="fileUpload">';
+        // $content .= '<progress id="progressBar"></progress>';
+        // $content .= '<input type="text" name="titre" placeholder="titre">';
+        // $content .= '<button type="submit" id="uploadButton">Envoyer</button>';
+        //
+        // $content .= '</form>';
+
+
         $content .= '</section>';
 
         $this->setPart('title', $title);
@@ -190,8 +204,8 @@ class ViewApp extends WebFramework\View\View {
         $content .= '<h3>Voulez vous vraiment supprimer ce fichier ?</h3>';
         $content .= '<div>';
 
-        $content .= '<a class="option" href="index.php?obj=pdf&action=showListFiles">Retour</a>';
-        $content .= '<a class="supprimer" href="index.php?obj=pdf&action=suppresionFile&id='.$id.'">Supprimer</a>';
+        $content .= '<a id="option" href="index.php?obj=pdf&action=showListFiles">Retour</a>';
+        $content .= '<a id="supprimer" href="index.php?obj=pdf&action=suppresionFile&id='.$id.'">Supprimer</a>';
 
         $content .= '</div>';
         $content .= '</section>';

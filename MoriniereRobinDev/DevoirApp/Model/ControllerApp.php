@@ -88,6 +88,8 @@ class ControllerApp {
     public function upload(){
         // echo '<script>console.log("Upload php")</script>';
 
+        var_dump($_FILES);
+
         // Vérifier si le formulaire a été soumis
         if($_SERVER["REQUEST_METHOD"] == "POST"){
             $filename = $_FILES["pdf"]["name"];
@@ -128,10 +130,6 @@ class ControllerApp {
     public function showDetailsFile($filename){
         $jsonData = file_get_contents('DevoirApp/Model/Upload/Metadata/'.$filename.'.json');
         $data = json_decode($jsonData, true);
-
-        // {'Author', 'Title', 'Language', 'Format', 'Date', 'Creator', 'Producer',  'Contributor' : [], 'Description'}
-        //
-        // {'FileName', 'FileSize', 'FileModifyDate', 'FileAccessDate', 'FileInodeChangeDate', 'FilePermissions', 'FileType', 'FileTypeExtension'}
 
         // Get File Suivant
         $fileSuiv = "";
