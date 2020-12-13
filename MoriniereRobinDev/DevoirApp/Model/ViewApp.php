@@ -102,25 +102,19 @@ class ViewApp extends WebFramework\View\View {
     public function makeDetailsPage($id, $data, $metaIPTC, $metaFile, $filePrec = null, $fileSuiv = null){
         $title = "Details fichier : <br> ".$id;
 
-        $content = '<section class="detailsPageSection">';
         // Bouton suivant - précédent
-        $content .= '<div>';
+        $content = '<div id="detailsButton">';
         if($filePrec != null){
-            $content .= '<a id="option" href="index.php?obj=pdf&action=showDetailsFile&id='.$filePrec.'">Fichier précédent</a>';
+            $content .= '<a id="navigationButton" href="index.php?obj=pdf&action=showDetailsFile&id='.$filePrec.'">Fichier précédent</a>';
         }
         if($fileSuiv != null){
-            $content .= '<a id="option" href="index.php?obj=pdf&action=showDetailsFile&id='.$fileSuiv.'">Fichier suivant</a>';
+            $content .= '<a id="navigationButton" href="index.php?obj=pdf&action=showDetailsFile&id='.$fileSuiv.'">Fichier suivant</a>';
         }
         $content .= '</div>';
 
-        // Image 1er page pdf
-        if(file_exists('DevoirApp/Model/Upload/FirstPages/'.$id.'.jpg')){
-            $content .= '<img src="DevoirApp/Model/Upload/FirstPages/'.$id.'.jpg" alt="Image doc pdf : '.$id.'">';
-        }
-        else{
-            $content .= '<img src="DevoirApp/Model/Upload/Images/default_pdf_image.jpg" alt="Image">';
-        }
+        $content .= '<section class="detailsPageSection">';
 
+        $content .= '<div>';
         $content .= '<h3>Metadata de type IPTC</h3>';
         $content .= '<ul>';
         foreach($data as $key => $value){
@@ -138,7 +132,19 @@ class ViewApp extends WebFramework\View\View {
             }
         }
         $content .= '</ul>';
+        $content .= '</div>';
 
+        // Image 1er page pdf
+        $content .= '<div id="imageDetails">';
+        if(file_exists('DevoirApp/Model/Upload/FirstPages/'.$id.'.jpg')){
+            $content .= '<img src="DevoirApp/Model/Upload/FirstPages/'.$id.'.jpg" alt="Image doc pdf : '.$id.'">';
+        }
+        else{
+            $content .= '<img src="DevoirApp/Model/Upload/Images/default_pdf_image.jpg" alt="Image">';
+        }
+        $content .= '</div>';
+
+        $content .= '<div>';
         $content .= '<h3>Metadata de type File</h3>';
         $content .= '<ul>';
         foreach($data as $key => $value){
@@ -147,16 +153,7 @@ class ViewApp extends WebFramework\View\View {
             }
         }
         $content .= '</ul>';
-
-
-        // // All Metadata
-        // $content .= '<ul>';
-        // foreach($data as $key => $value){
-        //     if($key != 'Contributor'){
-        //         $content .= '<li>'.$key.' : '.$value.'</li>';
-        //     }
-        // }
-        // $content .= '</ul>';
+        $content .= '</div>';
 
         // Bouton Paiment
         $content .= '<a id="paiement" href="index.php?obj=pdf&action=paiement&id='.$id.'">Acheter ce Document</a>';

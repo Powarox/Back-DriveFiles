@@ -56,6 +56,19 @@
     .modificationPageSection form div ul{
         padding: 0 140px;
     }
+
+    /* #### Details Page #### */
+    .detailsPageSection {
+        grid-template-columns: 1fr;
+    }
+
+    .detailsPageSection img {
+        margin: 30px auto;
+    }
+
+    .detailsPageSection #paiement {
+        margin: 30px auto;
+    }
 }
 
 @media (max-width: 800px) {

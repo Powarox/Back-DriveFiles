@@ -216,23 +216,57 @@ main h1 {
 
 
 /* ############ Details Page ############ */
-.detailsPageSection {
-
+#detailsButton {
+    display: flex;
+    justify-content: space-around;
+    margin: 30px 0;
 }
 
-.detailsPageSection #option {
-	font-size: 25px;
-	border: 2px solid var(--main-red-color);
-	border-radius: 10px;
-	background: var(--main-red-color);
+#detailsButton #navigationButton {
+    color: var(--main-yellow-color);
+	font-size: 20px;
+    transition: 0.5s;
+}
+
+#detailsButton #navigationButton:hover {
+    color: var(--main-green-color);
+}
+
+.detailsPageSection {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+}
+
+.detailsPageSection div ul li {
+    margin-top: 10px;
+}
+
+.detailsPageSection #imageDetails {
+    padding: 40px;
+    margin: auto;
 }
 
 .detailsPageSection img {
-
+    width: 100%;
+    max-width: 500px;
+    border-radius: 5%;
 }
 
-.detailsPageSection ul {
+.detailsPageSection #paiement {
+    margin: auto;
+    padding: 10px;
+    font-size: 20px;
+    color: white;
+    background: var(--main-yellow-color);
+    border: 2px solid var(--main-yellow-color);
+    border-radius: 5px;
+    transition: 0.5s
+}
 
+.detailsPageSection #paiement:hover {
+    color: var(--main-green-color);
+    box-shadow: 0 0 1em var(--main-green-color);
 }
 
 
@@ -279,10 +313,6 @@ main h1 {
 
 .modificationPageSection form div ul h3{
     color: var(--main-green-color);
-}
-
-.modificationPageSection form div ul li label {
-    /* color: var(--main-yellow-color); */
 }
 
 
