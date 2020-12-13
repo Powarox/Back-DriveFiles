@@ -67,6 +67,19 @@ class ControllerApp {
     }
 
 
+// Send Mail
+    // $to      = 'nobody@example.com';
+    // $subject = 'the subject';
+    // $message = 'hello';
+    // $headers = array(
+    //     'From' => 'webmaster@example.com',
+    //     'Reply-To' => 'webmaster@example.com',
+    //     'X-Mailer' => 'PHP/' . phpversion()
+    // );
+    //
+    // mail($to, $subject, $message, $headers);
+
+
 
 // ################ Accueil ################ //
     public function showFiles(){
@@ -214,24 +227,44 @@ class ControllerApp {
         $data = json_decode($jsonData, true);
         $newData = $this->request->getAllPostParams();
 
-        // var_dump($data[0]);
+        // var_dump($data);
         // var_dump($newData);
 
         foreach($data[0] as $key => $value){
             foreach($newData as $k => $v){
                 if($key == $k){
-                    $data[0][$key] = $v;
+                    if(is_array($key)){
+                        $data[0][$key] = $newData[$k];
+                    }
+                    else{
+                        $data[0][$key] = $v;
+                    }
                 }
             }
         }
 
-        // var_dump($data[0]);
-
         $jsonData = json_encode($data);
-
         $metaTxt = fopen('DevoirApp/Model/Upload/Metadata/'.$id.'.json', 'w');
         fputs($metaTxt, $jsonData);
         fclose($metaTxt);
+
+        if(key_exists('documentNameChanged', $newData)){
+            if($newData['documentNameChanged'] != $id){
+                $idPdf = $this->setFileExtention($id, '.pdf');
+                $idJson = $this->setFileExtention($id, '.json');
+                $idFirstPage = $this->setFileExtention($id, '.jpg');
+
+                $filePdf = $this->setFileExtention($newData['documentNameChanged'], '.pdf');
+                $fileJson = $this->setFileExtention($newData['documentNameChanged'], '.json');
+                $fileFirstPage = $this->setFileExtention($newData['documentNameChanged'], '.jpg');
+
+                rename("DevoirApp/Model/Upload/Documents/".$idPdf, "DevoirApp/Model/Upload/Documents/".$filePdf);
+                rename("DevoirApp/Model/Upload/Metadata/".$idJson, "DevoirApp/Model/Upload/Metadata/".$fileJson);
+                rename("DevoirApp/Model/Upload/FirstPages/".$idFirstPage, "DevoirApp/Model/Upload/FirstPages/".$fileFirstPage);
+
+                $id = $newData['documentNameChanged'];
+            }
+        }
 
         $this->view->displayModificationSucces($id);
     }

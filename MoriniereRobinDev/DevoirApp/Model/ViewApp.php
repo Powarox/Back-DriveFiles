@@ -226,6 +226,10 @@ class ViewApp extends WebFramework\View\View {
         $content .= '<form action="index.php?obj=pdf&action=modification&id='.$id.'" method="POST">';
 
         $content .= '<ul>';
+        $content .= '<h3>Changer le nom du document</h3>';
+        $content .= '<label>Name : </label>';
+        $content .= '<input type="text" name="documentNameChanged" placeholder="" value="'.$id.'">';
+
         $content .= '<h3>Metadata de type IPTC</h3>';
         foreach($data as $key => $value){
             if(in_array($key, $metaIPTC) && $value != null){
@@ -240,7 +244,7 @@ class ViewApp extends WebFramework\View\View {
                     $content .= '<label>'.$key.' : </label>';
                     $content .= '<ul>';
                     foreach($data[$key] as $k => $v){
-                        $content .= '<input type="text" name="'.$k.'" placeholder="" value="'.$v.'">';
+                        $content .= '<input type="text" name="'.$key.'['.$k.']" placeholder="" value="'.$v.'">';
                     }
                     $content .= '</ul>';
                     $content .= '</li>';
