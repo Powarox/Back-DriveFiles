@@ -87,8 +87,6 @@ class ControllerApp {
     }
 
     public function upload(){
-        // echo '<script>console.log("Upload php")</script>';
-
         // Vérifier si le formulaire a été soumis
         if($_SERVER["REQUEST_METHOD"] == "POST"){
 
@@ -128,6 +126,14 @@ class ControllerApp {
             // }
         }
         $this->view->displayUploadSucces($name);
+    }
+
+    public function ajaxUploadSucces($filename){
+        $this->view->displayUploadSucces($filename);
+    }
+
+    public function ajaxUploadMultipleSucces(){
+        $this->view->displayUploadMultipleSucces();
     }
 
 

@@ -1,4 +1,11 @@
 /* ############ Common ############ */
+:root {
+  --main-blue-color: #26547C;
+  --main-yellow-color: #ffcf60;
+  --main-red-color: #fe4a49;
+  --main-green-color: #499F68;
+}
+
 html {
 	overflow-y: scroll;
 }
@@ -6,7 +13,7 @@ html {
 body {
 	max-width: 90em;
 	margin: auto;
-	background: #26547C;
+	background: var(--main-blue-color);
 	font-family: sans-serif;
 }
 
@@ -21,23 +28,23 @@ a {
 
 
 #option {
-	color: #ffcf60;
+	color: var(--main-yellow-color);
 }
 
 #supprimer {
-	color: #fe4a49;
+	color: var(--main-red-color);
 }
 
 #option:hover {
 	color: white;
-	background: #ffcf60;
+	background: var(--main-yellow-color);
 	border-radius: 10px;
 	padding: 10px 0;
 }
 
 #supprimer:hover {
 	color: white;
-	background: #fe4a49;
+	background: var(--main-red-color);
 	border-radius: 10px;
 	padding: 10px 0;
 }
@@ -48,8 +55,8 @@ a {
     font-weight: bold;
     font-size: 20px;
     text-align: center;
-	background: #499F68;
-    border: solid 2px #499F68;
+	background: var(--main-green-color);
+    border: solid 2px var(--main-green-color);
     border-radius: 10px;
 	padding: 10px 0;
     margin-left: auto;
@@ -57,7 +64,7 @@ a {
 }
 
 .errors {
-    color: red;
+    color: var(--main-red-color);
     font-weight: bold;
     font-size: 18px;
 }
@@ -74,15 +81,15 @@ a {
 
 .menu ul li a {
 	padding: 15px 50px;
-    color: #ffcf60;
+    color: var(--main-yellow-color);
 	transition: 0.5s;
 	border-radius: 10px;
 	text-transform: uppercase;
 }
 
 .menu ul li a:hover {
-	color: #26547C;
-	background : #ffcf60;
+	color: var(--main-blue-color);
+	background : var(--main-yellow-color);
 }
 
 /* .menu ul li #signIn {
@@ -105,7 +112,7 @@ main h1 {
 	padding: 10px;
 	color: #333;
 	text-align: center;
-	background: #ffcf60;
+	background: var(--main-yellow-color);
 	border-radius: 10px;
 }
 
@@ -121,21 +128,21 @@ main h1 {
     width: 250px;
     margin: 20px;
     padding: 10px;
-	background: #ffcf60;
-    border: 2px solid #ffcf60;
+	background: var(--main-yellow-color);
+    border: 2px solid var(--main-yellow-color);
     border-radius: 10%;
     transition: 0.5s;
     justify-self: center;
 }
 
 .homeSection a:hover {
-	background: #fe4a49;
-	border: 2px solid #fe4a49;
+	background: var(--main-red-color);
+	border: 2px solid var(--main-red-color);
 	/* 499f68 vert */
 }
 
 .homeSection h3 {
-	color: #26547C;
+	color: var(--main-blue-color);
 	margin: 0;
 	margin-bottom: 5px;
 }
@@ -159,19 +166,19 @@ main h1 {
 }
 
 #dropFileDiv:hover {
-	box-shadow: 0 0 10em #fe4a49;
-	border: 7px dashed #fe4a49;
+	box-shadow: 0 0 10em var(--main-red-color);
+	border: 7px dashed var(--main-red-color);
 }
 
 .uploadPageSection .fileHover {
-  box-shadow: 0 0 10em #fe4a49;
-  border: 7px dashed #fe4a49;
+  box-shadow: 0 0 10em var(--main-red-color);
+  border: 7px dashed var(--main-red-color);
 }
 
 .uploadPageSection #dropFileDiv {
 	width: 750px;
     height: 350px;
-    background: #ffcf60;
+    background: var(--main-yellow-color);
     display: flex;
     justify-content: center;
     border-radius: 10px;
@@ -189,15 +196,15 @@ main h1 {
     align-self: center;
     border: 2px solid white;
     border-radius: 10px;
-    color: #26547C;
+    color: var(--main-blue-color);
     font-size: 20px;
     font-weight: bold;
     transition: 0.6s;
 }
 
 .uploadPageSection #dropFileDiv label:hover{
-    background: #499F68;
-    border: 2px solid #499F68;
+    background: var(--main-green-color);
+    border: 2px solid var(--main-green-color);
 }
 
 .uploadPageSection #progressBar {
@@ -215,9 +222,9 @@ main h1 {
 
 .detailsPageSection #option {
 	font-size: 25px;
-	border: 2px solid #fe4a49;
+	border: 2px solid var(--main-red-color);
 	border-radius: 10px;
-	background: #fe4a49;
+	background: var(--main-red-color);
 }
 
 .detailsPageSection img {
@@ -304,14 +311,14 @@ main h1 {
     width: 200px;
     outline: none;
     color: white;
-	border: 3px solid #fe4a49;
+	border: 3px solid var(--main-red-color);
     border-radius: 24px;
     transition: 0.25s;
 }
 
 .box input[type = "text"]:focus, .box input[type = "password"]:focus {
     width: 280px;
-    border-color: #499F68;
+    border-color: var(--main-green-color);
 }
 
 .box button[type = "submit"], #uploadButton {
@@ -323,20 +330,20 @@ main h1 {
 	margin: 20px auto;
     padding: 14px 40px;
     outline: none;
-    color: #ffcf60;
-	border: 3px solid #499F68;
+    color: var(--main-yellow-color);
+	border: 3px solid var(--main-green-color);
     border-radius: 24px;
     transition: 0.5s;
     cursor: pointer;
 }
 
 .box button[type = "submit"]:hover, #uploadButton:hover{
-	color: #26547C;
-    background: #499F68;
+	color: var(--main-blue-color);
+    background: var(--main-green-color);
 }
 
 ::placeholder {
-  color: #ffcf60;
+  color: var(--main-yellow-color);
   font-size: 1em;
 }
 
