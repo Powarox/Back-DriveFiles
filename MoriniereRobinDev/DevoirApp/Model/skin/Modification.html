@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<title>Page details fichier</title>
+	<meta charset="UTF-8" />
+	<link rel="stylesheet" href="Template.css"/>
+	<link rel="stylesheet" href="Responsive.css"/>
+	<script defer src="DevoirApp/Model/Js/Upload.js"></script>
+</head>
+<body>
+    <header>
+        <nav class="menu">
+            <ul>
+                <li><a href="index.php?obj=pdf&amp;action=showFiles">Accueil</a></li>
+				<li><a href="index.php?obj=pdf&amp;action=askUpload">Upload</a></li>
+				<li><a href="index.php?obj=pdf&amp;action=showListFiles">Liste fichier</a></li>
+				<li><a href="index.php?obj=pdf&amp;action=makeInformationPage">Information</a></li>
+				<li><a href="index.php?obj=pdf&amp;action=askConnexion">Sign In</a></li>
+            </ul>
+        </nav>
+    </header>
+
+	<main>
+		<h1>Page details fichier</h1>
+
+        <section class="modificationPageSection">
+			<form action="index.php?obj=pdf&action=modification&id=bad-document2" method="POST">
+				<div>
+					<ul>
+						<h3>Changer le nom du document</h3>
+						<li><label>Name : </label><input type="text" name="documentNameChanged" placeholder="" value="bad-document2"></li>
+
+						<br>
+
+						<h3>Metadata de type IPTC</h3>
+						<li><label>Creator : </label><input type="text" name="Creator" placeholder="" value="apoKE spd"></li>
+						<li><label>Date : </label><input type="text" name="Date" placeholder="" value="2019:11:13 18:33:17+02:00"></li>
+						<li><label>Description : </label><input type="text" name="Description" placeholder="" value="In fringilla telluslus, torquent tempus dui tortor per dictum."></li>
+						<li><label>Format : </label><input type="text" name="Format" placeholder="" value="application/pdf"></li>
+						<li><label>Language : </label><input type="text" name="Language" placeholder="" value="fr"></li>
+						<li><label>Title : </label><input type="text" name="Title" placeholder="" value="Bibendum duis quisque primis fermentum"></li>
+						<li><label>Author : </label><input type="text" name="Author" placeholder="" value="Eda Kopps"></li>
+						<li><label>Producer : </label><input type="text" name="Producer" placeholder="" value="pdfTeX-1.40.17"></li>
+					</ul>
+
+					<ul>
+						<h3>Metadata de type File</h3>
+						<li><label>FileName : </label><input type="text" name="FileName" placeholder="" value="bad-document1.pdf"></li>
+						<li><label>FileSize : </label><input type="text" name="FileSize" placeholder="" value="360 kB"></li>
+						<li><label>FileModifyDate : </label><input type="text" name="FileModifyDate" placeholder="" value="2020:12:13 17:28:12+01:00"></li>
+						<li><label>FileAccessDate : </label><input type="text" name="FileAccessDate" placeholder="" value="2020:12:13 17:28:12+01:00"></li>
+						<li><label>FileInodeChangeDate : </label><input type="text" name="FileInodeChangeDate" placeholder="" value="2020:12:13 17:28:12+01:00"></li>
+						<li><label>FilePermissions : </label><input type="text" name="FilePermissions" placeholder="" value="rw-r--r--"></li>
+						<li><label>FileType : </label><input type="text" name="FileType" placeholder="" value="PDF"></li>
+						<li><label>FileTypeExtension : </label><input type="text" name="FileTypeExtension" placeholder="" value="pdf"></li>
+					</ul>
+				</div>
+
+				<button id="modifier" type="submit">Modifier</button>
+		</form>
+		</section>
+	</main>
+</body>
+</html>
+
+
+
+	<!-- <footer>
+		<p>Copyrite Moriniere Robin 21606393 - Mohamed Lamine Seck 21711412</p>
+	</footer> -->
+</body>
+</html>

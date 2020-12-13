@@ -225,10 +225,14 @@ class ViewApp extends WebFramework\View\View {
         $content = '<section class="modificationPageSection">';
         $content .= '<form action="index.php?obj=pdf&action=modification&id='.$id.'" method="POST">';
 
+        $content .= '<div>';
         $content .= '<ul>';
+
         $content .= '<h3>Changer le nom du document</h3>';
+        $content .= '<li>';
         $content .= '<label>Name : </label>';
         $content .= '<input type="text" name="documentNameChanged" placeholder="" value="'.$id.'">';
+        $content .= '</li><br>';
 
         $content .= '<h3>Metadata de type IPTC</h3>';
         foreach($data as $key => $value){
@@ -264,8 +268,9 @@ class ViewApp extends WebFramework\View\View {
             }
         }
         $content .= '</ul>';
+        $content .= '</div>';
 
-        $content .= '<button type="submit">Modifier</button>';
+        $content .= '<button id="modifier" type="submit">Modifier</button>';
 
         $content .= '</form>';
         $content .= '</section>';

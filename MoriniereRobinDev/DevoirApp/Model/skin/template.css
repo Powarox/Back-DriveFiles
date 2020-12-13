@@ -1,9 +1,9 @@
 /* ############ Common ############ */
 :root {
-  --main-blue-color: #26547C;
-  --main-yellow-color: #ffcf60;
-  --main-red-color: #fe4a49;
-  --main-green-color: #499F68;
+    --main-red-color: #fe4a49;
+    --main-blue-color: #26547C;
+    --main-green-color: #499F68;
+    --main-yellow-color: #ffcf60;
 }
 
 html {
@@ -262,9 +262,29 @@ main h1 {
 
 
 /* ############ Modification Page ############ */
-.modificationPageSection {
-
+.modificationPageSection form div {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
 }
+
+.modificationPageSection form div ul{
+    padding: 0 100px;
+}
+
+.modificationPageSection form div ul li{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.modificationPageSection form div ul h3{
+    color: var(--main-green-color);
+}
+
+.modificationPageSection form div ul li label {
+    /* color: var(--main-yellow-color); */
+}
+
 
 /* ############ Suppression Page ############ */
 .suppressionPageSection h3 {
@@ -321,7 +341,7 @@ main h1 {
     border-color: var(--main-green-color);
 }
 
-.box button[type = "submit"], #uploadButton {
+.box button[type = "submit"], #uploadButton, #modifier {
     border: 0;
     background: none;
     display: block;
@@ -337,7 +357,7 @@ main h1 {
     cursor: pointer;
 }
 
-.box button[type = "submit"]:hover, #uploadButton:hover{
+.box button[type = "submit"]:hover, #uploadButton:hover, #modifier:hover{
 	color: var(--main-blue-color);
     background: var(--main-green-color);
 }
