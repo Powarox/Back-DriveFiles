@@ -99,7 +99,7 @@ class ViewApp extends WebFramework\View\View {
 
 
 // ################ Details Page ################ //
-    public function makeDetailsPage($id, $data, $filePrec = null, $fileSuiv = null){
+    public function makeDetailsPage($id, $data, $metaIPTC, $metaFile, $filePrec = null, $fileSuiv = null){
         $title = "Details fichier : <br> ".$id;
 
         $content = '<section class="detailsPageSection">';
@@ -121,9 +121,6 @@ class ViewApp extends WebFramework\View\View {
             $content .= '<img src="DevoirApp/Model/Upload/Images/default_pdf_image.jpg" alt="Image">';
         }
 
-        // Metadata IPTC
-        $metaIPTC = array('Author', 'Title', 'Language', 'Format', 'Date', 'Creator', 'Producer',  'Contributor', 'Description');
-
         $content .= '<h3>Metadata de type IPTC</h3>';
         $content .= '<ul>';
         foreach($data as $key => $value){
@@ -141,10 +138,6 @@ class ViewApp extends WebFramework\View\View {
             }
         }
         $content .= '</ul>';
-
-
-        // Metadata de type File
-        $metaFile = array('FileName', 'FileSize', 'FileModifyDate', 'FileAccessDate', 'FileInodeChangeDate', 'FilePermissions', 'FileType', 'FileTypeExtension');
 
         $content .= '<h3>Metadata de type File</h3>';
         $content .= '<ul>';
@@ -222,19 +215,54 @@ class ViewApp extends WebFramework\View\View {
         $this->router->POSTredirect("index.php?obj=pdf&action=showListFiles", '<p class="feedback">Suppression du fichier '.$id.' réussi.</p>');
     }
 
-
+    // $content .= '<label>Title : </label>';
+    // $content .= '<input type="text" name="Title" placeholder="'.$data['Title'].'" value="">';
+    // // Affiche Métadonnée sous forme d'input
 // ################ Modification Page ################ //
-    public function makeModificationDetailsPage($id, $data){
+    public function makeModificationDetailsPage($id, $data, $metaIPTC, $metaFile){
         $title = "Modification fichier : <br>".$id;
 
         $content = '<section class="modificationPageSection">';
         $content .= '<form action="index.php?obj=pdf&action=modification&id='.$id.'" method="POST">';
 
-        $content .= '<label>Title : </label>';
-        $content .= '<input type="text" name="Title" placeholder="'.$data['Title'].'" value="">';
-        // Affiche Métadonnée sous forme d'input
+        $content .= '<ul>';
+        $content .= '<h3>Metadata de type IPTC</h3>';
+        foreach($data as $key => $value){
+            if(in_array($key, $metaIPTC) && $value != null){
+                if(!is_array($data[$key])){
+                    $content .= '<li>';
+                    $content .= '<label>'.$key.' : </label>';
+                    $content .= '<input type="text" name="'.$key.'" placeholder="" value="'.$value.'">';
+                    $content .= '</li>';
+                }
+                else{
+                    $content .= '<li>';
+                    $content .= '<label>'.$key.' : </label>';
+                    $content .= '<ul>';
+                    foreach($data[$key] as $k => $v){
+                        $content .= '<input type="text" name="'.$k.'" placeholder="" value="'.$v.'">';
+                    }
+                    $content .= '</ul>';
+                    $content .= '</li>';
+                }
+            }
+        }
+        $content .= '</ul>';
+
+        $content .= '<ul>';
+        $content .= '<h3>Metadata de type File</h3>';
+        foreach($data as $key => $value){
+            if(in_array($key, $metaFile) && $value != null){
+                $content .= '<li>';
+                $content .= '<label>'.$key.' : </label>';
+                $content .= '<input type="text" name="'.$key.'" placeholder="" value="'.$value.'">';
+                $content .= '</li>';
+            }
+        }
+        $content .= '</ul>';
 
         $content .= '<button type="submit">Modifier</button>';
+
         $content .= '</form>';
         $content .= '</section>';
 

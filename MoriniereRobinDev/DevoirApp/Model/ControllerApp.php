@@ -157,7 +157,13 @@ class ControllerApp {
             }
         }
 
-        $this->view->makeDetailsPage($filename, $data[0], $filePrec, $fileSuiv);
+        // Metadata IPTC
+        $metaIPTC = array('Author', 'Title', 'Language', 'Format', 'Date', 'Creator', 'Producer',  'Contributor', 'Description');
+
+        // Metadata de type File
+        $metaFile = array('FileName', 'FileSize', 'FileModifyDate', 'FileAccessDate', 'FileInodeChangeDate', 'FilePermissions', 'FileType', 'FileTypeExtension');
+
+        $this->view->makeDetailsPage($filename, $data[0], $metaIPTC, $metaFile, $filePrec, $fileSuiv);
     }
 
 
@@ -194,17 +200,40 @@ class ControllerApp {
         $jsonData = file_get_contents('DevoirApp/Model/Upload/Metadata/'.$filename.'.json');
         $data = json_decode($jsonData, true);
 
-        $this->view->makeModificationDetailsPage($filename, $data[0]);
+        // Metadata IPTC
+        $metaIPTC = array('Author', 'Title', 'Language', 'Format', 'Date', 'Creator', 'Producer',  'Contributor', 'Description');
+
+        // Metadata de type File
+        $metaFile = array('FileName', 'FileSize', 'FileModifyDate', 'FileAccessDate', 'FileInodeChangeDate', 'FilePermissions', 'FileType', 'FileTypeExtension');
+
+        $this->view->makeModificationDetailsPage($filename, $data[0], $metaIPTC, $metaFile);
     }
 
     public function modification($id){
-        // var_dump($this->response);
-        // if(true){
+        $jsonData = file_get_contents('DevoirApp/Model/Upload/Metadata/'.$id.'.json');
+        $data = json_decode($jsonData, true);
+        $newData = $this->request->getAllPostParams();
+
+        // var_dump($data[0]);
+        // var_dump($newData);
+
+        foreach($data[0] as $key => $value){
+            foreach($newData as $k => $v){
+                if($key == $k){
+                    $data[0][$key] = $v;
+                }
+            }
+        }
+
+        // var_dump($data[0]);
+
+        $jsonData = json_encode($data);
+
+        $metaTxt = fopen('DevoirApp/Model/Upload/Metadata/'.$id.'.json', 'w');
+        fputs($metaTxt, $jsonData);
+        fclose($metaTxt);
+
         $this->view->displayModificationSucces($id);
-        // }
-        // else{
-        //     $this->view->displayModificationFailure($id);
-        // }
     }
 
 
