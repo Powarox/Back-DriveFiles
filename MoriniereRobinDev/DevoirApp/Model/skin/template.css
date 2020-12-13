@@ -158,8 +158,14 @@ main h1 {
 	text-align: center;
 }
 
+#dropFileDiv:hover {
+	box-shadow: 0 0 10em #fe4a49;
+	border: 7px dashed #fe4a49;
+}
+
 .uploadPageSection .fileHover {
   box-shadow: 0 0 10em #fe4a49;
+  border: 7px dashed #fe4a49;
 }
 
 .uploadPageSection #dropFileDiv {
