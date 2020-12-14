@@ -90,6 +90,11 @@ class ControllerApp
     {
         // Vérifier si le formulaire a été soumis
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            // Upload vide
+            if ($_FILES['pdf']['error'] != 0)
+            {
+                $this->view->displayUploadFailure();
+            }
             foreach ($_FILES as $file) {
                 $filename = $file['name'];
                 $_SESSION[$filename] = $file;
@@ -103,9 +108,6 @@ class ControllerApp
                 // Créer une image du pdf et save dans Upload/Images
                 exec('convert  DevoirApp/Model/Upload/Documents/'.$filename.'[0]  DevoirApp/Model/Upload/FirstPages/'.$name.'.jpg');
 
-                // $output = shell_exec('/usr/local/bin/exiftool -G1 '.$file.'.pdf > metadata.txt 2>&1');
-                // =meta.txt   ." > metadata.txt"
-
                 // Extraction Métadonnée
                 $data = shell_exec("exiftool -json DevoirApp/Model/Upload/Documents/".$filename);
                 $metaData = json_decode($data, true);
@@ -114,16 +116,7 @@ class ControllerApp
                 $metaTxt = fopen('DevoirApp/Model/Upload/Metadata/'.$name.'.json', 'w');
                 fputs($metaTxt, $data);
                 fclose($metaTxt);
-
-                // var_dump($metaData);
             }
-            // // Vérifie si le fichier a été uploadé sans erreur.
-            // if(isset($_FILES["pdf"]) && $_FILES["pdf"]["error"] == 0){
-            //
-            // }
-            // else{
-            //     $this->view->displayUploadFailure($_FILES["pdf"]["error"]);
-            // }
         }
         $this->view->displayUploadSucces($name);
     }
@@ -219,9 +212,6 @@ class ControllerApp
         $data = json_decode($jsonData, true);
         $newData = $this->request->getAllPostParams();
 
-        // var_dump($data);
-        // var_dump($newData);
-
         foreach ($data[0] as $key => $value) {
             foreach ($newData as $k => $v) {
                 if ($key == $k) {
@@ -240,7 +230,8 @@ class ControllerApp
         fclose($metaTxt);
 
         if (key_exists('documentNameChanged', $newData)) {
-            if ($newData['documentNameChanged'] != $id) {
+            if ($newData['documentNameChanged'] != $id && $newData['documentNameChanged'] != null)
+            {
                 $idPdf = $this->setFileExtention($id, '.pdf');
                 $idJson = $this->setFileExtention($id, '.json');
                 $idFirstPage = $this->setFileExtention($id, '.jpg');
@@ -275,7 +266,7 @@ class ControllerApp
         $idTransaction = mt_rand(1, 999);
         $prixEuro = number_format(999/100, 2, ',', ' ');
 
-        $pathfile = '/users/21606393/www-dev/M1/Tw4/Projet/MoriniereRobinDev/DevoirApp/Model/Paiement/Sherlocks/param_demo/pathfile';
+        $pathfile = '/users/21606393/www-dev/devoir-idc2020/MoriniereRobinDev/DevoirApp/Model/Paiement/Sherlocks/param_demo/pathfile';
 
         $data = array(
             'amount' => '999',
@@ -284,9 +275,9 @@ class ControllerApp
             'currency_code' => '978',
             'pathfile' => $pathfile,
             'transaction_id' => $idTransaction,
-            'normal_return_url' => 'https://dev-21606393.users.info.unicaen.fr/M1/Tw4/Projet/MoriniereRobinDev/index.php?action=paiementRetourManuel',
-            'cancel_return_url' => 'https://dev-21606393.users.info.unicaen.fr/M1/Tw4/Projet/MoriniereRobinDev/index.php?action=paiementRetourCancel',
-            'automatic_response_url' => 'https://dev-21606393.users.info.unicaen.fr/M1/Tw4/Projet/MoriniereRobinDev/index.php?action=paiementRetourAuto',
+            'normal_return_url' => 'https://dev-21606393.users.info.unicaen.fr/devoir-idc2020/MoriniereRobinDev/index.php?action=paiementRetourManuel',
+            'cancel_return_url' => 'https://dev-21606393.users.info.unicaen.fr/devoir-idc2020/MoriniereRobinDev/index.php?action=paiementRetourCancel',
+            'automatic_response_url' => 'https://dev-21606393.users.info.unicaen.fr/devoir-idc2020/MoriniereRobinDev/index.php?action=paiementRetourAuto',
             'language' => 'fr',
             'payment_means' => 'CB,2,VISA,2,MASTERCARD,2',
             'header_flag' => 'no',
@@ -319,7 +310,7 @@ class ControllerApp
         }
 
         // Request Paiement
-        $path_req = "/users/21606393/www-dev/paiement/Sherlocks/bin/static/request";
+        $path_req = "/users/21606393/www-dev/devoir-idc2020/MoriniereRobinDev/DevoirApp/Model/Paiement/Sherlocks/bin/static/request";
         $resultRequest = exec("$path_req $script");
         $resultRequestTab = explode('<BR>', $resultRequest);
         $result = $resultRequestTab[7];

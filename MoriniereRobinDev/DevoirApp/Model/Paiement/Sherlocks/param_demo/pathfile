@@ -19,7 +19,7 @@ DEBUG!YES!
 # indiquer:
 # ------------------------------------------------------------------------
 #
-D_LOGO!/M1/Tw4/Projet/MoriniereRobinDev/DevoirApp/Model/Paiement/logos/!
+D_LOGO!/devoir-idc2020/MoriniereRobinDev/DevoirApp/Model/Paiement/logos/!
 #
 # --------------------------------------------------------------------------
 #  Fichiers param�tres li�s a l'api sherlocks paiement
@@ -27,15 +27,15 @@ D_LOGO!/M1/Tw4/Projet/MoriniereRobinDev/DevoirApp/Model/Paiement/logos/!
 #
 # fichier des  param�tres sherlocks
 #
-F_DEFAULT!/users/21606393/www-dev/M1/Tw4/Projet/MoriniereRobinDev/DevoirApp/Model/Paiement/Sherlocks/param_demo/parmcom.sherlocks!
+F_DEFAULT!/users/21606393/www-dev/devoir-idc2020/MoriniereRobinDev/DevoirApp/Model/Paiement/Sherlocks/param_demo/parmcom.sherlocks!
 #
 # fichier param�tre commercant
 #
-F_PARAM!/users/21606393/www-dev/M1/Tw4/Projet/MoriniereRobinDev/DevoirApp/Model/Paiement/Sherlocks/param_demo/parmcom!
+F_PARAM!/users/21606393/www-dev/devoir-idc2020/MoriniereRobinDev/DevoirApp/Model/Paiement/Sherlocks/param_demo/parmcom!
 #
 # certificat du commercant
 #
-F_CERTIFICATE!/users/21606393/www-dev/M1/Tw4/Projet/MoriniereRobinDev/DevoirApp/Model/Paiement/Sherlocks/param_demo/certif!
+F_CERTIFICATE!/users/21606393/www-dev/devoir-idc2020/MoriniereRobinDev/DevoirApp/Model/Paiement/Sherlocks/param_demo/certif!
 #
 # type du certificat
 #

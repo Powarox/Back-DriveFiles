@@ -84,24 +84,24 @@ class ViewApp extends WebFramework\View\View
         $this->router->POSTredirect('index.php', '<p class="feedback">Tous les fichiers ont bien été enregistré !</p>');
     }
 
-    public function displayUploadFailure($errors)
+    public function displayUploadFailure()
     {
-        $this->router->POSTredirect("index.php?obj=pdf&action=makeUploadPage", "<p class='feedback'>Erreur lors de l'upload : ".$errors."</p>");
+        $this->router->POSTredirect("index.php?obj=pdf&action=makeUploadPage", "<p class='feedback'>Veuillez déposer un document</p>");
     }
 
 
     // ################ Details Page ################ //
     public function makeDetailsPage($id, $data, $metaIPTC, $metaFile, $filePrec = null, $fileSuiv = null)
     {
-        $title = "Details fichier : <br> ".$id;
+        $title = "Details fichier : <br> ".self::htmlesc($id);
 
         // Bouton suivant - précédent
         $content = '<div id="detailsButton">';
         if ($filePrec != null) {
-            $content .= '<a id="navigationButton" href="index.php?obj=pdf&action=showDetailsFile&id='.$filePrec.'">Fichier précédent</a>';
+            $content .= '<a id="navigationButton" href="index.php?obj=pdf&action=showDetailsFile&id='.self::htmlesc($filePrec).'">Fichier précédent</a>';
         }
         if ($fileSuiv != null) {
-            $content .= '<a id="navigationButton" href="index.php?obj=pdf&action=showDetailsFile&id='.$fileSuiv.'">Fichier suivant</a>';
+            $content .= '<a id="navigationButton" href="index.php?obj=pdf&action=showDetailsFile&id='.self::htmlesc($fileSuiv).'">Fichier suivant</a>';
         }
         $content .= '</div>';
 
@@ -113,11 +113,11 @@ class ViewApp extends WebFramework\View\View
         foreach ($data as $key => $value) {
             if (in_array($key, $metaIPTC) && $value != null) {
                 if (!is_array($data[$key])) {
-                    $content .= '<li><strong>'.$key.'</strong> : '.$value.'</li>';
+                    $content .= '<li><strong>'.self::htmlesc($key).'</strong> : '.self::htmlesc($value).'</li>';
                 } else {
-                    $content .= '<li><strong>'.$key.'</strong> : /';
+                    $content .= '<li><strong>'.self::htmlesc($key).'</strong> : /';
                     foreach ($data[$key] as $k => $v) {
-                        $content .= '/ '.$v.' /';
+                        $content .= '/ '.self::htmlesc($v).' /';
                     }
                     $content .= '/</li>';
                 }
@@ -128,8 +128,8 @@ class ViewApp extends WebFramework\View\View
 
         // Image 1er page pdf
         $content .= '<div id="imageDetails">';
-        if (file_exists('DevoirApp/Model/Upload/FirstPages/'.$id.'.jpg')) {
-            $content .= '<img src="DevoirApp/Model/Upload/FirstPages/'.$id.'.jpg" alt="Image doc pdf : '.$id.'">';
+        if (file_exists('DevoirApp/Model/Upload/FirstPages/'.self::htmlesc($id).'.jpg')) {
+            $content .= '<img src="DevoirApp/Model/Upload/FirstPages/'.self::htmlesc($id).'.jpg" alt="Image doc pdf : '.self::htmlesc($id).'">';
         } else {
             $content .= '<img src="DevoirApp/Model/Upload/Images/default_pdf_image.jpg" alt="Image">';
         }
@@ -140,14 +140,14 @@ class ViewApp extends WebFramework\View\View
         $content .= '<ul>';
         foreach ($data as $key => $value) {
             if (in_array($key, $metaFile) && $value != null) {
-                $content .= '<li><strong>'.$key.'</strong> : '.$value.'</li>';
+                $content .= '<li><strong>'.self::htmlesc($key).'</strong> : '.self::htmlesc($value).'</li>';
             }
         }
         $content .= '</ul>';
         $content .= '</div>';
 
         // Bouton Paiment
-        $content .= '<a id="paiement" href="index.php?obj=pdf&action=askPaiement&id='.$id.'">Acheter ce Document</a>';
+        $content .= '<a id="paiement" href="index.php?obj=pdf&action=askPaiement&id='.self::htmlesc($id).'">Acheter ce Document</a>';
 
         $content .= '</section>';
 
@@ -166,11 +166,11 @@ class ViewApp extends WebFramework\View\View
 
         foreach ($files as $key => $value) {
             $content .= '<div class="elem">';
-            $content .= '<a href="index.php?obj=pdf&action=showDetailsFile&id='.$value.'">'.$value.'</a>';
+            $content .= '<a href="index.php?obj=pdf&action=showDetailsFile&id='.self::htmlesc($value).'">'.self::htmlesc($value).'</a>';
 
-            $content .= '<a id="option" href="index.php?obj=pdf&action=modificationDetailsFile&id='.$value.'">Modification</a>';
+            $content .= '<a id="option" href="index.php?obj=pdf&action=modificationDetailsFile&id='.self::htmlesc($value).'">Modification</a>';
 
-            $content .= '<a id="supprimer" href="index.php?obj=pdf&action=askSuppressionFile&id='.$value.'">Supprimer</a>';
+            $content .= '<a id="supprimer" href="index.php?obj=pdf&action=askSuppressionFile&id='.self::htmlesc($value).'">Supprimer</a>';
 
             $content .= '</div>';
         }
@@ -185,14 +185,14 @@ class ViewApp extends WebFramework\View\View
     // ################ Suppression Page ################ //
     public function makeSuppresionPage($id)
     {
-        $title = "Suppression fichier : <br>".$id;
+        $title = "Suppression fichier : <br>".self::htmlesc($id);
 
         $content = '<section class="suppressionPageSection">';
         $content .= '<h3>Voulez vous vraiment supprimer ce fichier ?</h3>';
         $content .= '<div>';
 
         $content .= '<a id="option" href="index.php?obj=pdf&action=showListFiles">Retour</a>';
-        $content .= '<a id="supprimer" href="index.php?obj=pdf&action=suppresionFile&id='.$id.'">Supprimer</a>';
+        $content .= '<a id="supprimer" href="index.php?obj=pdf&action=suppresionFile&id='.self::htmlesc($id).'">Supprimer</a>';
 
         $content .= '</div>';
         $content .= '</section>';
@@ -203,7 +203,7 @@ class ViewApp extends WebFramework\View\View
 
     public function displaySuppresionFile($id)
     {
-        $this->router->POSTredirect("index.php?obj=pdf&action=showListFiles", '<p class="feedback">Suppression du fichier '.$id.' réussi.</p>');
+        $this->router->POSTredirect("index.php?obj=pdf&action=showListFiles", '<p class="feedback">Suppression du fichier '.self::htmlesc($id).' réussi.</p>');
     }
 
 
@@ -211,10 +211,10 @@ class ViewApp extends WebFramework\View\View
     // ################ Modification Page ################ //
     public function makeModificationDetailsPage($id, $data, $metaIPTC, $metaFile)
     {
-        $title = "Modification fichier : <br>".$id;
+        $title = "Modification fichier : <br>".self::htmlesc($id);
 
         $content = '<section class="modificationPageSection">';
-        $content .= '<form action="index.php?obj=pdf&action=modification&id='.$id.'" method="POST">';
+        $content .= '<form action="index.php?obj=pdf&action=modification&id='.self::htmlesc($id).'" method="POST">';
 
         $content .= '<div>';
         $content .= '<ul>';
@@ -222,7 +222,7 @@ class ViewApp extends WebFramework\View\View
         $content .= '<h3>Changer le nom du document</h3>';
         $content .= '<li>';
         $content .= '<label>Name : </label>';
-        $content .= '<input type="text" name="documentNameChanged" placeholder="" value="'.$id.'">';
+        $content .= '<input type="text" name="documentNameChanged" placeholder="" value="'.self::htmlesc($id).'">';
         $content .= '</li><br>';
 
         $content .= '<h3>Metadata de type IPTC</h3>';
@@ -230,15 +230,15 @@ class ViewApp extends WebFramework\View\View
             if (in_array($key, $metaIPTC) && $value != null) {
                 if (!is_array($data[$key])) {
                     $content .= '<li>';
-                    $content .= '<label>'.$key.' : </label>';
-                    $content .= '<input type="text" name="'.$key.'" placeholder="" value="'.$value.'">';
+                    $content .= '<label>'.self::htmlesc($key).' : </label>';
+                    $content .= '<input type="text" name="'.self::htmlesc($key).'" placeholder="" value="'.self::htmlesc($value).'">';
                     $content .= '</li>';
                 } else {
                     $content .= '<li>';
-                    $content .= '<label>'.$key.' : </label>';
+                    $content .= '<label>'.self::htmlesc($key).' : </label>';
                     $content .= '<ul>';
                     foreach ($data[$key] as $k => $v) {
-                        $content .= '<input type="text" name="'.$key.'['.$k.']" placeholder="" value="'.$v.'">';
+                        $content .= '<input type="text" name="'.self::htmlesc($key).'['.self::htmlesc($k).']" placeholder="" value="'.self::htmlesc($v).'">';
                     }
                     $content .= '</ul>';
                     $content .= '</li>';
@@ -252,8 +252,8 @@ class ViewApp extends WebFramework\View\View
         foreach ($data as $key => $value) {
             if (in_array($key, $metaFile) && $value != null) {
                 $content .= '<li>';
-                $content .= '<label>'.$key.' : </label>';
-                $content .= '<input type="text" name="'.$key.'" placeholder="" value="'.$value.'">';
+                $content .= '<label>'.self::htmlesc($key).' : </label>';
+                $content .= '<input type="text" name="'.self::htmlesc($key).'" placeholder="" value="'.self::htmlesc($value).'">';
                 $content .= '</li>';
             }
         }
@@ -271,12 +271,12 @@ class ViewApp extends WebFramework\View\View
 
     public function displayModificationSucces($id)
     {
-        $this->router->POSTredirect("index.php?obj=pdf&action=showDetailsFile&id=".$id, "<p class='feedback'>Votre modification est enregistré.</p>");
+        $this->router->POSTredirect("index.php?obj=pdf&action=showDetailsFile&id=".self::htmlesc($id), "<p class='feedback'>Votre modification est enregistré.</p>");
     }
 
     public function displayModificationFailure($id)
     {
-        $this->router->POSTredirect("index.php?obj=pdf&action=modificationDetailsFile&id=".$id, "<p class='feedback'>Echec de la modification.</p>");
+        $this->router->POSTredirect("index.php?obj=pdf&action=modificationDetailsFile&id=".self::htmlesc($id), "<p class='feedback'>Echec de la modification.</p>");
     }
 
 
@@ -289,12 +289,12 @@ class ViewApp extends WebFramework\View\View
         $content = '<section class="paiementPageSection">';
         $content .= '<h3>Le montant à payer est de : '.number_format(999/100, 2, ',', ' ').' €</h3>';
 
-        $content .= '<form action="index.php?obj=pdf&action=paiement&id='.$id.'" method="POST">';
+        $content .= '<form action="index.php?obj=pdf&action=paiement&id='.self::htmlesc($id).'" method="POST">';
 
         $content .= '<label>Email : </label>';
         $content .= '<input type="text" name="email" placeholder="" value="">';
 
-        $content .= '<a id="navigationButton" href="index.php?obj=pdf&action=showDetailsFile&id='.$id.'">Retour</a>';
+        $content .= '<a id="navigationButton" href="index.php?obj=pdf&action=showDetailsFile&id='.self::htmlesc($id).'">Retour</a>';
 
         $content .= '<button id="navigationButton" type="submit">Paiement</button>';
 
@@ -334,8 +334,46 @@ class ViewApp extends WebFramework\View\View
     public function makeInformationPage()
     {
         $title = "Page d'information devoir";
-        $content = "Detail tech";
-        $content .= "Login / Password : ";
+
+        $content = '<h3>Binôme</h3>';
+        $content .= '<ul>';
+        $content .= '<li>Moriniere Robin 21606393</li>';
+        $content .= '<li>Mohamed Lamine Seck 21711412</li>';
+        $content .= '</ul><br>';
+
+        $content .= '<h3>Detail tech</h3>';
+        $content .= '<ul>';
+        $content .= '<li>Pour ce qui ai des détails techniques, nous avons repris le modèle MVCR couplé avec un autoload. Notre projet est décomposé en 3 dossiers : </li>';
+        $content .= '<ul>';
+        $content .= '<li>WebFramework : Contient le MVCR de base avec les requêtes HTTP.</li>';
+        $content .= '<li>Tools : Contient l\'autoload.</li>';
+        $content .= '<li>DevoirApp : Contient le reste de l\'application dont le modèle.</li>';
+        $content .= '</ul>';
+        $content .= '<li>Pour les métadonnées nous avons choisi de les sauvegarder dans un fichier Json, pour rendre leur manipulation plus facile et rapide.</li>';
+        $content .= '<li>Nous avons aussi implémenté une fonction de paiement qui envoie un mail avec le PDF si le paiement réussi, et pour ce qui est de l\'upload il est possible d\'uploader des documents si le Javascript est désactivé mais s\'il ait activé il est aussi possible de faire un drag and drop avec les fichiers que l\'on souhaite déposer.</li>';
+        $content .= '</ul><br>';
+
+        $content .= '<h3>Information Connexion</h3>';
+        $content .= '<ul>';
+        $content .= '<li>Login : alex</li>';
+        $content .= '<li>Login : jml</li>';
+        $content .= '<br>';
+        $content .= '<li>Password : toto</li>';
+        $content .= '<li>Password : toto</li>';
+        $content .= '</ul><br>';
+
+        $content .= '<h3>Information Paiement</h3>';
+        $content .= '<ul>';
+        $content .= '<h4>Paiement Accepté</h4>';
+        $content .= '<li>Carte  : ........800</li>';
+        $content .= '<li>Crypto : 600</li>';
+        $content .= '<li>Date   : 2021</li>';
+        $content .= '<br>';
+        $content .= '<h4>Paiement Refusé</h4>';
+        $content .= '<li>Carte  : ........205</li>';
+        $content .= '<li>Crypto : 600</li>';
+        $content .= '<li>Date   : 2021</li>';
+        $content .= '</ul><br>';
 
         $this->setPart('title', $title);
         $this->setPart('content', $content);
@@ -357,14 +395,14 @@ class ViewApp extends WebFramework\View\View
 
         $content = '<section class="connexionPageSection">';
 
-        $content .= '<form class="box" action="index.php?obj=pdf&action=connexion&id='.$currentPage.'" method="POST">';
-        $content .= '<input type="text" name="'.$loginRef.'" placeholder="Login" value="'.self::htmlesc($data[$loginRef]).'">';
+        $content .= '<form class="box" action="index.php?obj=pdf&action=connexion&id='.self::htmlesc($currentPage).'" method="POST">';
+        $content .= '<input type="text" name="'.self::htmlesc($loginRef).'" placeholder="Login" value="'.self::htmlesc($data[$loginRef]).'">';
         if ($errLogin !== null) {
-            $content .= '<span class="errors">'.$errLogin.'</span>';
+            $content .= '<span class="errors">'.self::htmlesc($errLogin).'</span>';
         }
-        $content .= '<input type="password" name="'.$passwordRef.'" placeholder="Password" value="'.self::htmlesc($data[$passwordRef]).'">';
+        $content .= '<input type="password" name="'.self::htmlesc($passwordRef).'" placeholder="Password" value="'.self::htmlesc($data[$passwordRef]).'">';
         if ($errPassword !== null) {
-            $content .= '<span class="errors">'.$errPassword.'</span>';
+            $content .= '<span class="errors">'.self::htmlesc($errPassword).'</span>';
         }
         $content .= '<button type="submit">Se connecter</button>';
         $content .= '</form>';
@@ -396,17 +434,17 @@ class ViewApp extends WebFramework\View\View
     // ################ Display Connexion ################ //
     public function displayConnexionSucces()
     {
-        $this->router->POSTredirect("index.php", "<p class='feedback'>Vous êtes bien connecté en tant que ".$_SESSION['user']['statut']."</p>");
+        $this->router->POSTredirect("index.php", "<p class='feedback'>Vous êtes bien connecté en tant que ".self::htmlesc($_SESSION['user']['statut'])."</p>");
     }
 
     public function displayConnexionSuccesToCurrentPage($currentPage)
     {
-        $this->router->POSTredirect("index.php?obj=pdf&action=".$currentPage, "<p class='feedback'>Vous êtes bien connecté en tant que ".$_SESSION['user']['statut']."</p>");
+        $this->router->POSTredirect("index.php?obj=pdf&action=".self::htmlesc($currentPage), "<p class='feedback'>Vous êtes bien connecté en tant que ".self::htmlesc($_SESSION['user']['statut'])."</p>");
     }
 
     public function displayRequireConnexion($action)
     {
-        $this->router->POSTredirect("index.php?obj=pdf&action=askConnexion&id=".$action, "<p class='feedback'>Connexion requise pour accèder à cette page</p>");
+        $this->router->POSTredirect("index.php?obj=pdf&action=askConnexion&id=".self::htmlesc($action), "<p class='feedback'>Connexion requise pour accèder à cette page</p>");
     }
 
     public function displayDeconnexionSucces()

@@ -53,7 +53,7 @@ function uploadFiles(event){
 
     console.log("SubmitXHR");
     let xhr = new XMLHttpRequest();
-    xhr.open('POST', 'https://dev-21606393.users.info.unicaen.fr/M1/Tw4/Projet/MoriniereRobinDev/index.php?obj=pdf&action=upload');
+    xhr.open('POST', 'https://dev-21606393.users.info.unicaen.fr/devoir-idc2020/MoriniereRobinDev/index.php?obj=pdf&action=upload');
     xhr.responseType = 'json';
 
     let redirect;
@@ -82,7 +82,7 @@ function uploadFiles(event){
 
     xhr.onreadystatechange = function(){ // listen for state changes
         if(xhr.readyState == 4 && xhr.status == 200) { // when completed we can move away
-            window.location = "https://dev-21606393.users.info.unicaen.fr/M1/Tw4/Projet/MoriniereRobinDev/index.php?obj=pdf&action=" + redirect;
+            window.location = "https://dev-21606393.users.info.unicaen.fr/devoir-idc2020/MoriniereRobinDev/index.php?obj=pdf&action=" + redirect;
         }
     }
     xhr.send(formData);
