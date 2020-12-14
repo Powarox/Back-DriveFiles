@@ -299,7 +299,11 @@ class ViewApp extends WebFramework\View\View {
     public function makePaiementFinalPage($result){
         $title = 'Paiement Page';
 
-        $content = $result;
+        $content = '<h3>Veuillez selectionner un moyen de paiement ci-dessous</h3>';
+
+        $content .= '<section class="paiementLCLPageSection">';
+        $content .= $result;
+        $content .= '</section>';
 
         $this->setPart('title', $title);
         $this->setPart('content', $content);

@@ -1,0 +1,44 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<title>Information Paiement</title>
+	<meta charset="UTF-8" />
+	<link rel="stylesheet" href="Template.css"/>
+	<link rel="stylesheet" href="Responsive.css"/>
+	<script defer src="DevoirApp/Model/Js/Upload.js"></script>
+	<script src="https://kit.fontawesome.com/646143606b.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <header>
+        <nav class="menu">
+            <ul>
+				<li><a href="Home.html">Accueil</a></li>
+				<li><a href="Upload.html">Upload</a></li>
+				<li><a href="List.html">Liste fichier</a></li>
+				<li><a href="Information.html">Information</a></li>
+				<li><a href="Connexion.html">Sign In</a></li>
+            </ul>
+        </nav>
+    </header>
+
+	<main>
+		<h1>Information Paiement</h1>
+
+
+		<section class="paiementPageSection">
+            <h3>Le montant à payer est de : 9,99 €</h3>
+            <form action="index.php?obj=pdf&action=paiement&id=bad-document1" method="POST">
+                <label>Veuillez insérer un email : </label>
+                <input type="text" name="email" placeholder="" value="">
+                <a id="navigationButton" href="index.php?obj=pdf&action=showDetailsFile&id=bad-document1">Retour</a>
+                <button id="navigationButton" type="submit">Paiement</button>
+            </form>
+        </section>
+    </main>
+
+	<!-- <footer>
+		<p>Copyrite Moriniere Robin 21606393 - Mohamed Lamine Seck 21711412</p>
+	</footer> -->
+</body>
+</html>
