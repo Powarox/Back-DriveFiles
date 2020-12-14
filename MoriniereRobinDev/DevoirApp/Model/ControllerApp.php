@@ -67,29 +67,12 @@ class ControllerApp {
     }
 
 
-// Send Mail
-    // $to      = 'nobody@example.com';
-    // $subject = 'the subject';
-    // $message = 'hello';
-    // $headers = array(
-    //     'From' => 'webmaster@example.com',
-    //     'Reply-To' => 'webmaster@example.com',
-    //     'X-Mailer' => 'PHP/' . phpversion()
-    // );
-    //
-    // mail($to, $subject, $message, $headers);
-
-
-
 // ################ Accueil ################ //
     public function showFiles(){
-        // var_dump($_SESSION);
         $files = $this->getUploadDocuments();
-
         foreach($files as $f){
             $f = $this->getFileWithoutExtention($f);
         }
-
         $this->view->makeHomePage($files);
     }
 
@@ -197,12 +180,9 @@ class ControllerApp {
         $fileJson = $this->setFileExtention($filename, ".json");
         $imgFirstPage = $this->setFileExtention($filename, ".jpg");
 
-        unlink ("DevoirApp/Model/Upload/Documents/".$filePdf);
-        unlink ("DevoirApp/Model/Upload/Metadata/".$fileJson);
-        unlink ("DevoirApp/Model/Upload/FirstPages/".$imgFirstPage);
-
-        // $img = $this->setFileExtention($filename, ".png");
-        // unlink ("DevoirApp/Model/Upload/Images/".$img);
+        unlink("DevoirApp/Model/Upload/Documents/".$filePdf);
+        unlink("DevoirApp/Model/Upload/Metadata/".$fileJson);
+        unlink("DevoirApp/Model/Upload/FirstPages/".$imgFirstPage);
 
         $this->view->displaySuppresionFile($filename);
     }
@@ -273,8 +253,15 @@ class ControllerApp {
 
 // ################ Paiement ################ //
     public function askPaiement($id){
+        $this->view->makePaiementPage($id);
+    }
+
+    public function paiement($id){
+        $data = $this->request->getAllPostParams();
+        $email = $data['email'];
         $idTransaction = mt_rand(1, 999);
         $prixEuro = number_format(999/100, 2, ',', ' ');
+
         $pathfile = '/users/21606393/www-dev/M1/Tw4/Projet/MoriniereRobinDev/DevoirApp/Model/Paiement/Sherlocks/param_demo/pathfile';
 
         $data = array(
@@ -284,9 +271,9 @@ class ControllerApp {
             'currency_code' => '978',
             'pathfile' => $pathfile,
             'transaction_id' => $idTransaction,
-            'normal_return_url' => 'https://dev-21606393.users.info.unicaen.fr/M1/Tw4/Projet/MoriniereRobinDev/index.php?obj=pdf&action=paiementRetourAuto',
-            'cancel_return_url' => 'https://dev-21606393.users.info.unicaen.fr/M1/Tw4/Projet/MoriniereRobinDev/index.php?obj=pdf&action=paiementRetourCancel',
-            'automatic_response_url' => 'https://dev-21606393.users.info.unicaen.fr/M1/Tw4/Projet/MoriniereRobinDev/index.php?obj=pdf&action=paiementRetourManuel',
+            'normal_return_url' => 'https://dev-21606393.users.info.unicaen.fr/M1/Tw4/Projet/MoriniereRobinDev/index.php?action=paiementRetourManuel',
+            'cancel_return_url' => 'https://dev-21606393.users.info.unicaen.fr/M1/Tw4/Projet/MoriniereRobinDev/index.php?action=paiementRetourCancel',
+            'automatic_response_url' => 'https://dev-21606393.users.info.unicaen.fr/M1/Tw4/Projet/MoriniereRobinDev/index.php?action=paiementRetourAuto',
             'language' => 'fr',
             'payment_means' => 'CB,2,VISA,2,MASTERCARD,2',
             'header_flag' => 'no',
@@ -318,40 +305,114 @@ class ControllerApp {
             }
         }
 
-        // Request
+        // Request Paiement
         $path_req = "/users/21606393/www-dev/paiement/Sherlocks/bin/static/request";
         $resultRequest = exec("$path_req $script");
         $resultRequestTab = explode('<BR>', $resultRequest);
         $result = $resultRequestTab[7];
 
-        // $logs = array(
-        //     "idDocument"      =>  $id,
-        //     "idTransaction"   =>  $idTransaction,
-        //     "email"   =>  $email,
-        // );
-        // $jsonLogs = json_encode($logs, true);
-        // file_put_contents('Log.txt', $jsonLogs);
+        // Fichier log avec info paiement
+        $logs = array(
+            "prix"            =>  $prixEuro,
+            "email"           =>  $email,
+            "idDocument"      =>  $id,
+            "idTransaction"   =>  $idTransaction,
+        );
 
-        // // Ecriture reponse dans Log.txt
-        // file_put_contents('LogsGeneral.txt', "// --------- Transaction ID: $idTransaction --------- //\n", FILE_APPEND);
-        // file_put_contents('LogsGeneral.txt', "Montant : ".$prixEuro."\n", FILE_APPEND);
-        // file_put_contents('LogsGeneral.txt', "Email : ".$email."\n", FILE_APPEND);
-        // file_put_contents('LogsGeneral.txt', "Document : ".$id."\n", FILE_APPEND);
-        // file_put_contents('LogsGeneral.txt', "\n", FILE_APPEND);
+        $jsonLogs = json_encode($logs, true);
+        $pathLog = 'DevoirApp/Model/Paiement/Logs/';
+        file_put_contents($pathLog.'Log.json', $jsonLogs);
 
-        $this->view->makePaiementPage($id, $result);
+        // Fichier log avec information tout les paiement
+        file_put_contents($pathLog.'LogsGeneral.txt', "// --------- Transaction ID: $idTransaction --------- //\n", FILE_APPEND);
+        file_put_contents($pathLog.'LogsGeneral.txt', "Montant : ".$prixEuro."\n", FILE_APPEND);
+        file_put_contents($pathLog.'LogsGeneral.txt', "Email : ".$email."\n", FILE_APPEND);
+        file_put_contents($pathLog.'LogsGeneral.txt', "Document : ".$id."\n", FILE_APPEND);
+        file_put_contents($pathLog.'LogsGeneral.txt', "\n", FILE_APPEND);
+
+        $this->view->makePaiementFinalPage($result);
     }
 
+    // Succes paiement
     public function paiementRetourAuto(){
-
+        $this->paiementRetourManuel();
     }
 
-    public function paiementRetourCancel(){
-
-    }
-
+    // Succes paiement Send Mail
     public function paiementRetourManuel(){
+        $jsonLogs = file_get_contents('DevoirApp/Model/Paiement/Logs/Log.json');
+        $logs = json_decode($jsonLogs, true);
 
+        $prix = $logs['prix'];
+        $idDocument = $logs['idDocument'];
+        $idTransaction = $logs['idTransaction'];
+
+        // Recipient
+        $to = $logs['email'];
+
+        // Sender
+        $from = 'apiSenderMail@example.com';
+        $fromName = 'CodexWorld';
+
+        // Email subject
+        $subject = 'Merci pour votre achat!';
+
+        // Attachment file
+        $file = "DevoirApp/Model/Upload/Documents/".$idDocument.".pdf";
+
+        // Email body content
+        $htmlContent = '
+            <h3>Email suite à l\'achat effectué</h3>
+            <p>Vous trouverez ci-joint le document : '.$idDocument.'</p>
+            <p>Résultant de la transaction n°'.$idTransaction.'</p>
+            <p>Pour un montant total de : '.$prix.' €</p>
+            <br>
+            <p>Cordialement,</p>
+            <p>Moriniere Robin 21606393</p>
+            <p>Mohamed Lamine Seck 21711412</p>
+        ';
+
+        // Header for sender info
+        $headers = "From: $fromName"." <".$from.">";
+
+        // Boundary
+        $semi_rand = md5(time());
+        $mime_boundary = "==Multipart_Boundary_x{$semi_rand}x";
+
+        // Headers for attachment
+        $headers .= "\nMIME-Version: 1.0\n" . "Content-Type: multipart/mixed;\n" . " boundary=\"{$mime_boundary}\"";
+
+        // Multipart boundary
+        $message = "--{$mime_boundary}\n" . "Content-Type: text/html; charset=\"UTF-8\"\n" .
+        "Content-Transfer-Encoding: 7bit\n\n" . $htmlContent . "\n\n";
+
+        // Preparing attachment
+        if(!empty($file) > 0){
+            if(is_file($file)){
+                $message .= "--{$mime_boundary}\n";
+                $fp =    @fopen($file,"rb");
+                $data =  @fread($fp,filesize($file));
+
+                @fclose($fp);
+                $data = chunk_split(base64_encode($data));
+                $message .= "Content-Type: application/octet-stream; name=\"".basename($file)."\"\n" .
+                "Content-Description: ".basename($file)."\n" .
+                "Content-Disposition: attachment;\n" . " filename=\"".basename($file)."\"; size=".filesize($file).";\n" .
+                "Content-Transfer-Encoding: base64\n\n" . $data . "\n\n";
+            }
+        }
+        $message .= "--{$mime_boundary}--";
+        $returnpath = "-f" . $from;
+
+        // Send email
+        $mail = @mail($to, $subject, $message, $headers, $returnpath);
+
+        $this->view->displayPaiementSucces();
+    }
+
+    // Echec paiement
+    public function paiementRetourCancel(){
+        $this->view->displayPaiementFailure();
     }
 
 

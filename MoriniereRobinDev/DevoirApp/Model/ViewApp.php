@@ -273,30 +273,44 @@ class ViewApp extends WebFramework\View\View {
 
 
 
-// ################ Connexion Page ################ //
-    public function makePaiementPage($id, $result){
-        $title = 'Paiement document';
+// ################ Paiment Page ################ //
+    public function makePaiementPage($id){
+        $title = 'Information Paiement';
 
         $content = '<section class="paiementPageSection">';
         $content .= '<h3>Le montant à payer est de : '.number_format(999/100, 2, ',', ' ').' €</h3>';
 
+        $content .= '<form action="index.php?obj=pdf&action=paiement&id='.$id.'" method="POST">';
+
+        $content .= '<label>Email : </label>';
+        $content .= '<input type="text" name="email" placeholder="" value="">';
+
         $content .= '<a id="navigationButton" href="index.php?obj=pdf&action=showDetailsFile&id='.$id.'">Retour</a>';
-        $content .= '<a id="navigationButton" href="index.php?obj=pdf&action=">Paiment</a>';
 
-        $content .= $result;
+        $content .= '<button id="navigationButton" type="submit">Paiement</button>';
 
+        $content .= '</form>';
         $content .= '</section>';
 
         $this->setPart('title', $title);
         $this->setPart('content', $content);
     }
 
+    public function makePaiementFinalPage($result){
+        $title = 'Paiement Page';
+
+        $content = $result;
+
+        $this->setPart('title', $title);
+        $this->setPart('content', $content);
+    }
+
     public function displayPaiementSucces(){
-        $this->router->POSTredirect("index.php", "<p class='feedback'></p>");
+        $this->router->POSTredirect("index.php", "<p class='feedback'>Votre paiement à été effectué, vous devriez recevoir un mail contenant votre achat</p>");
     }
 
     public function displayPaiementFailure(){
-        $this->router->POSTredirect("index.php", "<p class='feedback'></p>");
+        $this->router->POSTredirect("index.php", "<p class='feedback'>Votre tentative de paiement à échoué</p>");
     }
 
 
