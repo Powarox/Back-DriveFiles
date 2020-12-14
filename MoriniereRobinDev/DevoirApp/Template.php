@@ -28,9 +28,5 @@
 
 		<?php echo $content; ?>
 	</main>
-
-	<!-- <footer>
-		<p>Copyrite Moriniere Robin 21606393 - Mohamed Lamine Seck 21711412</p>
-	</footer> -->
 </body>
 </html>

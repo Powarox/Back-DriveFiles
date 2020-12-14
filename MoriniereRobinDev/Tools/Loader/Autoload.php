@@ -2,8 +2,10 @@
 
 namespace MoriniereRobinDev\Tools\Loader;
 
-class Autoload {
-    static public function monAutoload($class){
+class Autoload
+{
+    public static function monAutoload($class)
+    {
         $arrayCheminClass = explode("\\", $class);
         array_shift($arrayCheminClass);
         $stringCheminClass = implode('/', $arrayCheminClass);

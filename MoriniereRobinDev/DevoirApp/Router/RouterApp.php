@@ -6,8 +6,10 @@ use MoriniereRobinDev\DevoirApp\Router;
 use MoriniereRobinDev\DevoirApp\Model;
 use MoriniereRobinDev\WebFramework;
 
-class RouterApp extends WebFramework\MvcrBase\Router{
-    public function parseRequest(){
+class RouterApp extends WebFramework\MvcrBase\Router
+{
+    public function parseRequest()
+    {
         // un nom de package est-il spécifié dans l'URL ?
         $package = $this->request->getGetParam('obj');
 

@@ -2,31 +2,34 @@
 
 namespace MoriniereRobinDev\WebFramework\MvcrBase;
 
-abstract class Router {
+abstract class Router
+{
     protected $request;
     protected $controllerClassName;
     protected $controllerAction;
     protected $controllerId;
 
-    public function __construct($request){
+    public function __construct($request)
+    {
         $this->request = $request;
         $this->parseRequest();
     }
-    
-    public function getControllerClassName(){
+
+    public function getControllerClassName()
+    {
         return $this->controllerClassName;
     }
 
-    public function getControllerAction(){
+    public function getControllerAction()
+    {
         return $this->controllerAction;
     }
-    
-    public function getControllerId(){
+
+    public function getControllerId()
+    {
         return $this->controllerId;
     }
-    
-    
-    public abstract function parseRequest();
 
 
+    abstract public function parseRequest();
 }

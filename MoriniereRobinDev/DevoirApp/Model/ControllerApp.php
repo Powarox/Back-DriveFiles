@@ -2,13 +2,15 @@
 
 namespace MoriniereRobinDev\DevoirApp\Model;
 
-class ControllerApp {
+class ControllerApp
+{
     protected $request;
     protected $response;
     protected $view;
     protected $currentConnexionBuilder;
 
-    public function __construct($request, $response, $view, $authManager){
+    public function __construct($request, $response, $view, $authManager)
+    {
         $this->request = $request;
         $this->response = $response;
         $this->view = $view;
@@ -20,14 +22,14 @@ class ControllerApp {
         $_SESSION['feedback'] = '';
 
         $menu = array(
-			"Accueil"        => 'index.php?obj=pdf&amp;action=showFiles',
-			"Upload"         => 'index.php?obj=pdf&amp;action=askUpload',
-			"Liste fichier"  => 'index.php?obj=pdf&amp;action=showListFiles',
-			"Information"    => 'index.php?obj=pdf&amp;action=makeInformationPage',
+            "Accueil"        => 'index.php?obj=pdf&amp;action=showFiles',
+            "Upload"         => 'index.php?obj=pdf&amp;action=askUpload',
+            "Liste fichier"  => 'index.php?obj=pdf&amp;action=showListFiles',
+            "Information"    => 'index.php?obj=pdf&amp;action=makeInformationPage',
             "Sign In"        => 'index.php?obj=pdf&amp;action=askConnexion'
-		);
+        );
 
-        if(!empty($_SESSION['user'])){
+        if (!empty($_SESSION['user'])) {
             array_pop($menu);
             $menu["Sign Out"] = 'index.php?obj=pdf&action=deconnexion';
         }
@@ -36,60 +38,59 @@ class ControllerApp {
         $this->view->setPart('feedback', $feedback);
     }
 
-    public function __destruct(){
+    public function __destruct()
+    {
         $_SESSION['currentConnexionBuilder'] = $this->currentConnexionBuilder;
     }
 
-    public function execute($action, $id){
-        if(empty($_SESSION['user'])){
-            if($action == 'askUpload' || $action == 'showListFiles'){
+    public function execute($action, $id)
+    {
+        if (empty($_SESSION['user'])) {
+            if ($action == 'askUpload' || $action == 'showListFiles') {
                 $this->view->displayRequireConnexion($action);
             }
         }
-        if(method_exists($this, $action)){
-            if($id != 'defaultId'){
+        if (method_exists($this, $action)) {
+            if ($id != 'defaultId') {
                 return $this->$action($id);
-            }
-            else{
+            } else {
                 return $this->$action();
             }
-        }
-        else if(method_exists($this->view, $action)){
+        } elseif (method_exists($this->view, $action)) {
             return $this->view->$action();
-        }
-        else{
+        } else {
             $this->defaultAction();
         }
     }
 
-    public function defaultAction(){
+    public function defaultAction()
+    {
         $this->showFiles();
     }
 
 
-// ################ Accueil ################ //
-    public function showFiles(){
+    // ################ Accueil ################ //
+    public function showFiles()
+    {
         $files = $this->getUploadDocuments();
-        foreach($files as $f){
+        foreach ($files as $f) {
             $f = $this->getFileWithoutExtention($f);
         }
         $this->view->makeHomePage($files);
     }
 
 
-// ################ Upload ################ //
-    public function askUpload(){
+    // ################ Upload ################ //
+    public function askUpload()
+    {
         $this->view->makeUploadPage();
     }
 
-    public function upload(){
+    public function upload()
+    {
         // Vérifier si le formulaire a été soumis
-        if($_SERVER["REQUEST_METHOD"] == "POST"){
-            // Upload vide
-            if($_FILES['pdf']['error'] != 0){
-                $this->view->displayUploadFailure();
-            }
-            foreach($_FILES as $file){
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            foreach ($_FILES as $file) {
                 $filename = $file['name'];
                 $_SESSION[$filename] = $file;
 
@@ -102,6 +103,9 @@ class ControllerApp {
                 // Créer une image du pdf et save dans Upload/Images
                 exec('convert  DevoirApp/Model/Upload/Documents/'.$filename.'[0]  DevoirApp/Model/Upload/FirstPages/'.$name.'.jpg');
 
+                // $output = shell_exec('/usr/local/bin/exiftool -G1 '.$file.'.pdf > metadata.txt 2>&1');
+                // =meta.txt   ." > metadata.txt"
+
                 // Extraction Métadonnée
                 $data = shell_exec("exiftool -json DevoirApp/Model/Upload/Documents/".$filename);
                 $metaData = json_decode($data, true);
@@ -110,22 +114,34 @@ class ControllerApp {
                 $metaTxt = fopen('DevoirApp/Model/Upload/Metadata/'.$name.'.json', 'w');
                 fputs($metaTxt, $data);
                 fclose($metaTxt);
+
+                // var_dump($metaData);
             }
+            // // Vérifie si le fichier a été uploadé sans erreur.
+            // if(isset($_FILES["pdf"]) && $_FILES["pdf"]["error"] == 0){
+            //
+            // }
+            // else{
+            //     $this->view->displayUploadFailure($_FILES["pdf"]["error"]);
+            // }
         }
         $this->view->displayUploadSucces($name);
     }
 
-    public function ajaxUploadSucces($filename){
+    public function ajaxUploadSucces($filename)
+    {
         $this->view->displayUploadSucces($filename);
     }
 
-    public function ajaxUploadMultipleSucces(){
+    public function ajaxUploadMultipleSucces()
+    {
         $this->view->displayUploadMultipleSucces();
     }
 
 
-// ################ Details File ################ //
-    public function showDetailsFile($filename){
+    // ################ Details File ################ //
+    public function showDetailsFile($filename)
+    {
         $jsonData = file_get_contents('DevoirApp/Model/Upload/Metadata/'.$filename.'.json');
         $data = json_decode($jsonData, true);
 
@@ -133,12 +149,12 @@ class ControllerApp {
         $fileSuiv = "";
         $filePrec = "";
         $files = $this->getUploadDocuments();
-        foreach($files as $key => $value){
-            if($value == $filename){
-                if(key_exists($key - 1, $files)){
+        foreach ($files as $key => $value) {
+            if ($value == $filename) {
+                if (key_exists($key - 1, $files)) {
                     $filePrec = $files[$key - 1];
                 }
-                if(key_exists($key + 1, $files)){
+                if (key_exists($key + 1, $files)) {
                     $fileSuiv = $files[$key + 1];
                 }
             }
@@ -154,19 +170,22 @@ class ControllerApp {
     }
 
 
-// ################ List Files ################ //
-    public function showListFiles(){
+    // ################ List Files ################ //
+    public function showListFiles()
+    {
         $files = $this->getUploadDocuments();
         $this->view->makeListPage($files);
     }
 
 
-// ################ Suppression File ################ //
-    public function askSuppressionFile($id){
+    // ################ Suppression File ################ //
+    public function askSuppressionFile($id)
+    {
         $this->view->makeSuppresionPage($id);
     }
 
-    public function suppresionFile($filename){
+    public function suppresionFile($filename)
+    {
         $filePdf = $this->setFileExtention($filename, ".pdf");
         $fileJson = $this->setFileExtention($filename, ".json");
         $imgFirstPage = $this->setFileExtention($filename, ".jpg");
@@ -179,8 +198,9 @@ class ControllerApp {
     }
 
 
-// ################ Modification File ################ //
-    public function modificationDetailsFile($filename){
+    // ################ Modification File ################ //
+    public function modificationDetailsFile($filename)
+    {
         $jsonData = file_get_contents('DevoirApp/Model/Upload/Metadata/'.$filename.'.json');
         $data = json_decode($jsonData, true);
 
@@ -193,18 +213,21 @@ class ControllerApp {
         $this->view->makeModificationDetailsPage($filename, $data[0], $metaIPTC, $metaFile);
     }
 
-    public function modification($id){
+    public function modification($id)
+    {
         $jsonData = file_get_contents('DevoirApp/Model/Upload/Metadata/'.$id.'.json');
         $data = json_decode($jsonData, true);
         $newData = $this->request->getAllPostParams();
 
-        foreach($data[0] as $key => $value){
-            foreach($newData as $k => $v){
-                if($key == $k){
-                    if(is_array($key)){
+        // var_dump($data);
+        // var_dump($newData);
+
+        foreach ($data[0] as $key => $value) {
+            foreach ($newData as $k => $v) {
+                if ($key == $k) {
+                    if (is_array($key)) {
                         $data[0][$key] = $newData[$k];
-                    }
-                    else{
+                    } else {
                         $data[0][$key] = $v;
                     }
                 }
@@ -216,8 +239,8 @@ class ControllerApp {
         fputs($metaTxt, $jsonData);
         fclose($metaTxt);
 
-        if(key_exists('documentNameChanged', $newData)){
-            if($newData['documentNameChanged'] != $id && $newData['documentNameChanged'] != null){
+        if (key_exists('documentNameChanged', $newData)) {
+            if ($newData['documentNameChanged'] != $id) {
                 $idPdf = $this->setFileExtention($id, '.pdf');
                 $idJson = $this->setFileExtention($id, '.json');
                 $idFirstPage = $this->setFileExtention($id, '.jpg');
@@ -239,12 +262,14 @@ class ControllerApp {
 
 
 
-// ################ Paiement ################ //
-    public function askPaiement($id){
+    // ################ Paiement ################ //
+    public function askPaiement($id)
+    {
         $this->view->makePaiementPage($id);
     }
 
-    public function paiement($id){
+    public function paiement($id)
+    {
         $data = $this->request->getAllPostParams();
         $email = $data['email'];
         $idTransaction = mt_rand(1, 999);
@@ -287,8 +312,8 @@ class ControllerApp {
         );
 
         $script = "";
-        foreach($data as $key => $value){
-            if($value){
+        foreach ($data as $key => $value) {
+            if ($value) {
                 $script .= " " . $key . "=" . $value;
             }
         }
@@ -322,12 +347,14 @@ class ControllerApp {
     }
 
     // Succes paiement
-    public function paiementRetourAuto(){
+    public function paiementRetourAuto()
+    {
         $this->paiementRetourManuel();
     }
 
     // Succes paiement Send Mail
-    public function paiementRetourManuel(){
+    public function paiementRetourManuel()
+    {
         $jsonLogs = file_get_contents('DevoirApp/Model/Paiement/Logs/Log.json');
         $logs = json_decode($jsonLogs, true);
 
@@ -375,11 +402,11 @@ class ControllerApp {
         "Content-Transfer-Encoding: 7bit\n\n" . $htmlContent . "\n\n";
 
         // Preparing attachment
-        if(!empty($file) > 0){
-            if(is_file($file)){
+        if (!empty($file) > 0) {
+            if (is_file($file)) {
                 $message .= "--{$mime_boundary}\n";
-                $fp =    @fopen($file,"rb");
-                $data =  @fread($fp,filesize($file));
+                $fp =    @fopen($file, "rb");
+                $data =  @fread($fp, filesize($file));
 
                 @fclose($fp);
                 $data = chunk_split(base64_encode($data));
@@ -399,91 +426,90 @@ class ControllerApp {
     }
 
     // Echec paiement
-    public function paiementRetourCancel(){
+    public function paiementRetourCancel()
+    {
         $this->view->displayPaiementFailure();
     }
 
 
 
-// ################ Connexion ################ //
-    public function askConnexion($currentPage = null){
-        if($this->authManager->isUserConnected()){
+    // ################ Connexion ################ //
+    public function askConnexion($currentPage = null)
+    {
+        if ($this->authManager->isUserConnected()) {
             $this->view->makeUserConnectedPage();
-        }
-        else{
+        } else {
             $this->currentConnexionBuilder = new AccountBuilder();
             $this->view->makeConnexionPage($this->currentConnexionBuilder, $currentPage);
         }
     }
 
-    public function connexion($currentPage = null){
+    public function connexion($currentPage = null)
+    {
         $data = $this->request->getAllPostParams();
         $this->currentConnexionBuilder = new AccountBuilder($data);
 
         $loginRef = $this->currentConnexionBuilder->getLoginRef();
         $passwordRef = $this->currentConnexionBuilder->getPasswordRef();
 
-        if($data[$loginRef] ==! null){
+        if ($data[$loginRef] ==! null) {
             $login = $data[$loginRef];
-            if($data[$passwordRef] ==! null){
+            if ($data[$passwordRef] ==! null) {
                 $password = $data[$passwordRef];
                 $check = $this->authManager->checkAuth($login, $password);
-                if($check === 'login'){
+                if ($check === 'login') {
                     $this->currentConnexionBuilder->setError($loginRef, 'Login erroné');
                     $this->view->makeConnexionPage($this->currentConnexionBuilder, $currentPage);
-                }
-                else if($check === 'password'){
+                } elseif ($check === 'password') {
                     $this->currentConnexionBuilder->setError($passwordRef, 'Password erroné');
                     $this->view->makeConnexionPage($this->currentConnexionBuilder, $currentPage);
-                }
-                else{
+                } else {
                     $this->currentConnexionBuilder = null;
-                    if(!empty($currentPage)){
+                    if (!empty($currentPage)) {
                         $this->view->displayConnexionSuccesToCurrentPage($currentPage);
                     }
                     $this->view->displayConnexionSucces();
                 }
-            }
-            else{
+            } else {
                 $this->currentConnexionBuilder->setError($passwordRef, 'Password vide');
                 $this->view->makeConnexionPage($this->currentConnexionBuilder, $currentPage);
             }
-        }
-        else{
+        } else {
             $this->currentConnexionBuilder->setError($loginRef, 'Login vide');
             $this->view->makeConnexionPage($this->currentConnexionBuilder, $currentPage);
         }
     }
 
-    public function deconnexion(){
+    public function deconnexion()
+    {
         $this->authManager->disconnectUser();
         $this->view->displayDeconnexionSucces();
     }
 
 
-// ################ Utilitaire ################ //
-    public function getUploadDocuments(){
+    // ################ Utilitaire ################ //
+    public function getUploadDocuments()
+    {
         $files = scandir(__DIR__ .'/Upload/Documents');
-        if(!empty($files)){
+        if (!empty($files)) {
             $elemAutre = array_shift($files);
             $elemAutre = array_shift($files);
         }
-        for($i = 0; $i < count($files); $i++){
+        for ($i = 0; $i < count($files); $i++) {
             $files[$i] = $this->getFileWithoutExtention($files[$i]);
         }
         return $files;
     }
 
-    public function getFileWithoutExtention($id){
+    public function getFileWithoutExtention($id)
+    {
         $filename = explode('.', $id);
         return $filename[0];
     }
 
-    public function setFileExtention($name, $extention){
+    public function setFileExtention($name, $extention)
+    {
         $filename = $name . $extention;
         return $filename;
     }
-
-
-
 }

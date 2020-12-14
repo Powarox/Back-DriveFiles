@@ -2,8 +2,10 @@
 
 namespace MoriniereRobinDev\WebFramework\Service\Authentification;
 
-class AuthManager{
-    public function __construct(){
+class AuthManager
+{
+    public function __construct()
+    {
         $this->users = array(
             'jml' => array(
                 'id' => 12,
@@ -22,41 +24,42 @@ class AuthManager{
         );
     }
 
-    public function checkAuth($login, $password){
-        if(key_exists($login, $this->users)){
+    public function checkAuth($login, $password)
+    {
+        if (key_exists($login, $this->users)) {
             $user = $this->users[$login];
-            if($user['mdp'] == $password){
+            if ($user['mdp'] == $password) {
                 $_SESSION['user'] = $user;
                 return true;
-            }
-            else{
+            } else {
                 return 'password';
             }
         }
         return 'login';
     }
 
-    public function isUserConnected(){
-        if(key_exists('user', $_SESSION)){
+    public function isUserConnected()
+    {
+        if (key_exists('user', $_SESSION)) {
             return true;
-        }
-        else{
+        } else {
             return false;
         }
     }
 
-    public function isAdminConnected(){
-        if(key_exists('user', $_SESSION)){
-            if($_SESSION['user']['statut'] === 'admin'){
+    public function isAdminConnected()
+    {
+        if (key_exists('user', $_SESSION)) {
+            if ($_SESSION['user']['statut'] === 'admin') {
                 return true;
             }
-        }
-        else{
+        } else {
             return false;
         }
     }
 
-    public function disconnectUser(){
+    public function disconnectUser()
+    {
         session_destroy();
     }
 }

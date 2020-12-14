@@ -9,12 +9,8 @@ session_start();
 
 spl_autoload_register('MoriniereRobinDev\Tools\Loader\Autoload::monAutoload');
 
-
-//set_include_path("./MoriniereRobinDev");
-
 use MoriniereRobinDev\WebFramework\MvcrBase\Http;
 use MoriniereRobinDev\WebFramework\MvcrBase;
-
 
 $request = new WebFramework\MvcrBase\Http\Request($_GET, $_POST, $_SESSION);
 $response = new WebFramework\MvcrBase\Http\Response();

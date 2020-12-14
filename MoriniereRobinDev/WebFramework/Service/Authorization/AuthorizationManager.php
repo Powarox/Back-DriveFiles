@@ -2,12 +2,13 @@
 
 namespace MoriniereRobinDev\WebFramework\Service\Authentorization;
 
-class AuthorizationManager{
-    public function __construct(){
-        
+class AuthorizationManager
+{
+    public function __construct()
+    {
     }
-    
-    public function chekPermission(){
-        
+
+    public function chekPermission()
+    {
     }
 }
