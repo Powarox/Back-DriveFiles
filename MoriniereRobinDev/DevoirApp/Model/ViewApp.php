@@ -44,7 +44,7 @@ class ViewApp extends WebFramework\View\View {
 
         $content .= '<form id="dropFileForm"
             action="index.php?obj=pdf&action=upload" method="POST"
-            enctype="multipart/form-data" onsubmit="uploadFiles(event)">'; //onsubmit="uploadFiles(event)"
+            enctype="multipart/form-data" onsubmit="uploadFiles(event)">';
 
         $content .= '<div id="dropFileDiv"
             ondragover="overrideDefault(event);fileHover();" ondragenter="overrideDefault(event);fileHover();" ondragleave="overrideDefault(event);fileHoverEnd();" ondrop="overrideDefault(event);fileHoverEnd();addFiles(event);">';
@@ -63,19 +63,7 @@ class ViewApp extends WebFramework\View\View {
 
         $content .= '<button type="submit" id="uploadButton">Envoyer</button>';
 
-        // $content .= '<input id="uploadButton" type="submit" value="Upload">';
-
         $content .= '</form>';
-//-----------------------------------------------------------------------
-        // $content .= '<form action="index.php?obj=pdf&action=upload" method="POST" enctype="multipart/form-data">';
-        // $content .= '<input type="file" name="pdf" id="fileUpload">';
-        // $content .= '<progress id="progressBar"></progress>';
-        // $content .= '<input type="text" name="titre" placeholder="titre">';
-        // $content .= '<button type="submit" id="uploadButton">Envoyer</button>';
-        //
-        // $content .= '</form>';
-
-
         $content .= '</section>';
 
         $this->setPart('title', $title);
@@ -156,7 +144,7 @@ class ViewApp extends WebFramework\View\View {
         $content .= '</div>';
 
         // Bouton Paiment
-        $content .= '<a id="paiement" href="index.php?obj=pdf&action=paiement&id='.$id.'">Acheter ce Document</a>';
+        $content .= '<a id="paiement" href="index.php?obj=pdf&action=askPaiement&id='.$id.'">Acheter ce Document</a>';
 
         $content .= '</section>';
 
@@ -212,9 +200,8 @@ class ViewApp extends WebFramework\View\View {
         $this->router->POSTredirect("index.php?obj=pdf&action=showListFiles", '<p class="feedback">Suppression du fichier '.$id.' réussi.</p>');
     }
 
-    // $content .= '<label>Title : </label>';
-    // $content .= '<input type="text" name="Title" placeholder="'.$data['Title'].'" value="">';
-    // // Affiche Métadonnée sous forme d'input
+
+
 // ################ Modification Page ################ //
     public function makeModificationDetailsPage($id, $data, $metaIPTC, $metaFile){
         $title = "Modification fichier : <br>".$id;
@@ -282,6 +269,34 @@ class ViewApp extends WebFramework\View\View {
 
     public function displayModificationFailure($id){
         $this->router->POSTredirect("index.php?obj=pdf&action=modificationDetailsFile&id=".$id, "<p class='feedback'>Echec de la modification.</p>");
+    }
+
+
+
+// ################ Connexion Page ################ //
+    public function makePaiementPage($id, $result){
+        $title = 'Paiement document';
+
+        $content = '<section class="paiementPageSection">';
+        $content .= '<h3>Le montant à payer est de : '.number_format(999/100, 2, ',', ' ').' €</h3>';
+
+        $content .= '<a id="navigationButton" href="index.php?obj=pdf&action=showDetailsFile&id='.$id.'">Retour</a>';
+        $content .= '<a id="navigationButton" href="index.php?obj=pdf&action=">Paiment</a>';
+
+        $content .= $result;
+
+        $content .= '</section>';
+
+        $this->setPart('title', $title);
+        $this->setPart('content', $content);
+    }
+
+    public function displayPaiementSucces(){
+        $this->router->POSTredirect("index.php", "<p class='feedback'></p>");
+    }
+
+    public function displayPaiementFailure(){
+        $this->router->POSTredirect("index.php", "<p class='feedback'></p>");
     }
 
 

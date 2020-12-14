@@ -270,6 +270,92 @@ class ControllerApp {
     }
 
 
+
+// ################ Paiement ################ //
+    public function askPaiement($id){
+        $idTransaction = mt_rand(1, 999);
+        $prixEuro = number_format(999/100, 2, ',', ' ');
+        $pathfile = '/users/21606393/www-dev/M1/Tw4/Projet/MoriniereRobinDev/DevoirApp/Model/Paiement/Sherlocks/param_demo/pathfile';
+
+        $data = array(
+            'amount' => '999',
+            'merchant_id' => '014295303911111',
+            'merchant_country' => 'fr',
+            'currency_code' => '978',
+            'pathfile' => $pathfile,
+            'transaction_id' => $idTransaction,
+            'normal_return_url' => 'https://dev-21606393.users.info.unicaen.fr/M1/Tw4/Projet/MoriniereRobinDev/index.php?obj=pdf&action=paiementRetourAuto',
+            'cancel_return_url' => 'https://dev-21606393.users.info.unicaen.fr/M1/Tw4/Projet/MoriniereRobinDev/index.php?obj=pdf&action=paiementRetourCancel',
+            'automatic_response_url' => 'https://dev-21606393.users.info.unicaen.fr/M1/Tw4/Projet/MoriniereRobinDev/index.php?obj=pdf&action=paiementRetourManuel',
+            'language' => 'fr',
+            'payment_means' => 'CB,2,VISA,2,MASTERCARD,2',
+            'header_flag' => 'no',
+            'capture_day' => '',
+            'capture_mode' => '',
+            'background_id' => '',
+            'bgcolor' => 'EEEEEE',
+            'block_align' => '',
+            'block_order' => '',
+            'textcolor' => '',
+            'textfont' => '',
+            'templatefile' => '',
+            'logo_id' => '',
+            'receipt_complement' => '',
+            'caddie' => '',
+            'customer_id' => '',
+            'customer_email' => '',
+            'customer_ip_address' => '',
+            'data' => '',
+            'return_context' => '',
+            'target' => '',
+            'order_id' => '766'
+        );
+
+        $script = "";
+        foreach($data as $key => $value){
+            if($value){
+                $script .= " " . $key . "=" . $value;
+            }
+        }
+
+        // Request
+        $path_req = "/users/21606393/www-dev/paiement/Sherlocks/bin/static/request";
+        $resultRequest = exec("$path_req $script");
+        $resultRequestTab = explode('<BR>', $resultRequest);
+        $result = $resultRequestTab[7];
+
+        // $logs = array(
+        //     "idDocument"      =>  $id,
+        //     "idTransaction"   =>  $idTransaction,
+        //     "email"   =>  $email,
+        // );
+        // $jsonLogs = json_encode($logs, true);
+        // file_put_contents('Log.txt', $jsonLogs);
+
+        // // Ecriture reponse dans Log.txt
+        // file_put_contents('LogsGeneral.txt', "// --------- Transaction ID: $idTransaction --------- //\n", FILE_APPEND);
+        // file_put_contents('LogsGeneral.txt', "Montant : ".$prixEuro."\n", FILE_APPEND);
+        // file_put_contents('LogsGeneral.txt', "Email : ".$email."\n", FILE_APPEND);
+        // file_put_contents('LogsGeneral.txt', "Document : ".$id."\n", FILE_APPEND);
+        // file_put_contents('LogsGeneral.txt', "\n", FILE_APPEND);
+
+        $this->view->makePaiementPage($id, $result);
+    }
+
+    public function paiementRetourAuto(){
+
+    }
+
+    public function paiementRetourCancel(){
+
+    }
+
+    public function paiementRetourManuel(){
+
+    }
+
+
+
 // ################ Connexion ################ //
     public function askConnexion($currentPage = null){
         if($this->authManager->isUserConnected()){
