@@ -21,7 +21,7 @@ class AuthManager{
             )
         );
     }
-    
+
     public function checkAuth($login, $password){
         if(key_exists($login, $this->users)){
             $user = $this->users[$login];
@@ -35,7 +35,7 @@ class AuthManager{
         }
         return 'login';
     }
-    
+
     public function isUserConnected(){
         if(key_exists('user', $_SESSION)){
             return true;
@@ -44,25 +44,19 @@ class AuthManager{
             return false;
         }
     }
-    
+
     public function isAdminConnected(){
         if(key_exists('user', $_SESSION)){
-            if($_SESSION['user']['statut'] === 'admin'){  
+            if($_SESSION['user']['statut'] === 'admin'){
                 return true;
             }
         }
         else{
             return false;
         }
-    } 
-    
+    }
+
     public function disconnectUser(){
         session_destroy();
     }
-    
 }
-
-
-
-
-

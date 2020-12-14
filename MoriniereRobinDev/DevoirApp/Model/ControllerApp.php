@@ -85,7 +85,10 @@ class ControllerApp {
     public function upload(){
         // Vérifier si le formulaire a été soumis
         if($_SERVER["REQUEST_METHOD"] == "POST"){
-
+            // Upload vide
+            if($_FILES['pdf']['error'] != 0){
+                $this->view->displayUploadFailure();
+            }
             foreach($_FILES as $file){
                 $filename = $file['name'];
                 $_SESSION[$filename] = $file;
@@ -99,9 +102,6 @@ class ControllerApp {
                 // Créer une image du pdf et save dans Upload/Images
                 exec('convert  DevoirApp/Model/Upload/Documents/'.$filename.'[0]  DevoirApp/Model/Upload/FirstPages/'.$name.'.jpg');
 
-                // $output = shell_exec('/usr/local/bin/exiftool -G1 '.$file.'.pdf > metadata.txt 2>&1');
-                // =meta.txt   ." > metadata.txt"
-
                 // Extraction Métadonnée
                 $data = shell_exec("exiftool -json DevoirApp/Model/Upload/Documents/".$filename);
                 $metaData = json_decode($data, true);
@@ -110,16 +110,7 @@ class ControllerApp {
                 $metaTxt = fopen('DevoirApp/Model/Upload/Metadata/'.$name.'.json', 'w');
                 fputs($metaTxt, $data);
                 fclose($metaTxt);
-
-                // var_dump($metaData);
             }
-            // // Vérifie si le fichier a été uploadé sans erreur.
-            // if(isset($_FILES["pdf"]) && $_FILES["pdf"]["error"] == 0){
-            //
-            // }
-            // else{
-            //     $this->view->displayUploadFailure($_FILES["pdf"]["error"]);
-            // }
         }
         $this->view->displayUploadSucces($name);
     }
@@ -207,9 +198,6 @@ class ControllerApp {
         $data = json_decode($jsonData, true);
         $newData = $this->request->getAllPostParams();
 
-        // var_dump($data);
-        // var_dump($newData);
-
         foreach($data[0] as $key => $value){
             foreach($newData as $k => $v){
                 if($key == $k){
@@ -229,7 +217,7 @@ class ControllerApp {
         fclose($metaTxt);
 
         if(key_exists('documentNameChanged', $newData)){
-            if($newData['documentNameChanged'] != $id){
+            if($newData['documentNameChanged'] != $id && $newData['documentNameChanged'] != null){
                 $idPdf = $this->setFileExtention($id, '.pdf');
                 $idJson = $this->setFileExtention($id, '.json');
                 $idFirstPage = $this->setFileExtention($id, '.jpg');

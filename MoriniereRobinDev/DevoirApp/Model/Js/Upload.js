@@ -42,6 +42,11 @@ function changeStatus(text){
 }
 
 function uploadFiles(event){
+    console.log(droppedFiles);
+    if(typeof droppedFiles === 'undefined'){
+        return false;
+    }
+
     console.log('uploadFiles');
     event.preventDefault();  // Stop redirect to PHP
     changeStatus("Uploading...");
@@ -50,8 +55,6 @@ function uploadFiles(event){
     let xhr = new XMLHttpRequest();
     xhr.open('POST', 'https://dev-21606393.users.info.unicaen.fr/M1/Tw4/Projet/MoriniereRobinDev/index.php?obj=pdf&action=upload');
     xhr.responseType = 'json';
-
-    console.log(droppedFiles);
 
     let redirect;
     if(droppedFiles.length > 1){

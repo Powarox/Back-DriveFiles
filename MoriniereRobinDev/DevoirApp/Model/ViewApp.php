@@ -81,8 +81,8 @@ class ViewApp extends WebFramework\View\View {
         $this->router->POSTredirect('index.php', '<p class="feedback">Tous les fichiers ont bien été enregistré !</p>');
     }
 
-    public function displayUploadFailure($errors){
-        $this->router->POSTredirect("index.php?obj=pdf&action=makeUploadPage", "<p class='feedback'>Erreur lors de l'upload : ".$errors."</p>");
+    public function displayUploadFailure(){
+        $this->router->POSTredirect("index.php?obj=pdf&action=makeUploadPage", "<p class='feedback'>Erreur lors de l'upload</p>");
     }
 
 
