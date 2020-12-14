@@ -26,7 +26,6 @@ a {
 	font-weight: bold;
 }
 
-
 #option {
 	color: var(--main-yellow-color);
 }
@@ -92,9 +91,6 @@ a {
 	background : var(--main-yellow-color);
 }
 
-/* .menu ul li #signIn {
-    justify-self: flex-end;
-} */
 
 
 /* ############ Main ############ */
@@ -120,6 +116,7 @@ main h3 {
     font-size: 20px;
     margin-left: 20px;
 }
+
 
 
 /* ############ Home Page ############ */
@@ -157,6 +154,7 @@ main h3 {
 	max-height: 300px;
 	border-radius: 10%;
 }
+
 
 
 /* ############ Upload Page ############ */
@@ -216,7 +214,6 @@ main h3 {
 	width: 500px;
 	transition: 0.5s;
 }
-
 
 
 
@@ -343,7 +340,6 @@ main h3 {
 
 
 
-
 /* ############ List Page ############ */
 .listPageSection {
 	display: grid;
@@ -368,6 +364,7 @@ main h3 {
 }
 
 
+
 /* ############ Modification Page ############ */
 .modificationPageSection form div {
     display: grid;
@@ -387,6 +384,7 @@ main h3 {
 .modificationPageSection form div ul h3{
     color: var(--main-green-color);
 }
+
 
 
 /* ############ Suppression Page ############ */
@@ -415,6 +413,7 @@ main h3 {
 .suppressionPageSection div #supprimer {
 	margin: auto;
 }
+
 
 
 /* ############ Connexion ############ */

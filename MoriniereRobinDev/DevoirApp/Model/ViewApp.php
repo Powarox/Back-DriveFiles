@@ -453,6 +453,7 @@ class ViewApp extends WebFramework\View\View
     }
 
 
+
     // ################ Unknown Page ################ //
     public function unknownPdfPage()
     {
@@ -462,6 +463,7 @@ class ViewApp extends WebFramework\View\View
         $this->view->setPart('title', $title);
         $this->view->setPart('content', $content);
     }
+
 
 
     // ################ Utilitaire ################ //

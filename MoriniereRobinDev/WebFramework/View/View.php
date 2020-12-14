@@ -15,7 +15,7 @@ abstract class View
         $this->parts = $parts;
     }
 
-    // Méthode qui affiche le squelette html
+    // Méthode qui affiche le template html
     public function render()
     {
         $title = $this->getPart('title');

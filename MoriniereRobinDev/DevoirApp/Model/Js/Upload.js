@@ -80,8 +80,9 @@ function uploadFiles(event){
         document.getElementById("progressBar").value = e.loaded  / e.total;
     });
 
-    xhr.onreadystatechange = function(){ // listen for state changes
-        if(xhr.readyState == 4 && xhr.status == 200) { // when completed we can move away
+    // Redirect to php if end of XMLHttpRequest
+    xhr.onreadystatechange = function(){
+        if(xhr.readyState == 4 && xhr.status == 200) {
             window.location = "https://dev-21606393.users.info.unicaen.fr/devoir-idc2020/MoriniereRobinDev/index.php?obj=pdf&action=" + redirect;
         }
     }
