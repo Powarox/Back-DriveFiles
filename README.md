@@ -11,19 +11,19 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
 ## Visuel du projet
 
 ### Home page
-![alt text](https://github.com/Powarox2159/Projet-ProgrammationWeb/blob/master/ressources/screen/home_page.jpg?raw=true)
+![alt text](https://github.com/Powarox2159/Projet-ProgrammationWeb/blob/master/ressources/screen/home_page.png?raw=true)
 
 ### Login page
-![alt text](https://github.com/Powarox2159/Projet-ProgrammationWeb/blob/master/ressources/screen/login_page.jpg?raw=true)
+![alt text](https://github.com/Powarox2159/Projet-ProgrammationWeb/blob/master/ressources/screen/login_page.png?raw=true)
 
 ### Upload page
-![alt text](https://github.com/Powarox2159/Projet-ProgrammationWeb/blob/master/ressources/screen/upload_page.jpg?raw=true)
+![alt text](https://github.com/Powarox2159/Projet-ProgrammationWeb/blob/master/ressources/screen/upload_page.png?raw=true)
 
 ### Details page
-![alt text](https://github.com/Powarox2159/Projet-ProgrammationWeb/blob/master/ressources/screen/details_page.jpg?raw=true)
+![alt text](https://github.com/Powarox2159/Projet-ProgrammationWeb/blob/master/ressources/screen/details_page.png?raw=true)
 
 ### List page
-![alt text](https://github.com/Powarox2159/Projet-ProgrammationWeb/blob/master/ressources/screen/list_page.jpg?raw=true)
+![alt text](https://github.com/Powarox2159/Projet-ProgrammationWeb/blob/master/ressources/screen/list_page.png?raw=true)
 
 ### Upload page
-![alt text](https://github.com/Powarox2159/Projet-ProgrammationWeb/blob/master/ressources/screen/upload_2_page.jpg?raw=true)
+![alt text](https://github.com/Powarox2159/Projet-ProgrammationWeb/blob/master/ressources/screen/upload_2_page.png?raw=true)
